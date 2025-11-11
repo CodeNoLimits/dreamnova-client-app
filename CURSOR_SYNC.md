@@ -1,9 +1,10 @@
 # 🔄 CURSOR SYNC - DreamNova Client App
 
 ## État actuel
-**Dernière mise à jour:** 2025-11-11
+**Dernière mise à jour:** 2025-01-27
 **Branche active:** main
 **Status:** Configuré et synchronisé avec GitHub
+**Cursor:** Actif et synchronisé avec Claude Code
 
 ## 📋 Contexte du projet
 Application cliente DreamNova pour la facturation électronique 2026.
@@ -41,10 +42,10 @@ git commit -m "🖱️ Cursor: [description]"
 - **Fichiers:** CURSOR_SYNC.md, .cursor/sync-instructions.md
 
 ### Cursor
-- **Date:** -
-- **Branche:** -
-- **Action:** -
-- **Fichiers:** -
+- **Date:** 2025-01-27
+- **Branche:** Synchronisation initiale
+- **Action:** Synchronisation avec Claude Code et configuration de l'environnement interne
+- **Fichiers:** dreamnova-internal/CURSOR_SYNC.md
 
 ## ⚠️ Alertes actives
 Aucune alerte pour le moment.
