@@ -48,9 +48,9 @@ Format de réponse: Liste à puces, 3 actions maximum, chacune en une phrase cou
       // Parse response to array
       const actions = text
         .split('\n')
-        .filter(line => line.trim().startsWith('-') || line.trim().startsWith('•') || line.trim().match(/^\d+\./))
-        .map(line => line.replace(/^[-•]\s*/, '').replace(/^\d+\.\s*/, '').trim())
-        .filter(action => action.length > 0)
+        .filter((line: string) => line.trim().startsWith('-') || line.trim().startsWith('•') || line.trim().match(/^\d+\./))
+        .map((line: string) => line.replace(/^[-•]\s*/, '').replace(/^\d+\.\s*/, '').trim())
+        .filter((action: string) => action.length > 0)
         .slice(0, 3)
 
       return actions.length > 0 ? actions : [
