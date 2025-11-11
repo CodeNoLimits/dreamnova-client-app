@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import localFont from 'next/font/local'
+import { Inter, Outfit } from 'next/font/google'
 import './globals.css'
 
 const inter = Inter({
@@ -9,11 +8,11 @@ const inter = Inter({
   display: 'swap',
 })
 
-const calSans = localFont({
-  src: '../fonts/CalSans-SemiBold.woff2',
+const outfit = Outfit({
+  subsets: ['latin'],
   variable: '--font-cal',
   display: 'swap',
-  fallback: ['system-ui', 'sans-serif'],
+  weight: ['400', '500', '600', '700'],
 })
 
 export const metadata: Metadata = {
@@ -34,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${calSans.variable}`}>
+    <html lang="fr" className={`${inter.variable} ${outfit.variable}`}>
       <body className="antialiased">
         {children}
       </body>
