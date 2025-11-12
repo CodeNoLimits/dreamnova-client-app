@@ -7,12 +7,18 @@ export function createClient() {
     {
       cookies: {
         getAll() {
+          // ✅ Vérifier que nous sommes côté client
+          if (typeof document === 'undefined') return []
+
           return document.cookie.split('; ').map(cookie => {
             const [name, ...rest] = cookie.split('=')
             return { name, value: rest.join('=') }
           })
         },
         setAll(cookiesToSet) {
+          // ✅ Vérifier que nous sommes côté client
+          if (typeof document === 'undefined') return
+
           cookiesToSet.forEach(({ name, value, options }) => {
             // CRITIQUE: S'assurer que les cookies sont persistants
             const cookieString = `${name}=${value}; path=/; max-age=${options?.maxAge || 60 * 60 * 24 * 30}; SameSite=Lax${process.env.NODE_ENV === 'production' ? '; Secure' : ''}`

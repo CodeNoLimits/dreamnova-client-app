@@ -6,6 +6,7 @@ import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import PDPConfigModal from './PDPConfigModal'
 
 interface ChecklistItem {
   id: string
@@ -20,6 +21,7 @@ export default function ConformityChecklist() {
   const [items, setItems] = useState<ChecklistItem[]>([])
   const [progress, setProgress] = useState(0)
   const [user, setUser] = useState<any>(null)
+  const [showPDPModal, setShowPDPModal] = useState(false)
 
   useEffect(() => {
     const loadChecklist = async () => {
@@ -48,9 +50,18 @@ export default function ConformityChecklist() {
         .eq('status', 'active')
         .single()
 
+      // Vérifier si un PDP est configuré
+      const { data: pdpConnection } = await supabase
+        .from('pdp_connections')
+        .select('id, pdp_name, status')
+        .eq('user_id', currentUser.id)
+        .eq('status', 'active')
+        .maybeSingle()
+
       const hasAudit = audits && audits.length > 0
       // Testeur et manubousky sont TOUJOURS considérés comme abonnés
       const hasSubscription = isTester || isManubousky || (subscription && subscription.status === 'active')
+      const hasPDP = pdpConnection && pdpConnection.status === 'active'
 
       const checklistItems: ChecklistItem[] = [
         {
@@ -73,8 +84,8 @@ export default function ConformityChecklist() {
           id: 'pdp',
           label: 'PDP configuré',
           description: 'Connectez votre Plateforme de Dématérialisation Partenaire',
-          status: hasSubscription ? 'pending' : 'blocked',
-          actionUrl: hasSubscription ? '/dashboard#pdp-integration' : undefined,
+          status: hasPDP ? 'done' : hasSubscription ? 'pending' : 'blocked',
+          actionUrl: undefined, // Utiliser le modal au lieu du lien
           actionLabel: 'Configurer PDP',
         },
         {
@@ -184,21 +195,38 @@ export default function ConformityChecklist() {
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-slate-900 mb-1">{item.label}</h3>
               <p className="text-sm text-slate-600 mb-2">{item.description}</p>
-              {item.status !== 'done' && item.actionUrl && (
-                <Link href={item.actionUrl} className="inline-block">
-                  <Button
-                    size="sm"
-                    variant={item.status === 'blocked' ? 'ghost' : 'primary'}
-                    disabled={item.status === 'blocked'}
-                    onClick={(e) => {
-                      if (item.status === 'blocked') {
-                        e.preventDefault()
-                      }
-                    }}
-                  >
-                    {item.actionLabel || 'Commencer'}
-                  </Button>
-                </Link>
+              {item.status !== 'done' && (
+                <>
+                  {item.id === 'pdp' ? (
+                    <Button
+                      size="sm"
+                      variant={item.status === 'blocked' ? 'ghost' : 'primary'}
+                      disabled={item.status === 'blocked'}
+                      onClick={() => {
+                        if (!item.status === 'blocked') {
+                          setShowPDPModal(true)
+                        }
+                      }}
+                    >
+                      {item.actionLabel || 'Configurer PDP'}
+                    </Button>
+                  ) : item.actionUrl ? (
+                    <Link href={item.actionUrl} className="inline-block">
+                      <Button
+                        size="sm"
+                        variant={item.status === 'blocked' ? 'ghost' : 'primary'}
+                        disabled={item.status === 'blocked'}
+                        onClick={(e) => {
+                          if (item.status === 'blocked') {
+                            e.preventDefault()
+                          }
+                        }}
+                      >
+                        {item.actionLabel || 'Commencer'}
+                      </Button>
+                    </Link>
+                  ) : null}
+                </>
               )}
             </div>
           </motion.div>
@@ -212,6 +240,9 @@ export default function ConformityChecklist() {
           </p>
         </div>
       )}
+
+      {/* Modal PDP */}
+      <PDPConfigModal isOpen={showPDPModal} onClose={() => setShowPDPModal(false)} />
     </Card>
   )
 }
