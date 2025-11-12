@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
@@ -22,8 +22,19 @@ export default function DocumentUpload({
   const [isUploading, setIsUploading] = useState(false)
   const [preview, setPreview] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const cameraInputRef = useRef<HTMLInputElement>(null)
+
+  // Détecter si c'est mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent
+      const mobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)
+      setIsMobile(mobile)
+    }
+    checkMobile()
+  }, [])
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
@@ -173,51 +184,55 @@ export default function DocumentUpload({
           </p>
         </div>
 
-        {/* Zone de caméra (mobile) */}
-        <div className="relative flex items-center justify-center bg-gray-900 rounded-xl p-4 aspect-video flex-col gap-4">
-          <div className="absolute inset-4 border-2 border-dashed border-primary-400 rounded-lg flex items-center justify-center">
-            <p className="text-white text-sm font-semibold bg-black/40 px-3 py-1 rounded-full">
-              Alignez le document dans le cadre
-            </p>
-          </div>
-          <div className="absolute top-4 right-4 flex flex-col gap-4">
-            <button
-              type="button"
-              className="flex shrink-0 items-center justify-center rounded-full size-10 bg-black/40 text-white hover:bg-black/60 transition-colors"
-              title="Flash"
-            >
-              <span className="material-symbols-outlined text-xl">flash_on</span>
-            </button>
-            <button
-              type="button"
-              className="flex shrink-0 items-center justify-center rounded-full size-10 bg-black/40 text-white hover:bg-black/60 transition-colors"
-              title="Inverser caméra"
-            >
-              <span className="material-symbols-outlined text-xl">flip_camera_android</span>
-            </button>
-          </div>
-        </div>
+        {/* Zone de caméra (UNIQUEMENT MOBILE) */}
+        {isMobile && (
+          <>
+            <div className="relative flex items-center justify-center bg-gray-900 rounded-xl p-4 aspect-video flex-col gap-4">
+              <div className="absolute inset-4 border-2 border-dashed border-primary-400 rounded-lg flex items-center justify-center">
+                <p className="text-white text-sm font-semibold bg-black/40 px-3 py-1 rounded-full">
+                  Alignez le document dans le cadre
+                </p>
+              </div>
+              <div className="absolute top-4 right-4 flex flex-col gap-4">
+                <button
+                  type="button"
+                  className="flex shrink-0 items-center justify-center rounded-full size-10 bg-black/40 text-white hover:bg-black/60 transition-colors"
+                  title="Flash"
+                >
+                  <span className="material-symbols-outlined text-xl">flash_on</span>
+                </button>
+                <button
+                  type="button"
+                  className="flex shrink-0 items-center justify-center rounded-full size-10 bg-black/40 text-white hover:bg-black/60 transition-colors"
+                  title="Inverser caméra"
+                >
+                  <span className="material-symbols-outlined text-xl">flip_camera_android</span>
+                </button>
+              </div>
+            </div>
 
-        {/* Contrôles caméra */}
-        <div className="flex items-center justify-center gap-6 -mt-14 relative z-10">
-          <div className="flex shrink-0 items-center justify-center rounded-full size-10"></div>
-          <button
-            type="button"
-            onClick={openCamera}
-            className="flex shrink-0 items-center justify-center rounded-full size-20 bg-white text-primary-600 shadow-lg border-4 border-primary-600 hover:bg-primary-50 transition-colors"
-            title="Prendre une photo"
-          >
-            <span className="material-symbols-outlined !text-4xl">camera</span>
-          </button>
-          <button
-            type="button"
-            onClick={openFileDialog}
-            className="flex shrink-0 items-center justify-center rounded-full size-10 bg-white/80 backdrop-blur-sm text-primary-600 shadow-md hover:bg-white transition-colors"
-            title="Choisir depuis la galerie"
-          >
-            <span className="material-symbols-outlined text-xl">add_a_photo</span>
-          </button>
-        </div>
+            {/* Contrôles caméra */}
+            <div className="flex items-center justify-center gap-6 -mt-14 relative z-10">
+              <div className="flex shrink-0 items-center justify-center rounded-full size-10"></div>
+              <button
+                type="button"
+                onClick={openCamera}
+                className="flex shrink-0 items-center justify-center rounded-full size-20 bg-white text-primary-600 shadow-lg border-4 border-primary-600 hover:bg-primary-50 transition-colors"
+                title="Prendre une photo"
+              >
+                <span className="material-symbols-outlined !text-4xl">camera</span>
+              </button>
+              <button
+                type="button"
+                onClick={openFileDialog}
+                className="flex shrink-0 items-center justify-center rounded-full size-10 bg-white/80 backdrop-blur-sm text-primary-600 shadow-md hover:bg-white transition-colors"
+                title="Choisir depuis la galerie"
+              >
+                <span className="material-symbols-outlined text-xl">add_a_photo</span>
+              </button>
+            </div>
+          </>
+        )}
 
         {/* Zone de drop */}
         <div

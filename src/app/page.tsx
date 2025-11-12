@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Hero from '@/components/features/Hero'
@@ -8,9 +9,40 @@ import AuditWizardComplete from '@/components/features/AuditWizardComplete'
 import PenaltyCalculator from '@/components/features/PenaltyCalculator'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import { createClient } from '@/lib/supabase/client'
 
 export default function Home() {
+  const router = useRouter()
   const [showOnboarding, setShowOnboarding] = useState(false)
+  const [isCheckingSession, setIsCheckingSession] = useState(true)
+
+  // Vérifier si l'utilisateur est déjà connecté
+  useEffect(() => {
+    const checkSession = async () => {
+      const supabase = createClient()
+      const { data: { session } } = await supabase.auth.getSession()
+
+      if (session) {
+        // Utilisateur connecté, rediriger vers dashboard
+        router.push('/dashboard')
+      } else {
+        setIsCheckingSession(false)
+      }
+    }
+
+    checkSession()
+  }, [router])
+
+  if (isCheckingSession) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-50 to-white">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-600">Vérification de la session...</p>
+        </div>
+      </div>
+    )
+  }
 
   if (showOnboarding) {
     return <AuditWizardComplete onBack={() => setShowOnboarding(false)} />
