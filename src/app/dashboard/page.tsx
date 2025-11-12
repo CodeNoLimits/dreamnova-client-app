@@ -61,25 +61,42 @@ const DashboardPage = () => {
       }
     }, 10000)
 
-    // Vérifier la session
-    supabase.auth.getSession()
-      .then(({ data: { session }, error }) => {
+    // Vérifier la session avec retry
+    const checkSession = async () => {
+      try {
+        // Essayer getSession d'abord
+        let { data: { session }, error } = await supabase.auth.getSession()
+
         if (!isMounted) return
+
+        if (error) {
+          console.error('Dashboard: Erreur getSession:', error)
+        }
+
+        // Si pas de session, essayer refreshSession (peut récupérer depuis cookies)
+        if (!session) {
+          console.log('Dashboard: Pas de session, tentative de refresh...')
+          const refreshResult = await supabase.auth.refreshSession()
+          if (!isMounted) return
+
+          session = refreshResult.data.session
+          if (refreshResult.error) {
+            console.error('Dashboard: Erreur refreshSession:', refreshResult.error)
+          }
+        }
 
         clearTimeout(timeoutId)
 
-        if (error) {
-          console.error('Dashboard: Erreur lors de la récupération de la session:', error)
-          setLoading(false)
-          return
-        }
-
+        // Si toujours pas de session après refresh, rediriger vers login
         if (!session) {
+          console.warn('Dashboard: Aucune session trouvée après refresh, redirection login')
           router.push('/login')
           return
         }
 
+        console.log('Dashboard: Session valide pour', session.user.email)
         setUser(session.user)
+
         // Charger les données en parallèle
         Promise.all([
           chargerAudits(session.user.id),
@@ -89,13 +106,16 @@ const DashboardPage = () => {
             setLoading(false)
           }
         })
-      })
-      .catch((error) => {
+      } catch (error) {
         if (!isMounted) return
         clearTimeout(timeoutId)
-        console.error('Dashboard: Erreur lors de getSession:', error)
+        console.error('Dashboard: Erreur lors de checkSession:', error)
         setLoading(false)
-      })
+        router.push('/login')
+      }
+    }
+
+    checkSession()
 
     // Écouter les changements d'auth
     const {
@@ -171,15 +191,18 @@ const DashboardPage = () => {
 
     if (!error && data) {
       // Vérifier si c'est une période d'essai (7 jours après started_at)
+      // JAMAIS pour testeur ou manubousky
       const startedAt = data.started_at ? new Date(data.started_at) : null
       const now = new Date()
       const daysSinceStart = startedAt ? (now.getTime() - startedAt.getTime()) / (1000 * 60 * 60 * 24) : 0
-      const isTrial = data.status === 'trialing' || 
-                     (startedAt && daysSinceStart < 7 && daysSinceStart >= 0)
-      
-      setSubscription({ 
-        plan_type: data.plan_type as PlanType, 
-        status: isTrial ? 'trialing' : data.status,
+      const isTrial = !isTester && !isManubousky && (
+        data.status === 'trialing' ||
+        (startedAt && daysSinceStart < 7 && daysSinceStart >= 0)
+      )
+
+      setSubscription({
+        plan_type: data.plan_type as PlanType,
+        status: isTrial ? 'trialing' : 'active', // Toujours 'active' pour testeur/manubousky
         expires_at: data.expires_at,
         started_at: data.started_at
       })
@@ -320,9 +343,9 @@ const DashboardPage = () => {
   }
 
   // Récupérer les fonctionnalités selon l'abonnement
-  const isTrial = subscription ? isTrialPlan(subscription.plan_type, subscription.started_at || null) : false
-  const features = subscription 
-    ? getPlanFeatures(subscription.plan_type, isTrial, user?.email) 
+  const isTrial = subscription ? isTrialPlan(subscription.plan_type, subscription.started_at || null, user?.email) : false
+  const features = subscription
+    ? getPlanFeatures(subscription.plan_type, isTrial, user?.email)
     : getPlanFeatures(null, false, user?.email)
   const hasSubscription = subscription && (subscription.status === 'active' || subscription.status === 'trialing')
   

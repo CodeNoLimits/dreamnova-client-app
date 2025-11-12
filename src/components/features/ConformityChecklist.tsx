@@ -37,6 +37,10 @@ export default function ConformityChecklist() {
         .order('created_at', { ascending: false })
         .limit(1)
 
+      // Vérifier si c'est testeur ou manubousky (toujours abonnés)
+      const isTester = currentUser.email === 'tester@example.com'
+      const isManubousky = currentUser.email?.toLowerCase() === 'manubousky@gmail.com'
+
       const { data: subscription } = await supabase
         .from('subscriptions')
         .select('plan_type, status')
@@ -45,7 +49,8 @@ export default function ConformityChecklist() {
         .single()
 
       const hasAudit = audits && audits.length > 0
-      const hasSubscription = subscription && subscription.status === 'active'
+      // Testeur et manubousky sont TOUJOURS considérés comme abonnés
+      const hasSubscription = isTester || isManubousky || (subscription && subscription.status === 'active')
 
       const checklistItems: ChecklistItem[] = [
         {

@@ -6,16 +6,25 @@ export type PlanType = 'starter' | 'growth' | 'premium-monthly' | 'urgence' | 't
 
 /**
  * Vérifie si un plan est en période d'essai
+ * JAMAIS pour testeur ou manubousky (ils ont des plans permanents)
  */
-export function isTrialPlan(planType: PlanType | null, startedAt: string | null): boolean {
+export function isTrialPlan(planType: PlanType | null, startedAt: string | null, userEmail?: string | null): boolean {
+  // JAMAIS d'essai pour testeur ou manubousky
+  if (userEmail) {
+    const email = userEmail.toLowerCase()
+    if (email === 'tester@example.com' || email === 'manubousky@gmail.com') {
+      return false
+    }
+  }
+
   if (!planType || planType === 'trial') return true
   if (!startedAt) return false
-  
+
   // Si started_at est récent (< 7 jours), c'est un essai
   const start = new Date(startedAt)
   const now = new Date()
   const daysSinceStart = (now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
-  
+
   return daysSinceStart >= 0 && daysSinceStart < 7
 }
 
