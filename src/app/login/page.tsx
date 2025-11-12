@@ -8,6 +8,7 @@ import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import Input from '@/components/ui/Input'
 import { createClient } from '@/lib/supabase/client'
+import { getBaseUrl } from '@/lib/utils/url'
 
 const LoginPage = () => {
   const router = useRouter()
@@ -60,10 +61,12 @@ const LoginPage = () => {
         }
       } else {
         // Inscription
+        const baseUrl = getBaseUrl()
         const { data, error: signUpError } = await supabase.auth.signUp({
           email: formData.email,
           password: formData.password,
           options: {
+            emailRedirectTo: `${baseUrl}/dashboard`,
             data: {
               company_name: formData.companyName,
             },
@@ -222,135 +225,111 @@ const LoginPage = () => {
             </div>
           )}
 
-          {/* Connexion invité test */}
+          {/* Connexion Testeurs */}
           <div className="mt-8 pt-8 border-t-2 border-dashed border-primary-300 bg-primary-50/50 rounded-lg p-6">
-            <p className="text-center text-sm font-bold text-primary-700 mb-4 flex items-center justify-center gap-2">
+            <p className="text-center text-sm font-bold text-primary-700 mb-2 flex items-center justify-center gap-2">
               <span className="material-symbols-outlined text-lg">science</span>
-              Connexion Invité Test
+              Mode Testeur
             </p>
             <p className="text-center text-xs text-slate-600 mb-4">
-              Testez rapidement avec différents niveaux d'accès
+              Accès rapide avec plan Growth pour tester toutes les fonctionnalités
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <Button
-                variant="secondary"
-                size="md"
-                onClick={async () => {
-                  setIsLoading(true)
-                  try {
-                    const supabase = createClient()
-                    const { data, error } = await supabase.auth.signInAnonymously()
-                    if (!error && data.user) {
-                      await supabase.from('profiles').upsert({
-                        id: data.user.id,
-                        full_name: 'Invité (Sans abonnement)',
-                        company_name: 'Test Company',
-                      })
-                      if (data.session) {
-                        await supabase.auth.setSession({
-                          access_token: data.session.access_token,
-                          refresh_token: data.session.refresh_token,
-                        })
-                      }
-                      router.push('/dashboard')
-                      router.refresh()
-                    }
-                  } catch (err: any) {
-                    setError(err.message || 'Erreur lors de la connexion invité')
-                  } finally {
-                    setIsLoading(false)
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={async () => {
+                setIsLoading(true)
+                setError(null)
+                try {
+                  const supabase = createClient()
+                  
+                  // Connexion anonyme
+                  const { data: authData, error: authError } = await supabase.auth.signInAnonymously()
+                  
+                  if (authError) {
+                    throw new Error(authError.message)
                   }
-                }}
-                disabled={isLoading}
-                className="bg-white border-2 border-slate-300 hover:border-primary-500 hover:bg-primary-50"
-              >
-                <span className="material-symbols-outlined mr-2 text-sm">person</span>
-                Sans abonnement
-              </Button>
-              <Button
-                variant="primary"
-                size="md"
-                onClick={async () => {
-                  setIsLoading(true)
-                  try {
-                    const supabase = createClient()
-                    const { data, error } = await supabase.auth.signInAnonymously()
-                    if (!error && data.user) {
-                      await supabase.from('profiles').upsert({
-                        id: data.user.id,
-                        full_name: 'Invité (Growth)',
-                        company_name: 'Test Company',
-                      })
-                      await supabase.from('subscriptions').upsert({
-                        user_id: data.user.id,
-                        plan_type: 'growth',
-                        status: 'active',
-                        started_at: new Date().toISOString(),
-                        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-                      })
-                      if (data.session) {
-                        await supabase.auth.setSession({
-                          access_token: data.session.access_token,
-                          refresh_token: data.session.refresh_token,
-                        })
-                      }
-                      router.push('/dashboard')
-                      router.refresh()
-                    }
-                  } catch (err: any) {
-                    setError(err.message || 'Erreur lors de la connexion invité')
-                  } finally {
-                    setIsLoading(false)
+
+                  if (!authData.user) {
+                    throw new Error('Erreur: Utilisateur non créé')
                   }
-                }}
-                disabled={isLoading}
-              >
-                <span className="material-symbols-outlined mr-2 text-sm">trending_up</span>
-                Growth
-              </Button>
-              <Button
-                variant="primary"
-                size="md"
-                onClick={async () => {
-                  setIsLoading(true)
-                  try {
-                    const supabase = createClient()
-                    const { data, error } = await supabase.auth.signInAnonymously()
-                    if (!error && data.user) {
-                      await supabase.from('profiles').upsert({
-                        id: data.user.id,
-                        full_name: 'Invité (Premium)',
-                        company_name: 'Test Company',
-                      })
-                      await supabase.from('subscriptions').upsert({
-                        user_id: data.user.id,
-                        plan_type: 'premium-monthly',
-                        status: 'active',
-                        started_at: new Date().toISOString(),
-                        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-                      })
-                      if (data.session) {
-                        await supabase.auth.setSession({
-                          access_token: data.session.access_token,
-                          refresh_token: data.session.refresh_token,
-                        })
-                      }
-                      router.push('/dashboard')
-                      router.refresh()
-                    }
-                  } catch (err: any) {
-                    setError(err.message || 'Erreur lors de la connexion invité')
-                  } finally {
-                    setIsLoading(false)
+
+                  // Créer le profil
+                  const { error: profileError } = await supabase.from('profiles').upsert({
+                    id: authData.user.id,
+                    full_name: 'Testeur Growth',
+                    company_name: 'Entreprise Test',
+                  }, {
+                    onConflict: 'id'
+                  })
+
+                  if (profileError) {
+                    console.error('Erreur profil:', profileError)
+                    // On continue même si le profil existe déjà
                   }
-                }}
-                disabled={isLoading}
-                className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"
-              >
-                <span className="material-symbols-outlined mr-2 text-sm">star</span>
-                Premium
-              </Button>
-            </div>
+
+                  // Créer l'abonnement Growth
+                  const { error: subError } = await supabase.from('subscriptions').upsert({
+                    user_id: authData.user.id,
+                    plan_type: 'growth',
+                    status: 'active',
+                    started_at: new Date().toISOString(),
+                    expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+                  }, {
+                    onConflict: 'user_id'
+                  })
+
+                  if (subError) {
+                    console.error('Erreur abonnement:', subError)
+                    // On continue même si l'abonnement existe déjà
+                  }
+
+                  // Forcer la session
+                  if (authData.session) {
+                    const { error: sessionError } = await supabase.auth.setSession({
+                      access_token: authData.session.access_token,
+                      refresh_token: authData.session.refresh_token,
+                    })
+
+                    if (sessionError) {
+                      console.error('Erreur session:', sessionError)
+                    }
+                  }
+
+                  setSuccess('Connexion réussie ! Redirection...')
+                  
+                  // Redirection
+                  setTimeout(() => {
+                    router.push('/dashboard')
+                    router.refresh()
+                  }, 500)
+                } catch (err: any) {
+                  console.error('Erreur connexion testeur:', err)
+                  setError(err.message || 'Erreur lors de la connexion testeur. Veuillez réessayer.')
+                } finally {
+                  setIsLoading(false)
+                }
+              }}
+              disabled={isLoading}
+              className="w-full bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 shadow-lg"
+            >
+              {isLoading ? (
+                <>
+                  <span className="material-symbols-outlined mr-2 animate-spin">sync</span>
+                  Connexion en cours...
+                </>
+              ) : (
+                <>
+                  <span className="material-symbols-outlined mr-2">rocket_launch</span>
+                  Se connecter en mode Testeur (Growth)
+                </>
+              )}
+            </Button>
+            {error && (
+              <p className="mt-3 text-center text-xs text-danger-600 bg-danger-50 p-2 rounded">
+                {error}
+              </p>
+            )}
           </div>
         </Card>
       </motion.div>

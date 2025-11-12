@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createCheckoutSession, PLAN_CONFIGS, isAlmaAvailable } from '@/adapters/payment'
+import { getBaseUrl } from '@/lib/utils/url'
 
 /**
  * API Route: Créer une session de checkout Stripe
@@ -60,8 +61,8 @@ export async function POST(request: NextRequest) {
         userEmail: user.email!,
         trialDays,
         allowAlma: allowAlma && isAlmaAvailable(plan.price),
-        successUrl: `${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancelUrl: `${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/checkout/cancel`,
+        successUrl: `${getBaseUrl()}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancelUrl: `${getBaseUrl()}/checkout/cancel`,
         metadata: {
           userName: profile?.full_name || 'Client DreamNova',
         },
