@@ -6,7 +6,10 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import DocumentUpload from '@/components/features/DocumentUpload'
+import QRCodePairing from '@/components/features/QRCodePairing'
 import { createClient } from '@/lib/supabase/client'
+import { getPlanFeatures, type PlanType, isTrialPlan } from '@/lib/subscription'
 import {
   LineChart,
   Line,
@@ -42,6 +45,7 @@ const DashboardPage = () => {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [audits, setAudits] = useState<AuditSauvegarde[]>([])
+  const [subscription, setSubscription] = useState<{ plan_type: PlanType | null; status: string; expires_at?: string | null; started_at?: string | null } | null>(null)
 
   useEffect(() => {
     const supabase = createClient()
@@ -53,6 +57,7 @@ const DashboardPage = () => {
       } else {
         setUser(session.user)
         chargerAudits(session.user.id)
+        chargerAbonnement(session.user.id)
         setLoading(false)
       }
     })
@@ -66,11 +71,42 @@ const DashboardPage = () => {
       } else {
         setUser(session.user)
         chargerAudits(session.user.id)
+        chargerAbonnement(session.user.id)
       }
     })
 
     return () => subscription.unsubscribe()
   }, [router])
+
+  const chargerAbonnement = async (userId: string) => {
+    const supabase = createClient()
+    const { data, error } = await supabase
+      .from('subscriptions')
+      .select('plan_type, status, started_at, expires_at')
+      .eq('user_id', userId)
+      .in('status', ['active', 'trialing', 'pending'])
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single()
+
+    if (!error && data) {
+      // Vérifier si c'est une période d'essai (7 jours après started_at)
+      const startedAt = data.started_at ? new Date(data.started_at) : null
+      const now = new Date()
+      const daysSinceStart = startedAt ? (now.getTime() - startedAt.getTime()) / (1000 * 60 * 60 * 24) : 0
+      const isTrial = data.status === 'trialing' || 
+                     (startedAt && daysSinceStart < 7 && daysSinceStart >= 0)
+      
+      setSubscription({ 
+        plan_type: data.plan_type as PlanType, 
+        status: isTrial ? 'trialing' : data.status,
+        expires_at: data.expires_at,
+        started_at: data.started_at
+      })
+    } else {
+      setSubscription({ plan_type: null, status: 'none', expires_at: null, started_at: null })
+    }
+  }
 
   const chargerAudits = async (userId: string) => {
     // TODO: Récupérer les audits depuis Supabase
@@ -186,6 +222,11 @@ const DashboardPage = () => {
     FAIBLE: 'text-success-700 bg-success-100',
   }
 
+  // Récupérer les fonctionnalités selon l'abonnement
+  const isTrial = subscription ? isTrialPlan(subscription.plan_type, subscription.started_at || null) : false
+  const features = subscription ? getPlanFeatures(subscription.plan_type, isTrial) : getPlanFeatures(null)
+  const hasSubscription = subscription && (subscription.status === 'active' || subscription.status === 'trialing')
+
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
@@ -203,7 +244,38 @@ const DashboardPage = () => {
               </div>
             </Link>
             <div className="flex items-center gap-4">
-              <span className="text-sm text-slate-600">{user?.email}</span>
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-slate-900">{user?.email}</span>
+                {hasSubscription && subscription?.plan_type && (
+                  <div className={`px-3 py-1 rounded-full text-xs font-bold ${
+                    isTrial 
+                      ? 'bg-amber-100 text-amber-700' 
+                      : subscription.plan_type === 'growth' 
+                        ? 'bg-primary-100 text-primary-700'
+                        : subscription.plan_type === 'premium-monthly'
+                          ? 'bg-purple-100 text-purple-700'
+                          : 'bg-slate-100 text-slate-700'
+                  }`}>
+                    {isTrial ? 'ESSAI GRATUIT' :
+                     subscription.plan_type === 'growth' ? 'GROWTH' :
+                     subscription.plan_type === 'premium-monthly' ? 'PREMIUM' :
+                     subscription.plan_type === 'starter' ? 'STARTER' :
+                     subscription.plan_type.toUpperCase()}
+                  </div>
+                )}
+                {!hasSubscription && (
+                  <div className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium">
+                    Sans abonnement
+                  </div>
+                )}
+              </div>
+              {!hasSubscription && (
+                <Link href="/pricing">
+                  <Button variant="ghost" size="sm">
+                    S'abonner
+                  </Button>
+                </Link>
+              )}
               <Button variant="ghost" size="sm" onClick={handleSignOut}>
                 Déconnexion
               </Button>
@@ -647,10 +719,21 @@ const DashboardPage = () => {
                     Voir les offres
                   </Button>
                 </Link>
-                <Button className="w-full" variant="ghost" disabled>
-                  <span className="material-symbols-outlined mr-2">picture_as_pdf</span>
-                  Télécharger PDF
-                </Button>
+                {features.hasPDFReports ? (
+                  <Link href="/audit-results">
+                    <Button className="w-full" variant="ghost">
+                      <span className="material-symbols-outlined mr-2">picture_as_pdf</span>
+                      Télécharger PDF
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link href="/pricing">
+                    <Button className="w-full" variant="ghost" disabled={false}>
+                      <span className="material-symbols-outlined mr-2">lock</span>
+                      PDF (Growth+)
+                    </Button>
+                  </Link>
+                )}
               </div>
 
               {dernierAudit && (
@@ -682,6 +765,63 @@ const DashboardPage = () => {
               </div>
             </Card>
           </motion.div>
+
+          {/* QR Code Pairing pour mobile */}
+          {features.hasFacturXConversion && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.1 }}
+              className="col-span-1"
+            >
+              <QRCodePairing
+                onPaired={(sessionId) => {
+                  console.log('Mobile appairé:', sessionId)
+                }}
+                onUploadComplete={(file) => {
+                  console.log('Document uploadé depuis mobile:', file.name)
+                  // TODO: Rafraîchir la liste des documents
+                }}
+              />
+            </motion.div>
+          )}
+
+          {/* Upload de documents (desktop) */}
+          {features.hasFacturXConversion ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2 }}
+              className="col-span-1"
+            >
+              <DocumentUpload
+                onUploadComplete={(file, format) => {
+                  console.log('Document uploadé:', file.name, 'Format:', format)
+                  // TODO: Rafraîchir la liste des documents
+                }}
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2 }}
+              className="col-span-1"
+            >
+              <Card className="p-6 text-center">
+                <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="material-symbols-outlined text-slate-400 text-4xl">lock</span>
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Conversion Factur-X</h3>
+                <p className="text-sm text-slate-600 mb-4">
+                  Disponible avec le plan Growth ou supérieur
+                </p>
+                <Link href="/pricing">
+                  <Button size="sm">Voir les offres</Button>
+                </Link>
+              </Card>
+            </motion.div>
+          )}
         </div>
       </main>
     </div>

@@ -64,7 +64,16 @@ export class AgentAuditConformite {
   constructor() {
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.GEMINI_API_KEY
     if (!apiKey) {
-      throw new Error('GEMINI_API_KEY is required for AI agents')
+      throw new Error(
+        'GEMINI_API_KEY is required for AI agents.\n\n' +
+        '📋 Pour configurer:\n' +
+        '1. Obtenez votre clé sur: https://makersuite.google.com/app/apikey\n' +
+        '2. Ajoutez-la dans le fichier .env.local:\n' +
+        '   NEXT_PUBLIC_GEMINI_API_KEY=votre_cle_ici\n' +
+        '   GEMINI_API_KEY=votre_cle_ici\n' +
+        '3. Redémarrez le serveur (npm run dev)\n\n' +
+        'Voir CONFIGURATION_GEMINI.md pour plus de détails.'
+      )
     }
     const genAI = new GoogleGenerativeAI(apiKey)
     this.model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
@@ -134,61 +143,7 @@ Analyse et retourne le résultat au format JSON suivant:
       return parsedResult as AuditResult
     } catch (error) {
       console.error('Agent Audit Conformité error:', error)
-
-      // Fallback avec calcul manuel
-      const amendes_annuel = Math.min(data.volume_b2b_mensuel * 12 * 15, 15000)
-      const amendes_mensuel = amendes_annuel / 12
-
-      let score = 100
-      if (data.solution_actuelle.toLowerCase().includes('pennylane') ||
-          data.solution_actuelle.toLowerCase().includes('tiime')) {
-        score -= 30
-      }
-      if (data.format_actuel === 'xml' || data.format_actuel === 'edi') {
-        score -= 40
-      }
-      if (data.volume_b2b_mensuel < 50) {
-        score -= 10
-      }
-
-      const niveau_risque = score >= 86 ? 'CRITIQUE' :
-                           score >= 61 ? 'ÉLEVÉ' :
-                           score >= 31 ? 'MODÉRÉ' : 'FAIBLE'
-
-      return {
-        score_conformite: Math.max(0, Math.min(100, score)),
-        niveau_risque,
-        amendes_potentielles: {
-          mensuel: amendes_mensuel,
-          annuel: amendes_annuel,
-          sur_3_ans: amendes_annuel * 3
-        },
-        actions_urgentes: [
-          {
-            action: "Migrer vers une plateforme de dématérialisation agréée",
-            délai: "Immédiat (< 2 semaines)",
-            priorité: 5
-          },
-          {
-            action: "Former l'équipe aux nouveaux formats obligatoires",
-            délai: "Court terme (< 1 mois)",
-            priorité: 4
-          },
-          {
-            action: "Tester l'envoi de factures conformes",
-            délai: "Moyen terme (< 3 mois)",
-            priorité: 3
-          }
-        ],
-        migration: {
-          durée_estimée: data.volume_b2b_mensuel < 100 ? "2-4 semaines" :
-                        data.volume_b2b_mensuel < 500 ? "1-2 mois" : "2-3 mois",
-          coût_estimé: data.volume_b2b_mensuel < 100 ? "8,000€" :
-                      data.volume_b2b_mensuel < 500 ? "15,000€" : "25,000€",
-          pdp_recommandé: "Tiime",
-          roi_mois: Math.round(8000 / amendes_mensuel)
-        }
-      }
+      throw new Error(`Erreur lors de l'audit de conformité: ${error instanceof Error ? error.message : 'Erreur inconnue'}`)
     }
   }
 }
@@ -203,7 +158,16 @@ export class AgentCalculROI {
   constructor() {
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.GEMINI_API_KEY
     if (!apiKey) {
-      throw new Error('GEMINI_API_KEY is required for AI agents')
+      throw new Error(
+        'GEMINI_API_KEY is required for AI agents.\n\n' +
+        '📋 Pour configurer:\n' +
+        '1. Obtenez votre clé sur: https://makersuite.google.com/app/apikey\n' +
+        '2. Ajoutez-la dans le fichier .env.local:\n' +
+        '   NEXT_PUBLIC_GEMINI_API_KEY=votre_cle_ici\n' +
+        '   GEMINI_API_KEY=votre_cle_ici\n' +
+        '3. Redémarrez le serveur (npm run dev)\n\n' +
+        'Voir CONFIGURATION_GEMINI.md pour plus de détails.'
+      )
     }
     const genAI = new GoogleGenerativeAI(apiKey)
     this.model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
@@ -255,23 +219,7 @@ Calcule le ROI complet et retourne au format JSON:
       return parsedResult as ROICalculation
     } catch (error) {
       console.error('Agent Calcul ROI error:', error)
-
-      // Fallback avec calcul manuel
-      const amendes_annuel = Math.min(volume_mensuel * 12 * 15, 15000)
-      const salaires_total = nb_employes * 35000
-      const gains_productivite = salaires_total * 0.4
-      const economies_totales = amendes_annuel + gains_productivite
-
-      return {
-        investissement_initial: investissement,
-        economies_amendes: amendes_annuel,
-        gains_productivite: gains_productivite,
-        roi_mensuel: Math.round((economies_totales / 12 - investissement / 12) / (investissement / 12) * 100),
-        roi_annuel: Math.round((economies_totales - investissement) / investissement * 100),
-        roi_3_ans: Math.round((economies_totales * 3 - investissement) / investissement * 100),
-        breakeven_mois: Math.round(investissement / (economies_totales / 12)),
-        recommendation: `Avec ${amendes_annuel.toLocaleString()}€ d'amendes évitées et ${gains_productivite.toLocaleString()}€ de gains de productivité, votre investissement de ${investissement.toLocaleString()}€ sera rentabilisé en ${Math.round(investissement / (economies_totales / 12))} mois. ROI sur 3 ans: ${Math.round((economies_totales * 3 - investissement) / investissement * 100)}%.`
-      }
+      throw new Error(`Erreur lors du calcul du ROI: ${error instanceof Error ? error.message : 'Erreur inconnue'}`)
     }
   }
 }
@@ -286,7 +234,16 @@ export class AgentRecommandationsPDP {
   constructor() {
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.GEMINI_API_KEY
     if (!apiKey) {
-      throw new Error('GEMINI_API_KEY is required for AI agents')
+      throw new Error(
+        'GEMINI_API_KEY is required for AI agents.\n\n' +
+        '📋 Pour configurer:\n' +
+        '1. Obtenez votre clé sur: https://makersuite.google.com/app/apikey\n' +
+        '2. Ajoutez-la dans le fichier .env.local:\n' +
+        '   NEXT_PUBLIC_GEMINI_API_KEY=votre_cle_ici\n' +
+        '   GEMINI_API_KEY=votre_cle_ici\n' +
+        '3. Redémarrez le serveur (npm run dev)\n\n' +
+        'Voir CONFIGURATION_GEMINI.md pour plus de détails.'
+      )
     }
     const genAI = new GoogleGenerativeAI(apiKey)
     this.model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
@@ -336,63 +293,48 @@ Recommande le meilleur PDP au format JSON:
       return parsedResult as PDPRecommendation
     } catch (error) {
       console.error('Agent Recommandations PDP error:', error)
-
-      // Fallback avec logique simple
-      let provider: 'Pennylane' | 'Tiime' | 'Qonto' | 'Sellsy' = 'Tiime'
-      let score = 70
-      let raisons = []
-      let pricing = "Gratuit jusqu'à 10 factures/mois"
-      let delai = "1-2 semaines"
-
-      if (data.volume_b2b_mensuel < 50) {
-        provider = 'Tiime'
-        score = 85
-        raisons = [
-          'Volume faible parfaitement adapté',
-          'Gratuit pour commencer',
-          'Interface simple et intuitive'
-        ]
-      } else if (data.effectif >= 50 && data.effectif < 250) {
-        provider = 'Pennylane'
-        score = 90
-        raisons = [
-          'Idéal pour PME de votre taille',
-          'Automatisation avancée incluse',
-          '4500 cabinets partenaires'
-        ]
-        pricing = "À partir de 49€/mois"
-        delai = "2-4 semaines"
-      } else if (data.effectif >= 250) {
-        provider = 'Sellsy'
-        score = 88
-        raisons = [
-          'Solution complète pour ETI',
-          'CRM intégré pour suivi commercial',
-          'Support dédié'
-        ]
-        pricing = "Sur devis (estimé 100-200€/mois)"
-        delai = "4-6 semaines"
-      }
-
-      return {
-        provider,
-        score_match: score,
-        raisons,
-        pricing,
-        delai_integration: delai,
-        features_cles: [
-          'Facturation conforme Factur-X',
-          'Envoi automatique au PPF',
-          'Dashboard temps réel',
-          'Support client dédié'
-        ],
-        alternative: provider === 'Tiime' ? 'Pennylane' : 'Tiime'
-      }
+      throw new Error(`Erreur lors de la recommandation PDP: ${error instanceof Error ? error.message : 'Erreur inconnue'}`)
     }
   }
 }
 
 // Export des instances singleton pour utilisation dans l'app
-export const auditAgent = new AgentAuditConformite()
-export const roiAgent = new AgentCalculROI()
-export const pdpAgent = new AgentRecommandationsPDP()
+// Lazy initialization pour éviter les erreurs si la clé n'est pas encore chargée
+let _auditAgent: AgentAuditConformite | null = null
+let _roiAgent: AgentCalculROI | null = null
+let _pdpAgent: AgentRecommandationsPDP | null = null
+
+function getAuditAgent(): AgentAuditConformite {
+  if (!_auditAgent) {
+    _auditAgent = new AgentAuditConformite()
+  }
+  return _auditAgent
+}
+
+function getROIAgent(): AgentCalculROI {
+  if (!_roiAgent) {
+    _roiAgent = new AgentCalculROI()
+  }
+  return _roiAgent
+}
+
+function getPDPAgent(): AgentRecommandationsPDP {
+  if (!_pdpAgent) {
+    _pdpAgent = new AgentRecommandationsPDP()
+  }
+  return _pdpAgent
+}
+
+// Export des getters pour lazy initialization
+export const auditAgent = {
+  auditEntreprise: (data: CompanyData) => getAuditAgent().auditEntreprise(data)
+}
+
+export const roiAgent = {
+  calculerROI: (investissement: number, volume: number, effectif: number, ca: number) => 
+    getROIAgent().calculerROI(investissement, volume, effectif, ca)
+}
+
+export const pdpAgent = {
+  recommanderPDP: (data: CompanyData) => getPDPAgent().recommanderPDP(data)
+}

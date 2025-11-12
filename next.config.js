@@ -4,7 +4,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    unoptimized: true, // Required for static export
+    unoptimized: process.env.NODE_ENV === 'development', // Optimisé en production
     domains: ['images.unsplash.com', 'cdn.dreamnova.ai'],
     formats: ['image/avif', 'image/webp'],
   },

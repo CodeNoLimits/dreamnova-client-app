@@ -20,6 +20,11 @@ export const metadata: Metadata = {
   description: 'Plateforme de conformité et facturation électronique pour les entreprises françaises. Préparez-vous aux obligations 2026.',
   keywords: ['facturation électronique', 'conformité', 'e-invoicing', 'PPF', 'PDP', '2026'],
   authors: [{ name: 'DreamNova' }],
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+  },
   openGraph: {
     title: 'DreamNova - Facturation Électronique 2026',
     description: 'Plateforme de conformité et facturation électronique pour les entreprises françaises.',

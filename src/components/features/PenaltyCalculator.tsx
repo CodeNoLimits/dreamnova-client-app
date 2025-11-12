@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useMemo, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import Card from '@/components/ui/Card'
 
@@ -21,12 +21,12 @@ const PenaltyCalculator: React.FC<PenaltyCalculatorProps> = ({ onCalculate }) =>
   const [hasPAPlatform, setHasPAPlatform] = useState<boolean>(false)
 
   // Calcul des amendes selon la formule: min(volume_mensuel * 12 * 15€, 15000€)
-  const calculatePenalties = (invoices: number, hasPA: boolean): PenaltyResult => {
+  const calculatePenalties = useCallback((invoices: number, hasPA: boolean): PenaltyResult => {
     const baseAnnualPenalties = Math.min(invoices * 12 * 15, 15000)
-    
+
     // Ajouter pénalités absence PA: 500€ + 1000€/trimestre
     const paPenalties = hasPA ? 0 : 500 + (1000 * 4)
-    
+
     const annualPenalties = baseAnnualPenalties + paPenalties
     const monthlyPenalties = annualPenalties / 12
     const threeYearPenalties = annualPenalties * 3
@@ -44,15 +44,19 @@ const PenaltyCalculator: React.FC<PenaltyCalculatorProps> = ({ onCalculate }) =>
       threeYearPenalties,
       riskLevel,
     }
-  }
+  }, [])
 
-  const result = calculatePenalties(monthlyInvoices, hasPAPlatform)
+  // useMemo pour garantir le recalcul à chaque changement
+  const result = useMemo(
+    () => calculatePenalties(monthlyInvoices, hasPAPlatform),
+    [monthlyInvoices, hasPAPlatform, calculatePenalties]
+  )
 
   React.useEffect(() => {
     if (onCalculate) {
       onCalculate(result)
     }
-  }, [monthlyInvoices, hasPAPlatform, onCalculate])
+  }, [result, onCalculate])
 
   const riskColors = {
     LOW: 'bg-success-500 text-white',
@@ -103,9 +107,10 @@ const PenaltyCalculator: React.FC<PenaltyCalculatorProps> = ({ onCalculate }) =>
               type="range"
               min="0"
               max="2000"
+              step="1"
               value={monthlyInvoices}
               onChange={(e) => setMonthlyInvoices(Number(e.target.value))}
-              className="w-full mt-4 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary-600"
+              className="w-full mt-4 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary-600 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary-600 [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-primary-600 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer"
             />
           </div>
 

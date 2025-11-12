@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
@@ -116,7 +116,7 @@ const allPlans = {
   },
 }
 
-const CheckoutPage = () => {
+const CheckoutPageContent = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const planId = searchParams.get('plan')
@@ -163,23 +163,57 @@ const CheckoutPage = () => {
     setIsLoading(true)
 
     try {
-      // TODO: Intégrer avec les vrais systèmes de paiement
-      // Pour l'instant, on simule juste la création de l'abonnement dans Supabase
-
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
 
-      if (user) {
-        // Sauvegarder l'abonnement dans Supabase
+      if (!user) {
+        alert('Veuillez vous connecter pour continuer')
+        router.push('/login')
+        setIsLoading(false)
+        return
+      }
+
+      // Pour les plans mensuels, utiliser Stripe Checkout
+      if (plan.type === 'monthly' && paymentMethod === 'stripe') {
+        const planId = plan.id === 'starter' ? 'starter-monthly' :
+                      plan.id === 'growth' ? 'growth-monthly' :
+                      'premium-monthly'
+
+        const response = await fetch('/api/checkout/stripe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            planId,
+            trialDays: 7, // 7 jours d'essai gratuit
+          }),
+        })
+
+        if (!response.ok) {
+          const error = await response.json()
+          throw new Error(error.error || 'Erreur lors de la création de la session Stripe')
+        }
+
+        const { url } = await response.json()
+        
+        // Rediriger vers Stripe Checkout
+        if (url) {
+          window.location.href = url
+          return
+        }
+      }
+
+      // Pour les plans one-shot avec Alma/Klarna ou paiement direct
+      if (plan.type === 'one-shot') {
+        // Pour l'instant, simuler le paiement (à remplacer par Alma/Klarna réel)
         const { error } = await supabase.from('subscriptions').insert({
           user_id: user.id,
           plan_type: plan.id,
           plan_name: plan.name,
-          amount: plan.price,
+          amount: plan.price * 100, // En centimes
           currency: 'EUR',
           payment_method: plan.type,
           payment_provider: paymentMethod,
-          status: 'pending', // En attente de paiement
+          status: 'paid', // Simulé comme payé
         })
 
         if (error) {
@@ -188,16 +222,13 @@ const CheckoutPage = () => {
           setIsLoading(false)
           return
         }
+
+        // Passer à l'étape de confirmation
+        setStep(3)
       }
-
-      // Simuler un délai de traitement
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      // Passer à l'étape de confirmation
-      setStep(3)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Payment error:', error)
-      alert('Une erreur est survenue. Veuillez réessayer.')
+      alert(error.message || 'Une erreur est survenue. Veuillez réessayer.')
     } finally {
       setIsLoading(false)
     }
@@ -432,16 +463,16 @@ const CheckoutPage = () => {
                         <div className="text-sm text-slate-600">3-4x sans frais</div>
                       </button>
                       <button
-                        onClick={() => setPaymentMethod('klarna')}
+                        onClick={() => setPaymentMethod('stripe')}
                         className={`p-6 rounded-lg border-2 transition-all ${
-                          paymentMethod === 'klarna'
+                          paymentMethod === 'stripe'
                             ? 'border-primary-500 bg-primary-50'
                             : 'border-slate-200 hover:border-primary-300'
                         }`}
                       >
-                        <div className="text-3xl mb-2">🔵</div>
-                        <div className="font-bold text-slate-900">KLARNA</div>
-                        <div className="text-sm text-slate-600">Jusqu'à 12x</div>
+                        <div className="text-3xl mb-2">⚡</div>
+                        <div className="font-bold text-slate-900">STRIPE</div>
+                        <div className="text-sm text-slate-600">Paiement unique</div>
                       </button>
                     </>
                   ) : (
@@ -555,5 +586,18 @@ const CheckoutPage = () => {
   )
 }
 
-export default CheckoutPage
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto mb-2"></div>
+          <p className="text-slate-600">Chargement...</p>
+        </div>
+      </div>
+    }>
+      <CheckoutPageContent />
+    </Suspense>
+  )
+}
 

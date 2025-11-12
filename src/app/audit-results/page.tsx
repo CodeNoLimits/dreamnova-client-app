@@ -3,8 +3,10 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { pdf } from '@react-pdf/renderer'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import RapportPDFComplet from '@/components/features/RapportPDFComplet'
 
 // Types from our 3 AI Agents
 interface CompanyData {
@@ -72,6 +74,7 @@ interface StoredAuditResults {
 const AuditResultsPage = () => {
   const [results, setResults] = useState<StoredAuditResults | null>(null)
   const [isGenerating, setIsGenerating] = useState(true)
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
 
   useEffect(() => {
     // Get audit results from sessionStorage
@@ -79,8 +82,55 @@ const AuditResultsPage = () => {
 
     if (storedResults) {
       try {
-        const data: StoredAuditResults = JSON.parse(storedResults)
-        setResults(data)
+        const data: any = JSON.parse(storedResults)
+        
+        // Normaliser les données pour gérer les deux formats possibles
+        // Format: AuditWizardComplete (format direct des agents Claude Code)
+        const normalizedData: StoredAuditResults = {
+          company: data.company || {},
+          audit: {
+            score_conformite: data.audit?.score_conformite || 0,
+            niveau_risque: data.audit?.niveau_risque || 'MODÉRÉ',
+            amendes_potentielles: {
+              mensuelle: data.audit?.amendes_potentielles?.mensuelle || data.audit?.amendes_potentielles?.mensuel || 0,
+              annuelle: data.audit?.amendes_potentielles?.annuelle || data.audit?.amendes_potentielles?.annuel || 0,
+              pa_manquante: data.audit?.amendes_potentielles?.pa_manquante || 0,
+            },
+            plan_migration: {
+              duree_estimee: data.audit?.plan_migration?.duree_estimee || data.audit?.migration?.durée_estimée || 'Non spécifié',
+              cout_total: data.audit?.plan_migration?.cout_total || (data.audit?.migration?.coût_estimé ? parseInt(data.audit.migration.coût_estimé.replace(/[^\d]/g, '')) : 8000),
+              etapes: data.audit?.plan_migration?.etapes || data.audit?.migration?.etapes || data.audit?.actions_urgentes?.map((a: any) => a.action) || [],
+            },
+            points_critiques: data.audit?.points_critiques || [],
+            recommandations: data.audit?.recommandations || data.audit?.actions_urgentes?.map((a: any) => a.action) || [],
+          },
+          roi: {
+            economies_amendes: {
+              annuelle: data.roi?.economies_amendes?.annuelle || data.roi?.economies_amendes || 0,
+              trois_ans: data.roi?.economies_amendes?.trois_ans || (data.roi?.economies_amendes || 0) * 3,
+            },
+            gains_productivite: {
+              annuel: data.roi?.gains_productivite?.annuel || data.roi?.gains_productivite || 0,
+              trois_ans: data.roi?.gains_productivite?.trois_ans || (data.roi?.gains_productivite || 0) * 3,
+            },
+            roi: {
+              mensuel: data.roi?.roi?.mensuel || data.roi?.roi_mensuel || 0,
+              annuel: data.roi?.roi?.annuel || data.roi?.roi_annuel || 0,
+              trois_ans: data.roi?.roi?.trois_ans || data.roi?.roi_3_ans || 0,
+            },
+            breakeven_mois: data.roi?.breakeven_mois || 0,
+          },
+          pdp: {
+            provider: data.pdp?.provider || 'Pennylane',
+            score_match: data.pdp?.score_match || 0,
+            raisons: data.pdp?.raisons || data.pdp?.reasons || [],
+            prix_mensuel: data.pdp?.prix_mensuel || (data.pdp?.pricing ? parseInt(data.pdp.pricing.replace(/[^\d]/g, '')) : 49),
+            delai_integration: data.pdp?.delai_integration || 'Non spécifié',
+            fonctionnalites_cles: data.pdp?.fonctionnalites_cles || data.pdp?.features_cles || data.pdp?.features || [],
+          },
+        }
+        
+        setResults(normalizedData)
         setIsGenerating(false)
       } catch (error) {
         console.error('Failed to parse stored results:', error)
@@ -163,6 +213,104 @@ const AuditResultsPage = () => {
     'FAIBLE': 'check_circle',
   }
 
+  const handleGeneratePDF = async () => {
+    if (!results || !company || !audit || !roi || !pdp) {
+      alert('Impossible de générer le PDF : données incomplètes')
+      return
+    }
+
+    setIsGeneratingPDF(true)
+
+    try {
+      // Préparer les données pour le PDF
+      const pdfData = {
+        company: {
+          nom_entreprise: company.nom_entreprise || (company as any).companyName || 'Entreprise',
+          secteur_activite: company.secteur_activite || (company as any).sector || 'Non spécifié',
+          taille_entreprise: company.taille_entreprise || 'Non spécifié',
+          nombre_employes: company.nombre_employes || (company as any).employees || 0,
+          ca_annuel: company.ca_annuel || 0,
+          volume_factures_b2b: company.volume_factures_b2b || (company as any).volume_b2b_mensuel || 0,
+          volume_factures_b2c: company.volume_factures_b2c || (company as any).volume_b2c_mensuel || 0,
+          format_actuel: company.format_actuel || 'PDF',
+        },
+        audit: {
+          score_conformite: audit.score_conformite || 0,
+          niveau_risque: audit.niveau_risque || 'MODÉRÉ',
+          amendes_potentielles: {
+            mensuelle: audit.amendes_potentielles?.mensuelle || 0,
+            annuelle: audit.amendes_potentielles?.annuelle || 0,
+            pa_manquante: audit.amendes_potentielles?.pa_manquante || 0,
+          },
+          plan_migration: {
+            duree_estimee: audit.plan_migration?.duree_estimee || 'Non spécifié',
+            cout_total: audit.plan_migration?.cout_total || 0,
+            etapes: audit.plan_migration?.etapes || [],
+          },
+          points_critiques: audit.points_critiques || [],
+          recommandations: audit.recommandations || [],
+        },
+        roi: {
+          economies_amendes: {
+            annuelle: roi.economies_amendes?.annuelle || 0,
+            trois_ans: roi.economies_amendes?.trois_ans || 0,
+          },
+          gains_productivite: {
+            annuel: roi.gains_productivite?.annuel || 0,
+            trois_ans: roi.gains_productivite?.trois_ans || 0,
+          },
+          roi: {
+            mensuel: roi.roi?.mensuel || 0,
+            annuel: roi.roi?.annuel || 0,
+            trois_ans: roi.roi?.trois_ans || 0,
+          },
+          breakeven_mois: roi.breakeven_mois || 0,
+        },
+        pdp: {
+          provider: pdp.provider || 'Pennylane',
+          score_match: pdp.score_match || 0,
+          raisons: pdp.raisons || [],
+          prix_mensuel: pdp.prix_mensuel || 0,
+          delai_integration: pdp.delai_integration || 'Non spécifié',
+          fonctionnalites_cles: pdp.fonctionnalites_cles || [],
+        },
+      }
+
+      // Générer le PDF
+      const doc = (
+        <RapportPDFComplet
+          company={pdfData.company}
+          audit={pdfData.audit}
+          roi={pdfData.roi}
+          pdp={pdfData.pdp}
+        />
+      )
+      
+      // Utiliser pdf().toBlob() pour générer le PDF côté client
+      const instance = pdf(doc)
+      const blob = await instance.toBlob()
+
+      // Télécharger le PDF
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `Audit_Conformite_${pdfData.company.nom_entreprise.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error('Erreur lors de la génération du PDF:', error)
+      alert('Erreur lors de la génération du PDF. Veuillez réessayer.')
+    } finally {
+      setIsGeneratingPDF(false)
+    }
+  }
+
+  const handlePrint = () => {
+    window.print()
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
@@ -181,12 +329,20 @@ const AuditResultsPage = () => {
               </div>
             </Link>
             <div className="flex gap-2">
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" onClick={handlePrint}>
                 <span className="material-symbols-outlined text-lg">print</span>
+                <span className="ml-2 hidden sm:inline">Imprimer</span>
               </Button>
-              <Button size="sm">
+              <Button 
+                size="sm" 
+                onClick={handleGeneratePDF}
+                isLoading={isGeneratingPDF}
+                disabled={isGeneratingPDF}
+              >
                 <span className="material-symbols-outlined text-lg">picture_as_pdf</span>
-                <span className="ml-2">Générer PDF (40 pages)</span>
+                <span className="ml-2">
+                  {isGeneratingPDF ? 'Génération...' : 'Générer PDF'}
+                </span>
               </Button>
             </div>
           </div>
@@ -201,9 +357,9 @@ const AuditResultsPage = () => {
           transition={{ duration: 0.5 }}
           className="mb-8"
         >
-          <h2 className="text-3xl font-bold text-slate-900 mb-2">{company.nom_entreprise || company.companyName || 'Entreprise'}</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-2">{company.nom_entreprise || (company as any).companyName || 'Entreprise'}</h2>
           <p className="text-slate-600">
-            {company.secteur_activite || company.sector || 'Secteur'} • {company.taille_entreprise || 'Taille'} • {company.nombre_employes || company.employees || 0} employés • {company.ca_annuel ? (company.ca_annuel / 1000000).toFixed(1) + 'M€' : 'CA'} CA
+            {company.secteur_activite || (company as any).sector || 'Secteur'} • {company.taille_entreprise || 'Taille'} • {company.nombre_employes || (company as any).employees || 0} employés • {company.ca_annuel ? (company.ca_annuel / 1000000).toFixed(1) + 'M€' : 'CA'} CA
           </p>
         </motion.div>
 
@@ -318,25 +474,25 @@ const AuditResultsPage = () => {
                   <div>
                     <p className="text-sm text-slate-600">ROI Annuel</p>
                     <p className="text-4xl font-bold text-success-700">
-                      {roi.roi.annuel.toFixed(0)}%
+                      {roi?.roi?.annuel ? roi.roi.annuel.toFixed(0) : '0'}%
                     </p>
                   </div>
                   <div>
                     <p className="text-sm text-slate-600">Économies An 1</p>
                     <p className="text-2xl font-bold text-success-600">
-                      {(roi.economies_amendes.annuelle + roi.gains_productivite.annuel).toLocaleString('fr-FR')}€
+                      {((roi?.economies_amendes?.annuelle || 0) + (roi?.gains_productivite?.annuel || 0)).toLocaleString('fr-FR')}€
                     </p>
                   </div>
                   <div>
                     <p className="text-sm text-slate-600">ROI 3 Ans</p>
                     <p className="text-3xl font-bold text-success-700">
-                      {roi.roi.trois_ans.toFixed(0)}%
+                      {roi?.roi?.trois_ans ? roi.roi.trois_ans.toFixed(0) : '0'}%
                     </p>
                   </div>
                   <div className="pt-3 border-t border-success-200">
                     <p className="text-sm font-medium text-slate-700">Breakeven</p>
                     <p className="text-2xl font-bold text-success-900">
-                      {roi.breakeven_mois} mois
+                      {roi?.breakeven_mois || 0} mois
                     </p>
                   </div>
                 </div>
@@ -360,30 +516,30 @@ const AuditResultsPage = () => {
                   </div>
                   <div className="flex items-center gap-2 px-4 py-2 bg-primary-100 text-primary-700 rounded-lg">
                     <span className="material-symbols-outlined">stars</span>
-                    <span className="font-bold text-lg">{pdp.score_match}%</span>
+                    <span className="font-bold text-lg">{pdp?.score_match || 0}%</span>
                   </div>
                 </div>
 
                 <div className="bg-gradient-dreamnova text-white p-6 rounded-xl mb-6">
-                  <h4 className="text-3xl font-bold mb-2">{pdp.provider}</h4>
+                  <h4 className="text-3xl font-bold mb-2">{pdp?.provider || 'PDP Recommandé'}</h4>
                   <div className="flex items-center gap-4 text-white/90">
                     <span className="flex items-center gap-1">
                       <span className="material-symbols-outlined text-sm">euro</span>
-                      {pdp.prix_mensuel}€/mois
+                      {pdp?.prix_mensuel || (pdp as any)?.pricing || 'N/A'}€/mois
                     </span>
                     <span>•</span>
                     <span className="flex items-center gap-1">
                       <span className="material-symbols-outlined text-sm">schedule</span>
-                      {pdp.delai_integration}
+                      {pdp?.delai_integration || 'Non spécifié'}
                     </span>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   <div>
-                    <h5 className="font-bold text-slate-900 mb-3">Pourquoi {pdp.provider} ?</h5>
+                    <h5 className="font-bold text-slate-900 mb-3">Pourquoi {pdp?.provider || 'ce PDP'} ?</h5>
                     <ul className="space-y-2">
-                      {pdp.raisons.map((raison, idx) => (
+                      {(pdp?.raisons || (pdp as any)?.reasons || []).map((raison: string, idx: number) => (
                         <li key={idx} className="flex items-start gap-2 text-sm text-slate-700">
                           <span className="material-symbols-outlined text-success-600 text-lg mt-0.5">
                             check_circle
@@ -396,7 +552,7 @@ const AuditResultsPage = () => {
                   <div>
                     <h5 className="font-bold text-slate-900 mb-3">Fonctionnalités Clés</h5>
                     <ul className="space-y-2">
-                      {pdp.fonctionnalites_cles.map((fonc, idx) => (
+                      {((pdp as any)?.fonctionnalites_cles || (pdp as any)?.features_cles || (pdp as any)?.features || []).map((fonc: string, idx: number) => (
                         <li key={idx} className="flex items-start gap-2 text-sm text-slate-700">
                           <span className="material-symbols-outlined text-primary-600 text-lg mt-0.5">
                             verified
@@ -422,12 +578,15 @@ const AuditResultsPage = () => {
                   Points Critiques à Corriger
                 </h3>
                 <div className="space-y-3">
-                  {audit.points_critiques.map((point, idx) => (
+                  {(audit?.points_critiques || audit?.points_critiques || []).map((point: string, idx: number) => (
                     <div key={idx} className="flex items-start gap-3 p-3 bg-danger-50 rounded-lg border border-danger-200">
                       <span className="material-symbols-outlined text-danger-600 mt-0.5">error</span>
                       <span className="text-sm text-slate-700">{point}</span>
                     </div>
                   ))}
+                  {(!audit?.points_critiques || audit.points_critiques.length === 0) && (
+                    <p className="text-sm text-slate-500 italic">Aucun point critique identifié</p>
+                  )}
                 </div>
               </Card>
             </motion.div>
@@ -444,12 +603,15 @@ const AuditResultsPage = () => {
                   Recommandations
                 </h3>
                 <div className="space-y-3">
-                  {audit.recommandations.map((reco, idx) => (
+                  {(audit?.recommandations || (audit as any)?.recommendations || []).map((reco: string, idx: number) => (
                     <div key={idx} className="flex items-start gap-3 p-3 bg-primary-50 rounded-lg border border-primary-200">
                       <span className="material-symbols-outlined text-primary-600 mt-0.5">check_circle</span>
                       <span className="text-sm text-slate-700">{reco}</span>
                     </div>
                   ))}
+                  {(!audit?.recommandations || audit.recommandations.length === 0) && (
+                    <p className="text-sm text-slate-500 italic">Aucune recommandation disponible</p>
+                  )}
                 </div>
               </Card>
             </motion.div>
@@ -469,19 +631,23 @@ const AuditResultsPage = () => {
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="bg-white p-4 rounded-lg border border-primary-200">
                     <p className="text-sm text-slate-600 mb-1">Durée Estimée</p>
-                    <p className="text-2xl font-bold text-primary-700">{audit.plan_migration.duree_estimee}</p>
+                    <p className="text-2xl font-bold text-primary-700">
+                      {audit?.plan_migration?.duree_estimee || (audit as any)?.migration?.durée_estimée || 'Non spécifié'}
+                    </p>
                   </div>
                   <div className="bg-white p-4 rounded-lg border border-primary-200">
                     <p className="text-sm text-slate-600 mb-1">Coût Total</p>
                     <p className="text-2xl font-bold text-primary-700">
-                      {audit.plan_migration.cout_total.toLocaleString('fr-FR')}€
+                      {audit?.plan_migration?.cout_total 
+                        ? audit.plan_migration.cout_total.toLocaleString('fr-FR') + '€'
+                        : (audit as any)?.migration?.coût_estimé || 'Non spécifié'}
                     </p>
                   </div>
                 </div>
 
                 <h4 className="font-bold text-slate-900 mb-3">Étapes de Migration</h4>
                 <div className="space-y-3 mb-6">
-                  {audit.plan_migration.etapes.map((etape, idx) => (
+                  {(audit?.plan_migration?.etapes || (audit as any)?.migration?.etapes || []).map((etape: string, idx: number) => (
                     <div key={idx} className="flex items-start gap-3">
                       <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-600 text-white font-bold text-sm flex-shrink-0">
                         {idx + 1}
@@ -491,6 +657,9 @@ const AuditResultsPage = () => {
                       </div>
                     </div>
                   ))}
+                  {(!audit?.plan_migration?.etapes || audit.plan_migration.etapes.length === 0) && (
+                    <p className="text-sm text-slate-500 italic">Aucune étape de migration définie</p>
+                  )}
                 </div>
 
                 <div className="pt-6 border-t border-primary-200">
@@ -523,13 +692,13 @@ const AuditResultsPage = () => {
                       <div className="flex justify-between items-center p-2 bg-slate-50 rounded">
                         <span className="text-sm text-slate-600">An 1</span>
                         <span className="font-bold text-slate-900">
-                          {roi.economies_amendes.annuelle.toLocaleString('fr-FR')}€
+                          {(roi?.economies_amendes?.annuelle || 0).toLocaleString('fr-FR')}€
                         </span>
                       </div>
                       <div className="flex justify-between items-center p-2 bg-slate-50 rounded">
                         <span className="text-sm text-slate-600">3 Ans</span>
                         <span className="font-bold text-success-600">
-                          {roi.economies_amendes.trois_ans.toLocaleString('fr-FR')}€
+                          {(roi?.economies_amendes?.trois_ans || 0).toLocaleString('fr-FR')}€
                         </span>
                       </div>
                     </div>
@@ -544,13 +713,13 @@ const AuditResultsPage = () => {
                       <div className="flex justify-between items-center p-2 bg-slate-50 rounded">
                         <span className="text-sm text-slate-600">An 1</span>
                         <span className="font-bold text-slate-900">
-                          {roi.gains_productivite.annuel.toLocaleString('fr-FR')}€
+                          {(roi?.gains_productivite?.annuel || 0).toLocaleString('fr-FR')}€
                         </span>
                       </div>
                       <div className="flex justify-between items-center p-2 bg-slate-50 rounded">
                         <span className="text-sm text-slate-600">3 Ans</span>
                         <span className="font-bold text-success-600">
-                          {roi.gains_productivite.trois_ans.toLocaleString('fr-FR')}€
+                          {(roi?.gains_productivite?.trois_ans || 0).toLocaleString('fr-FR')}€
                         </span>
                       </div>
                     </div>
@@ -563,13 +732,13 @@ const AuditResultsPage = () => {
                       <div>
                         <p className="text-sm text-slate-600 mb-1">ROI Total sur 3 Ans</p>
                         <p className="text-3xl font-bold text-success-700">
-                          {roi.roi.trois_ans.toFixed(0)}%
+                          {roi?.roi?.trois_ans ? roi.roi.trois_ans.toFixed(0) : '0'}%
                         </p>
                       </div>
                       <div className="text-right">
                         <p className="text-sm text-slate-600 mb-1">Économies Totales</p>
                         <p className="text-2xl font-bold text-success-600">
-                          {(roi.economies_amendes.trois_ans + roi.gains_productivite.trois_ans).toLocaleString('fr-FR')}€
+                          {((roi?.economies_amendes?.trois_ans || 0) + (roi?.gains_productivite?.trois_ans || 0)).toLocaleString('fr-FR')}€
                         </p>
                       </div>
                     </div>

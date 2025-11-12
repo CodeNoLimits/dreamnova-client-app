@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { auditAgent, roiAgent, pdpAgent } from '@/adapters/ai/agents'
 import type { CompanyData } from '@/adapters/ai/agents'
+import { createClient } from '@/lib/supabase/client'
 
 interface AuditWizardProps {
   onBack: () => void
@@ -81,15 +82,56 @@ export default function AuditWizardComplete({ onBack }: AuditWizardProps) {
 
       sessionStorage.setItem('auditResults', JSON.stringify(completeResults))
 
-      // TODO: Sauvegarder dans Supabase si authentifié
-      // const { data: { user } } = await supabase.auth.getUser()
-      // if (user) {
-      //   await supabase.from('audits').insert({
-      //     user_id: user.id,
-      //     company_name: companyData.nom,
-      //     audit_data: completeResults
-      //   })
-      // }
+      // ✅ Sauvegarder dans Supabase si authentifié
+      try {
+        const supabase = createClient()
+        const { data: { user } } = await supabase.auth.getUser()
+
+        if (user) {
+          // Mapper les données vers la structure de la table audits
+          const auditData = {
+            user_id: user.id,
+            company_name: companyData.nom,
+
+            // Données entreprise
+            employees: companyData.effectif,
+            sector: companyData.secteur,
+            ca_annuel: companyData.ca_annuel,
+
+            // Données facturation
+            volume_b2b_mensuel: companyData.volume_b2b_mensuel,
+            volume_b2c_mensuel: companyData.volume_b2c_mensuel,
+            solution_actuelle: companyData.solution_actuelle,
+            format_actuel: companyData.format_actuel,
+
+            // Résultats audit
+            score_conformite: auditResult.score_conformite,
+            niveau_risque: auditResult.niveau_risque,
+            amendes_annuelles: auditResult.amendes_potentielles.annuel,
+            amendes_mensuelles: auditResult.amendes_potentielles.mensuel,
+            amendes_3_ans: auditResult.amendes_potentielles.sur_3_ans,
+
+            // Recommandations
+            pdp_recommandé: pdpResult.provider,
+            duree_migration_estimee: auditResult.migration.durée_estimée,
+            cout_estime: auditResult.migration.coût_estimé
+          }
+
+          const { error } = await supabase.from('audits').insert(auditData)
+
+          if (error) {
+            console.error('Erreur sauvegarde Supabase:', error)
+            // On continue même si la sauvegarde échoue (l'audit est dans sessionStorage)
+          } else {
+            console.log('✅ Audit sauvegardé dans Supabase')
+          }
+        } else {
+          console.log('ℹ️ Utilisateur non authentifié - audit sauvegardé en sessionStorage uniquement')
+        }
+      } catch (supabaseError) {
+        console.error('Erreur lors de la sauvegarde Supabase:', supabaseError)
+        // On continue même si la sauvegarde échoue
+      }
 
       // Naviguer vers les résultats
       router.push('/audit-results')

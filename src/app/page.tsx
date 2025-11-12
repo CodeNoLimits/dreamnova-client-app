@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Hero from '@/components/features/Hero'
-import OnboardingFlow from '@/components/features/OnboardingFlow'
+import AuditWizardComplete from '@/components/features/AuditWizardComplete'
 import PenaltyCalculator from '@/components/features/PenaltyCalculator'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
@@ -13,7 +13,7 @@ export default function Home() {
   const [showOnboarding, setShowOnboarding] = useState(false)
 
   if (showOnboarding) {
-    return <OnboardingFlow onBack={() => setShowOnboarding(false)} />
+    return <AuditWizardComplete onBack={() => setShowOnboarding(false)} />
   }
 
   return (
@@ -159,12 +159,18 @@ export default function Home() {
               Approuvé par les plus grandes entreprises françaises
             </p>
             <div className="flex justify-center items-center gap-8 sm:gap-12 flex-wrap">
-              {[1, 2, 3, 4, 5].map((i) => (
+              {[
+                { name: 'Sage', color: 'bg-blue-100' },
+                { name: 'Cegid', color: 'bg-purple-100' },
+                { name: 'Pennylane', color: 'bg-pink-100' },
+                { name: 'Tiime', color: 'bg-green-100' },
+                { name: 'Qonto', color: 'bg-orange-100' },
+              ].map((company, i) => (
                 <div
                   key={i}
-                  className="h-12 w-32 bg-slate-200 rounded-lg flex items-center justify-center opacity-60"
+                  className={`h-16 w-40 ${company.color} rounded-lg flex items-center justify-center border border-slate-200 shadow-sm hover:shadow-md transition-shadow`}
                 >
-                  <span className="text-xs text-slate-500">Logo {i}</span>
+                  <span className="text-sm font-semibold text-slate-700">{company.name}</span>
                 </div>
               ))}
             </div>

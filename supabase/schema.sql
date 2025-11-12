@@ -85,7 +85,56 @@ CREATE TABLE IF NOT EXISTS subscriptions (
 );
 
 -- ============================================
--- 4. TABLE INVOICES (Factures converties)
+-- 4. TABLE DOCUMENTS (Documents uploadés)
+-- ============================================
+CREATE TABLE IF NOT EXISTS documents (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  
+  -- Données fichier
+  file_name TEXT NOT NULL,
+  file_type TEXT NOT NULL,
+  file_size INTEGER,
+  file_url TEXT,
+  
+  -- Conversion
+  converted_format TEXT, -- 'factur-x' | 'ubl' | 'cii' | null
+  status TEXT DEFAULT 'uploaded', -- 'uploaded' | 'converting' | 'converted' | 'error'
+  
+  -- Métadonnées
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- ============================================
+-- 5. TABLE PAIRING_SESSIONS (Sessions de pairing mobile)
+-- ============================================
+CREATE TABLE IF NOT EXISTS pairing_sessions (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  status TEXT DEFAULT 'pending', -- 'pending' | 'paired' | 'expired'
+  mobile_device TEXT,
+  paired_at TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  expires_at TIMESTAMP WITH TIME ZONE NOT NULL
+);
+
+-- ============================================
+-- 6. TABLE MOBILE_UPLOADS (Uploads depuis mobile)
+-- ============================================
+CREATE TABLE IF NOT EXISTS mobile_uploads (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  session_id UUID REFERENCES pairing_sessions(id) ON DELETE CASCADE NOT NULL,
+  document_id UUID REFERENCES documents(id) ON DELETE CASCADE,
+  file_name TEXT NOT NULL,
+  file_type TEXT NOT NULL,
+  file_url TEXT,
+  processed BOOLEAN DEFAULT false,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- ============================================
+-- 7. TABLE INVOICES (Factures converties)
 -- ============================================
 CREATE TABLE IF NOT EXISTS invoices (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -115,6 +164,9 @@ CREATE TABLE IF NOT EXISTS invoices (
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE audits ENABLE ROW LEVEL SECURITY;
 ALTER TABLE subscriptions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
+ALTER TABLE pairing_sessions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE mobile_uploads ENABLE ROW LEVEL SECURITY;
 ALTER TABLE invoices ENABLE ROW LEVEL SECURITY;
 
 -- ============================================
@@ -175,7 +227,76 @@ CREATE POLICY "Users can update own subscriptions"
   USING (auth.uid() = user_id);
 
 -- ============================================
--- 9. POLITIQUES RLS - INVOICES
+-- 9. POLITIQUES RLS - DOCUMENTS
+-- ============================================
+
+-- Les utilisateurs peuvent voir leurs propres documents
+CREATE POLICY "Users can view own documents"
+  ON documents FOR SELECT
+  USING (auth.uid() = user_id);
+
+-- Les utilisateurs peuvent créer leurs propres documents
+CREATE POLICY "Users can create own documents"
+  ON documents FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
+
+-- Les utilisateurs peuvent mettre à jour leurs propres documents
+CREATE POLICY "Users can update own documents"
+  ON documents FOR UPDATE
+  USING (auth.uid() = user_id);
+
+-- Les utilisateurs peuvent supprimer leurs propres documents
+CREATE POLICY "Users can delete own documents"
+  ON documents FOR DELETE
+  USING (auth.uid() = user_id);
+
+-- ============================================
+-- 10. POLITIQUES RLS - PAIRING_SESSIONS
+-- ============================================
+
+-- Les utilisateurs peuvent voir leurs propres sessions
+CREATE POLICY "Users can view own pairing sessions"
+  ON pairing_sessions FOR SELECT
+  USING (auth.uid() = user_id);
+
+-- Les utilisateurs peuvent créer leurs propres sessions
+CREATE POLICY "Users can create own pairing sessions"
+  ON pairing_sessions FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
+
+-- Les utilisateurs peuvent mettre à jour leurs propres sessions
+CREATE POLICY "Users can update own pairing sessions"
+  ON pairing_sessions FOR UPDATE
+  USING (auth.uid() = user_id);
+
+-- ============================================
+-- 11. POLITIQUES RLS - MOBILE_UPLOADS
+-- ============================================
+
+-- Les utilisateurs peuvent voir leurs propres uploads via leurs sessions
+CREATE POLICY "Users can view own mobile uploads"
+  ON mobile_uploads FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM pairing_sessions
+      WHERE pairing_sessions.id = mobile_uploads.session_id
+      AND pairing_sessions.user_id = auth.uid()
+    )
+  );
+
+-- Les utilisateurs peuvent créer leurs propres uploads via leurs sessions
+CREATE POLICY "Users can create own mobile uploads"
+  ON mobile_uploads FOR INSERT
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM pairing_sessions
+      WHERE pairing_sessions.id = mobile_uploads.session_id
+      AND pairing_sessions.user_id = auth.uid()
+    )
+  );
+
+-- ============================================
+-- 12. POLITIQUES RLS - INVOICES
 -- ============================================
 
 -- Les utilisateurs peuvent voir leurs propres factures
@@ -237,6 +358,10 @@ CREATE TRIGGER update_audits_updated_at
 
 CREATE TRIGGER update_subscriptions_updated_at
   BEFORE UPDATE ON subscriptions
+  FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
+
+CREATE TRIGGER update_documents_updated_at
+  BEFORE UPDATE ON documents
   FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
 
 -- ============================================
