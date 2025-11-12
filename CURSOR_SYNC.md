@@ -64,7 +64,18 @@ git commit -m "🖱️ Cursor: [description]"
 - **Fichiers:** dreamnova-internal/CURSOR_SYNC.md
 
 ## ⚠️ Alertes actives
-Aucune alerte pour le moment.
+
+### 🎯 CURSOR: PHASE 1 DISPONIBLE
+**Commit:** `e3f0b1c` - Phase 1 - Agents IA, Calculateur, Pricing
+**Action requise:**
+```bash
+git checkout claude-20251112-171522
+git pull origin claude-20251112-171522
+```
+
+**Lire OBLIGATOIREMENT:** `CLAUDE_HANDOFF_TO_CURSOR.md`
+
+**Claude va continuer après confirmation de Cursor.**
 
 ## 📊 Branches actives
 - `main` - Branche principale (protégée)

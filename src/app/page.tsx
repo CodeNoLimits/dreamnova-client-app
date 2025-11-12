@@ -151,29 +151,112 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-primary-600 to-primary-800 text-white">
-        <div className="container mx-auto px-6 max-w-4xl text-center">
-          <h2 className="text-4xl font-bold mb-4">Secure Your Compliance Future Today</h2>
-          <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
-            Don't wait for deadlines to become emergencies. Partner with DreamNova to automate
-            compliance, reduce costs, and focus on what you do best—growing your business.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/pricing">
-              <Button size="lg" variant="secondary" className="bg-white text-primary-600">
-                Voir nos offres
-              </Button>
-            </Link>
-            <Button
-              size="lg"
-              variant="ghost"
-              className="border-2 border-white text-white hover:bg-white/10"
-              onClick={() => setShowOnboarding(true)}
-            >
-              Audit gratuit
-            </Button>
+      {/* Social Proof Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <div className="text-center mb-12">
+            <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">
+              Approuvé par les plus grandes entreprises françaises
+            </p>
+            <div className="flex justify-center items-center gap-8 sm:gap-12 flex-wrap">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div
+                  key={i}
+                  className="h-12 w-32 bg-slate-200 rounded-lg flex items-center justify-center opacity-60"
+                >
+                  <span className="text-xs text-slate-500">Logo {i}</span>
+                </div>
+              ))}
+            </div>
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {[
+              {
+                icon: 'lock',
+                title: 'ISO 27001',
+                desc: 'Certifié sécurité',
+              },
+              {
+                icon: 'verified',
+                title: 'GDPR Ready',
+                desc: '100% conforme',
+              },
+              {
+                icon: 'security',
+                title: 'SecNumCloud',
+                desc: 'Hébergement sécurisé',
+              },
+            ].map((badge, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl"
+              >
+                <div className="w-12 h-12 rounded-lg bg-primary-100 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-primary-600 text-2xl">
+                    {badge.icon}
+                  </span>
+                </div>
+                <div>
+                  <div className="font-bold text-slate-900">{badge.title}</div>
+                  <div className="text-sm text-slate-600">{badge.desc}</div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-6 max-w-4xl text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Préparez-vous à la conformité 2026
+            </h2>
+            <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
+              Ne laissez pas les deadlines devenir des urgences. Partenaires avec DreamNova pour
+              automatiser votre conformité, réduire les coûts et vous concentrer sur ce qui compte
+              vraiment : faire grandir votre entreprise.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/pricing">
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="bg-white text-primary-600 hover:bg-primary-50 shadow-xl"
+                >
+                  Découvrir nos offres
+                </Button>
+              </Link>
+              <Button
+                size="lg"
+                variant="ghost"
+                className="border-2 border-white text-white hover:bg-white/10 backdrop-blur-sm"
+                onClick={() => setShowOnboarding(true)}
+              >
+                Audit gratuit en 2 minutes
+              </Button>
+            </div>
+            <p className="mt-6 text-sm text-primary-200">
+              ✅ Sans engagement • ✅ 100% gratuit • ✅ Résultats immédiats
+            </p>
+          </motion.div>
         </div>
       </section>
     </main>

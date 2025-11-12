@@ -6,71 +6,81 @@ import Link from 'next/link'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 
+// Types from our 3 AI Agents
+interface CompanyData {
+  nom_entreprise: string
+  secteur_activite: string
+  taille_entreprise: string
+  nombre_employes: number
+  ca_annuel: number
+  volume_factures_b2b: number
+  volume_factures_b2c: number
+  logiciel_actuel?: string
+  format_actuel: string
+}
+
 interface AuditResult {
-  overallScore: number
-  criticalIssues: number
-  warnings: number
-  compliant: number
-  competitorAverage: number
-  issues: Array<{
-    id: string
-    requirement: string
-    status: 'critical' | 'warning' | 'compliant'
-    costBenefit: string
-  }>
+  score_conformite: number
+  niveau_risque: 'CRITIQUE' | 'ÉLEVÉ' | 'MODÉRÉ' | 'FAIBLE'
+  amendes_potentielles: {
+    mensuelle: number
+    annuelle: number
+    pa_manquante: number
+  }
+  plan_migration: {
+    duree_estimee: string
+    cout_total: number
+    etapes: string[]
+  }
+  points_critiques: string[]
+  recommandations: string[]
+}
+
+interface ROICalculation {
+  economies_amendes: {
+    annuelle: number
+    trois_ans: number
+  }
+  gains_productivite: {
+    annuel: number
+    trois_ans: number
+  }
+  roi: {
+    mensuel: number
+    annuel: number
+    trois_ans: number
+  }
+  breakeven_mois: number
+}
+
+interface PDPRecommendation {
+  provider: string
+  score_match: number
+  raisons: string[]
+  prix_mensuel: number
+  delai_integration: string
+  fonctionnalites_cles: string[]
+}
+
+interface StoredAuditResults {
+  company: CompanyData
+  audit: AuditResult
+  roi: ROICalculation
+  pdp: PDPRecommendation
 }
 
 const AuditResultsPage = () => {
-  const [results, setResults] = useState<AuditResult | null>(null)
+  const [results, setResults] = useState<StoredAuditResults | null>(null)
   const [isGenerating, setIsGenerating] = useState(true)
 
   useEffect(() => {
     // Get audit results from sessionStorage
     const storedResults = sessionStorage.getItem('auditResults')
-    
+
     if (storedResults) {
       try {
-        const data = JSON.parse(storedResults)
-        
-        // Calculate issues based on score and penalties
-        const score = data.score || 68
-        const criticalCount = score < 50 ? 12 : score < 70 ? 8 : 4
-        const warningCount = score < 50 ? 29 : score < 70 ? 20 : 10
-        const compliantCount = 127 - criticalCount - warningCount
-
-        setResults({
-          overallScore: score,
-          criticalIssues: criticalCount,
-          warnings: warningCount,
-          compliant: compliantCount,
-          competitorAverage: 73,
-          issues: [
-            {
-              id: '1',
-              requirement: 'Absence de format de facture conforme EN 16931',
-              status: 'critical',
-              costBenefit: `€2,500 implémentation vs ${data.penalties?.annual?.toLocaleString('fr-FR') || '15,000'}€ amendes annuelles`,
-            },
-            {
-              id: '2',
-              requirement: 'Aucune Plateforme d\'Agrément (PA) configurée',
-              status: 'critical',
-              costBenefit: '€500 setup + €1,000/trimestre vs €4,500 amendes annuelles',
-            },
-            {
-              id: '3',
-              requirement: 'Capacité de génération Factur-X PDF manquante',
-              status: 'warning',
-              costBenefit: '€1,200 intégration vs €3,000 risque annuel',
-            },
-            {
-              id: '4',
-              requirement: 'Format UBL 2.1 XML non supporté',
-              status: 'warning',
-              costBenefit: '€800 développement vs €2,000 risque annuel',
-            },
-          ],
-        })
+        const data: StoredAuditResults = JSON.parse(storedResults)
+        setResults(data)
         setIsGenerating(false)
       } catch (error) {
         console.error('Failed to parse stored results:', error)
@@ -78,73 +88,58 @@ const AuditResultsPage = () => {
       }
     } else {
       // Fallback if no stored results
-      setTimeout(() => {
-        setResults({
-          overallScore: 68,
-          criticalIssues: 12,
-          warnings: 29,
-          compliant: 86,
-          competitorAverage: 73,
-          issues: [
-            {
-              id: '1',
-              requirement: 'Absence de format de facture conforme EN 16931',
-              status: 'critical',
-              costBenefit: '€2,500 implémentation vs €15,000 amendes annuelles',
-            },
-            {
-              id: '2',
-              requirement: 'Aucune Plateforme d\'Agrément (PA) configurée',
-              status: 'critical',
-              costBenefit: '€500 setup + €1,000/trimestre vs €4,500 amendes annuelles',
-            },
-            {
-              id: '3',
-              requirement: 'Capacité de génération Factur-X PDF manquante',
-              status: 'warning',
-              costBenefit: '€1,200 intégration vs €3,000 risque annuel',
-            },
-            {
-              id: '4',
-              requirement: 'Format UBL 2.1 XML non supporté',
-              status: 'warning',
-              costBenefit: '€800 développement vs €2,000 risque annuel',
-            },
-          ],
-        })
-        setIsGenerating(false)
-      }, 1000)
+      setIsGenerating(false)
     }
   }, [])
 
-  if (isGenerating || !results) {
+  if (isGenerating) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-          <p className="text-slate-600">Génération de votre rapport d'audit...</p>
+          <p className="text-slate-600 text-lg">Génération de votre rapport d'audit complet...</p>
+          <p className="text-slate-500 text-sm mt-2">Analyse par nos 3 agents IA spécialisés</p>
         </div>
       </div>
     )
   }
 
+  if (!results) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <Card className="p-8 max-w-md text-center">
+          <span className="material-symbols-outlined text-6xl text-slate-400 mb-4">error</span>
+          <h2 className="text-xl font-bold text-slate-900 mb-2">Aucun résultat trouvé</h2>
+          <p className="text-slate-600 mb-6">Veuillez d'abord compléter l'audit de conformité.</p>
+          <Link href="/">
+            <Button>Démarrer un audit</Button>
+          </Link>
+        </Card>
+      </div>
+    )
+  }
+
+  const { company, audit, roi, pdp } = results
+
   const scoreColor =
-    results.overallScore >= 80
+    audit.score_conformite >= 80
       ? 'text-success-600'
-      : results.overallScore >= 60
+      : audit.score_conformite >= 60
       ? 'text-warning-600'
       : 'text-danger-600'
 
-  const statusColors = {
-    critical: 'bg-danger-100 text-danger-700 dark:bg-danger-900/50 dark:text-danger-300',
-    warning: 'bg-warning-100 text-warning-700 dark:bg-warning-900/50 dark:text-warning-300',
-    compliant: 'bg-success-100 text-success-700 dark:bg-success-900/50 dark:text-success-300',
+  const riskColor = {
+    'CRITIQUE': 'bg-danger-100 text-danger-700 border-danger-300',
+    'ÉLEVÉ': 'bg-orange-100 text-orange-700 border-orange-300',
+    'MODÉRÉ': 'bg-warning-100 text-warning-700 border-warning-300',
+    'FAIBLE': 'bg-success-100 text-success-700 border-success-300',
   }
 
-  const statusLabels = {
-    critical: 'Critique',
-    warning: 'Avertissement',
-    compliant: 'Conforme',
+  const riskIcon = {
+    'CRITIQUE': 'dangerous',
+    'ÉLEVÉ': 'warning',
+    'MODÉRÉ': 'info',
+    'FAIBLE': 'check_circle',
   }
 
   return (
@@ -160,7 +155,7 @@ const AuditResultsPage = () => {
                 </div>
                 <div>
                   <h1 className="text-xl font-bold text-slate-900">DreamNova Compta</h1>
-                  <p className="text-sm text-slate-500">Résultats de l'audit</p>
+                  <p className="text-sm text-slate-500">Rapport d'Audit Conformité 2026</p>
                 </div>
               </div>
             </Link>
@@ -178,212 +173,389 @@ const AuditResultsPage = () => {
       </header>
 
       <main className="container mx-auto px-6 py-8 max-w-7xl">
+        {/* Company Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8"
+        >
+          <h2 className="text-3xl font-bold text-slate-900 mb-2">{company.nom_entreprise}</h2>
+          <p className="text-slate-600">
+            {company.secteur_activite} • {company.taille_entreprise} • {company.nombre_employes} employés • {(company.ca_annuel / 1000000).toFixed(1)}M€ CA
+          </p>
+        </motion.div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column: Stats */}
+          {/* Left Column: Key Metrics */}
           <div className="lg:col-span-1 space-y-6">
             {/* Overall Score */}
-            <Card className="p-6">
-              <div className="space-y-4">
-                <div>
-                  <p className="text-sm font-medium text-slate-600 mb-2">Score Global</p>
-                  <div className="flex items-baseline gap-2">
-                    <p className={`text-4xl font-bold ${scoreColor}`}>{results.overallScore}%</p>
-                    <span className="text-sm font-medium text-danger-600">
-                      -15% depuis dernier audit
-                    </span>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1 }}
+            >
+              <Card className="p-6">
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-sm font-medium text-slate-600 mb-2">Score de Conformité</p>
+                    <div className="flex items-baseline gap-2">
+                      <p className={`text-5xl font-bold ${scoreColor}`}>{audit.score_conformite}%</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <div className="relative w-32 h-32">
+                      <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                        <circle
+                          cx="18"
+                          cy="18"
+                          r="16"
+                          fill="none"
+                          stroke="#e2e8f0"
+                          strokeWidth="3"
+                        />
+                        <circle
+                          cx="18"
+                          cy="18"
+                          r="16"
+                          fill="none"
+                          stroke={audit.score_conformite >= 80 ? '#10b981' : audit.score_conformite >= 60 ? '#f59e0b' : '#ef4444'}
+                          strokeWidth="3"
+                          strokeDasharray={`${audit.score_conformite}, 100`}
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-2xl font-bold text-slate-900">
+                          {audit.score_conformite}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={`flex items-center gap-2 p-3 rounded-lg border ${riskColor[audit.niveau_risque]}`}>
+                    <span className="material-symbols-outlined">{riskIcon[audit.niveau_risque]}</span>
+                    <span className="font-bold">Risque {audit.niveau_risque}</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="relative w-24 h-24">
-                    <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                      <circle
-                        cx="18"
-                        cy="18"
-                        r="16"
-                        fill="none"
-                        stroke="#e2e8f0"
-                        strokeWidth="3"
-                      />
-                      <circle
-                        cx="18"
-                        cy="18"
-                        r="16"
-                        fill="none"
-                        stroke={results.overallScore >= 60 ? '#f59e0b' : '#ef4444'}
-                        strokeWidth="3"
-                        strokeDasharray={`${results.overallScore}, 100`}
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-xl font-bold text-slate-900">
-                        {results.criticalIssues}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-2 text-sm">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-danger-500"></span>
-                      <span className="font-medium text-slate-900">
-                        {results.criticalIssues} Critiques
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-warning-500"></span>
-                      <span className="font-medium text-slate-900">
-                        {results.warnings} Avertissements
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-success-500"></span>
-                      <span className="font-medium text-slate-900">
-                        {results.compliant} Conformes
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
+              </Card>
+            </motion.div>
 
-            {/* Competitor Comparison */}
-            <Card className="p-6">
-              <h3 className="text-lg font-bold text-slate-900 mb-4">Comparaison Secteur</h3>
-              <div className="flex items-center gap-4 mb-4">
-                <span className="material-symbols-outlined text-4xl text-primary-600">
-                  shield_with_house
-                </span>
-                <div>
-                  <p className="text-sm text-slate-600">Vos concurrents sont</p>
-                  <p className="text-2xl font-bold text-slate-900">
-                    {results.competitorAverage}% conformes en moyenne
-                  </p>
+            {/* Penalties */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              <Card className="p-6 border-2 border-danger-300 bg-danger-50/50">
+                <h3 className="text-lg font-bold text-danger-700 mb-4 flex items-center gap-2">
+                  <span className="material-symbols-outlined">error</span>
+                  Amendes Potentielles
+                </h3>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-sm text-slate-600">Mensuelle</p>
+                    <p className="text-2xl font-bold text-danger-600">
+                      {audit.amendes_potentielles.mensuelle.toLocaleString('fr-FR')}€
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-600">Annuelle (factures)</p>
+                    <p className="text-3xl font-bold text-danger-700">
+                      {audit.amendes_potentielles.annuelle.toLocaleString('fr-FR')}€
+                    </p>
+                  </div>
+                  {audit.amendes_potentielles.pa_manquante > 0 && (
+                    <div className="pt-3 border-t border-danger-200">
+                      <p className="text-sm text-slate-600">PA manquante (an 1)</p>
+                      <p className="text-xl font-bold text-danger-600">
+                        +{audit.amendes_potentielles.pa_manquante.toLocaleString('fr-FR')}€
+                      </p>
+                    </div>
+                  )}
+                  <div className="pt-3 border-t border-danger-200">
+                    <p className="text-sm font-medium text-slate-700">Total An 1</p>
+                    <p className="text-4xl font-bold text-danger-900">
+                      {(audit.amendes_potentielles.annuelle + audit.amendes_potentielles.pa_manquante).toLocaleString('fr-FR')}€
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="w-full bg-slate-200 rounded-full h-2.5 mb-2">
-                <div
-                  className="bg-success-500 h-2.5 rounded-full"
-                  style={{ width: `${results.competitorAverage}%` }}
-                ></div>
-              </div>
-              <p className="text-xs text-slate-500">
-                Votre score est {results.competitorAverage - results.overallScore}% en dessous de la
-                moyenne du secteur.
-              </p>
-            </Card>
+              </Card>
+            </motion.div>
 
-            {/* Priority Matrix */}
-            <Card className="p-6">
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Priorités d'Action</h3>
-              <p className="text-xs text-slate-500 mb-4">
-                Problèmes classés par urgence et impact business.
-              </p>
-              <div className="relative w-full aspect-square bg-slate-50 rounded-lg p-4 flex flex-col">
-                <div className="flex-1 grid grid-cols-2 grid-rows-2 gap-px bg-slate-200">
-                  <div className="bg-white p-2 flex items-center justify-center text-center text-xs text-slate-500">
-                    <span>
-                      Impact Faible
-                      <br />
-                      Urgence Faible
-                    </span>
+            {/* ROI Summary */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              <Card className="p-6 border-2 border-success-300 bg-success-50/50">
+                <h3 className="text-lg font-bold text-success-700 mb-4 flex items-center gap-2">
+                  <span className="material-symbols-outlined">trending_up</span>
+                  ROI de la Conformité
+                </h3>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-sm text-slate-600">ROI Annuel</p>
+                    <p className="text-4xl font-bold text-success-700">
+                      {roi.roi.annuel.toFixed(0)}%
+                    </p>
                   </div>
-                  <div className="bg-white p-2 flex items-center justify-center text-center text-xs text-slate-500">
-                    <span>
-                      Impact Élevé
-                      <br />
-                      Urgence Faible
-                    </span>
+                  <div>
+                    <p className="text-sm text-slate-600">Économies An 1</p>
+                    <p className="text-2xl font-bold text-success-600">
+                      {(roi.economies_amendes.annuelle + roi.gains_productivite.annuel).toLocaleString('fr-FR')}€
+                    </p>
                   </div>
-                  <div className="bg-white p-2 flex items-center justify-center text-center text-xs text-slate-500">
-                    <span>
-                      Impact Faible
-                      <br />
-                      Urgence Élevée
-                    </span>
+                  <div>
+                    <p className="text-sm text-slate-600">ROI 3 Ans</p>
+                    <p className="text-3xl font-bold text-success-700">
+                      {roi.roi.trois_ans.toFixed(0)}%
+                    </p>
                   </div>
-                  <div className="bg-white p-2 flex items-center justify-center text-center text-xs text-slate-500">
-                    <span>
-                      Impact Élevé
-                      <br />
-                      Urgence Élevée
-                    </span>
+                  <div className="pt-3 border-t border-success-200">
+                    <p className="text-sm font-medium text-slate-700">Breakeven</p>
+                    <p className="text-2xl font-bold text-success-900">
+                      {roi.breakeven_mois} mois
+                    </p>
                   </div>
                 </div>
-                {/* Data points */}
-                <div className="absolute w-3 h-3 rounded-full bg-danger-500" style={{ top: '15%', right: '15%' }}></div>
-                <div className="absolute w-3 h-3 rounded-full bg-danger-500" style={{ top: '20%', right: '25%' }}></div>
-                <div className="absolute w-3 h-3 rounded-full bg-warning-500" style={{ top: '30%', right: '60%' }}></div>
-                <div className="absolute w-3 h-3 rounded-full bg-warning-500" style={{ bottom: '35%', left: '30%' }}></div>
-              </div>
-            </Card>
+              </Card>
+            </motion.div>
           </div>
 
-          {/* Right Column: Detailed Breakdown */}
+          {/* Right Column: Detailed Analysis */}
           <div className="lg:col-span-2 space-y-6">
-            <Card className="p-6">
-              <div className="mb-6">
-                <h2 className="text-xl font-bold text-slate-900 mb-1">
-                  Analyse Détaillée (127 Points)
-                </h2>
-                <p className="text-sm text-slate-500">
-                  Analyse détaillée de chaque exigence de conformité.
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                {results.issues.map((issue) => (
-                  <div
-                    key={issue.id}
-                    className="grid grid-cols-12 gap-4 items-center p-4 rounded-lg hover:bg-slate-50 border border-slate-200"
-                  >
-                    <div className="col-span-6">
-                      <p className="font-medium text-sm text-slate-800">{issue.requirement}</p>
-                    </div>
-                    <div className="col-span-2 text-center">
-                      <span
-                        className={`inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-xs font-medium ${statusColors[issue.status]}`}
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
-                        {statusLabels[issue.status]}
-                      </span>
-                    </div>
-                    <div className="col-span-3">
-                      <p className="text-xs text-slate-600">{issue.costBenefit}</p>
-                    </div>
-                    <div className="col-span-1 text-right">
-                      <button className="text-slate-400 hover:text-slate-600">
-                        <span className="material-symbols-outlined text-lg">chevron_right</span>
-                      </button>
-                    </div>
+            {/* PDP Recommendation */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <Card className="p-6 border-2 border-primary-300">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-1">Plateforme Recommandée</h3>
+                    <p className="text-sm text-slate-600">Analyse par Agent IA #3 - Recommandations PDP</p>
                   </div>
-                ))}
-              </div>
-            </Card>
+                  <div className="flex items-center gap-2 px-4 py-2 bg-primary-100 text-primary-700 rounded-lg">
+                    <span className="material-symbols-outlined">stars</span>
+                    <span className="font-bold text-lg">{pdp.score_match}%</span>
+                  </div>
+                </div>
 
-            {/* Action Plan */}
-            <Card className="p-6 border-2 border-primary-500 bg-primary-50/50">
-              <h3 className="text-xl font-bold text-primary-700 mb-4">Plan d'Action Recommandé</h3>
-              <div className="space-y-3">
-                {[
-                  'Configurer une Plateforme d\'Agrément (PA) dans les 30 jours',
-                  'Migrer vers le format Factur-X pour toutes les factures B2B',
-                  'Former l\'équipe aux nouvelles obligations réglementaires',
-                ].map((action, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    <span className="material-symbols-outlined text-primary-600 mt-0.5">
-                      check_circle
+                <div className="bg-gradient-dreamnova text-white p-6 rounded-xl mb-6">
+                  <h4 className="text-3xl font-bold mb-2">{pdp.provider}</h4>
+                  <div className="flex items-center gap-4 text-white/90">
+                    <span className="flex items-center gap-1">
+                      <span className="material-symbols-outlined text-sm">euro</span>
+                      {pdp.prix_mensuel}€/mois
                     </span>
-                    <span className="text-slate-700">{action}</span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1">
+                      <span className="material-symbols-outlined text-sm">schedule</span>
+                      {pdp.delai_integration}
+                    </span>
                   </div>
-                ))}
-              </div>
-              <div className="mt-6 pt-6 border-t border-primary-200">
-                <Link href="/pricing">
-                  <Button className="w-full" size="lg">
-                    Découvrir nos solutions de conformité
-                  </Button>
-                </Link>
-              </div>
-            </Card>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                  <div>
+                    <h5 className="font-bold text-slate-900 mb-3">Pourquoi {pdp.provider} ?</h5>
+                    <ul className="space-y-2">
+                      {pdp.raisons.map((raison, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-sm text-slate-700">
+                          <span className="material-symbols-outlined text-success-600 text-lg mt-0.5">
+                            check_circle
+                          </span>
+                          <span>{raison}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-slate-900 mb-3">Fonctionnalités Clés</h5>
+                    <ul className="space-y-2">
+                      {pdp.fonctionnalites_cles.map((fonc, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-sm text-slate-700">
+                          <span className="material-symbols-outlined text-primary-600 text-lg mt-0.5">
+                            verified
+                          </span>
+                          <span>{fonc}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+
+            {/* Critical Points */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <Card className="p-6">
+                <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-danger-600">priority_high</span>
+                  Points Critiques à Corriger
+                </h3>
+                <div className="space-y-3">
+                  {audit.points_critiques.map((point, idx) => (
+                    <div key={idx} className="flex items-start gap-3 p-3 bg-danger-50 rounded-lg border border-danger-200">
+                      <span className="material-symbols-outlined text-danger-600 mt-0.5">error</span>
+                      <span className="text-sm text-slate-700">{point}</span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            </motion.div>
+
+            {/* Recommendations */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <Card className="p-6">
+                <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-primary-600">lightbulb</span>
+                  Recommandations
+                </h3>
+                <div className="space-y-3">
+                  {audit.recommandations.map((reco, idx) => (
+                    <div key={idx} className="flex items-start gap-3 p-3 bg-primary-50 rounded-lg border border-primary-200">
+                      <span className="material-symbols-outlined text-primary-600 mt-0.5">check_circle</span>
+                      <span className="text-sm text-slate-700">{reco}</span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            </motion.div>
+
+            {/* Migration Plan */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              <Card className="p-6 border-2 border-primary-300 bg-primary-50/50">
+                <h3 className="text-xl font-bold text-primary-700 mb-4 flex items-center gap-2">
+                  <span className="material-symbols-outlined">map</span>
+                  Plan de Migration
+                </h3>
+
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="bg-white p-4 rounded-lg border border-primary-200">
+                    <p className="text-sm text-slate-600 mb-1">Durée Estimée</p>
+                    <p className="text-2xl font-bold text-primary-700">{audit.plan_migration.duree_estimee}</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg border border-primary-200">
+                    <p className="text-sm text-slate-600 mb-1">Coût Total</p>
+                    <p className="text-2xl font-bold text-primary-700">
+                      {audit.plan_migration.cout_total.toLocaleString('fr-FR')}€
+                    </p>
+                  </div>
+                </div>
+
+                <h4 className="font-bold text-slate-900 mb-3">Étapes de Migration</h4>
+                <div className="space-y-3 mb-6">
+                  {audit.plan_migration.etapes.map((etape, idx) => (
+                    <div key={idx} className="flex items-start gap-3">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-600 text-white font-bold text-sm flex-shrink-0">
+                        {idx + 1}
+                      </div>
+                      <div className="flex-1 bg-white p-3 rounded-lg border border-primary-200">
+                        <span className="text-sm text-slate-700">{etape}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-6 border-t border-primary-200">
+                  <Link href="/pricing">
+                    <Button className="w-full" size="lg">
+                      <span className="material-symbols-outlined mr-2">rocket_launch</span>
+                      Découvrir nos Solutions de Conformité
+                    </Button>
+                  </Link>
+                </div>
+              </Card>
+            </motion.div>
+
+            {/* ROI Breakdown */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+            >
+              <Card className="p-6">
+                <h3 className="text-xl font-bold text-slate-900 mb-4">Détail du ROI</h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                      <span className="material-symbols-outlined text-danger-600">block</span>
+                      Économies sur Amendes
+                    </h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center p-2 bg-slate-50 rounded">
+                        <span className="text-sm text-slate-600">An 1</span>
+                        <span className="font-bold text-slate-900">
+                          {roi.economies_amendes.annuelle.toLocaleString('fr-FR')}€
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center p-2 bg-slate-50 rounded">
+                        <span className="text-sm text-slate-600">3 Ans</span>
+                        <span className="font-bold text-success-600">
+                          {roi.economies_amendes.trois_ans.toLocaleString('fr-FR')}€
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                      <span className="material-symbols-outlined text-success-600">speed</span>
+                      Gains de Productivité
+                    </h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center p-2 bg-slate-50 rounded">
+                        <span className="text-sm text-slate-600">An 1</span>
+                        <span className="font-bold text-slate-900">
+                          {roi.gains_productivite.annuel.toLocaleString('fr-FR')}€
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center p-2 bg-slate-50 rounded">
+                        <span className="text-sm text-slate-600">3 Ans</span>
+                        <span className="font-bold text-success-600">
+                          {roi.gains_productivite.trois_ans.toLocaleString('fr-FR')}€
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 pt-6 border-t border-slate-200">
+                  <div className="bg-success-50 p-4 rounded-lg border border-success-200">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-slate-600 mb-1">ROI Total sur 3 Ans</p>
+                        <p className="text-3xl font-bold text-success-700">
+                          {roi.roi.trois_ans.toFixed(0)}%
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-slate-600 mb-1">Économies Totales</p>
+                        <p className="text-2xl font-bold text-success-600">
+                          {(roi.economies_amendes.trois_ans + roi.gains_productivite.trois_ans).toLocaleString('fr-FR')}€
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </main>
@@ -392,4 +564,3 @@ const AuditResultsPage = () => {
 }
 
 export default AuditResultsPage
-

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // output: 'export', // Retiré pour permettre API routes (authentification Supabase)
   reactStrictMode: true,
   swcMinify: true,
   images: {
