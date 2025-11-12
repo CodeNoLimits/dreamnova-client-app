@@ -400,137 +400,42 @@ const LoginPage = () => {
                 try {
                   const supabase = createClient()
                   
-                  // Générer un email et mot de passe unique pour le testeur
-                  // Format COURT pour éviter erreur "email too long"
-                  const shortId = Date.now().toString().slice(-6) // 6 derniers chiffres
-                  const randomStr = Math.random().toString(36).substring(2, 5) // 3 lettres
-                  const testEmail = `test${shortId}${randomStr}@dreamnova.app`
-                  const testPassword = `Test${shortId}${randomStr}!`
-                  
-                  // Créer le compte avec email/password
-                  const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-                    email: testEmail,
-                    password: testPassword,
-                    options: {
-                      emailRedirectTo: `${getBaseUrl()}/dashboard`,
-                      data: {
-                        company_name: 'Entreprise Test',
-                        is_tester: true,
-                      },
-                    },
+                  // Utiliser la route API dédiée pour créer/se connecter au compte testeur
+                  const response = await fetch('/api/auth/tester', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                   })
 
-                  if (signUpError) {
-                    // Si le compte existe déjà, essayer de se connecter
-                    if (signUpError.message.includes('already registered') || signUpError.message.includes('User already registered')) {
-                      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-                        email: testEmail,
-                        password: testPassword,
-                      })
+                  const result = await response.json()
 
-                      if (signInError) {
-                        throw new Error('Erreur de connexion. Veuillez réessayer.')
-                      }
-
-                      if (!signInData.user) {
-                        throw new Error('Erreur: Utilisateur non trouvé')
-                      }
-
-                      // Vérifier/créer le profil et l'abonnement
-                      await supabase.from('profiles').upsert({
-                        id: signInData.user.id,
-                        full_name: 'Testeur Growth',
-                        company_name: 'Entreprise Test',
-                      }, { onConflict: 'id' })
-
-                      await supabase.from('subscriptions').upsert({
-                        user_id: signInData.user.id,
-                        plan_type: 'growth',
-                        status: 'active',
-                        started_at: new Date().toISOString(),
-                        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-                      }, { onConflict: 'user_id' })
-
-                      if (signInData.session) {
-                        await supabase.auth.setSession({
-                          access_token: signInData.session.access_token,
-                          refresh_token: signInData.session.refresh_token,
-                        })
-                      }
-
-                      setSuccess('Connexion réussie ! Redirection...')
-                      setTimeout(() => {
-                        router.push('/dashboard')
-                        router.refresh()
-                      }, 500)
-                      return
-                    }
-                    throw signUpError
+                  if (!response.ok) {
+                    // Afficher l'erreur détaillée
+                    throw new Error(result.details || result.error || 'Erreur lors de la connexion testeur')
                   }
 
-                  if (!signUpData.user) {
-                    throw new Error('Erreur: Utilisateur non créé')
+                  if (!result.session) {
+                    throw new Error('Erreur: Session non créée')
                   }
 
-                  // Créer le profil
-                  const { error: profileError } = await supabase.from('profiles').upsert({
-                    id: signUpData.user.id,
-                    full_name: 'Testeur Growth',
-                    company_name: 'Entreprise Test',
-                  }, {
-                    onConflict: 'id'
+                  // Forcer la session côté client
+                  const { error: sessionError } = await supabase.auth.setSession({
+                    access_token: result.session.access_token,
+                    refresh_token: result.session.refresh_token,
                   })
 
-                  if (profileError) {
-                    console.error('Erreur profil:', profileError)
+                  if (sessionError) {
+                    console.error('Erreur session:', sessionError)
+                    throw new Error('Erreur lors de la création de la session')
                   }
 
-                  // Créer l'abonnement Growth
-                  const { error: subError } = await supabase.from('subscriptions').upsert({
-                    user_id: signUpData.user.id,
-                    plan_type: 'growth',
-                    status: 'active',
-                    started_at: new Date().toISOString(),
-                    expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-                  }, {
-                    onConflict: 'user_id'
-                  })
+                  // CRITIQUE: Attendre un peu pour que la session soit bien persistée
+                  await new Promise(resolve => setTimeout(resolve, 500))
 
-                  if (subError) {
-                    console.error('Erreur abonnement:', subError)
-                  }
+                  setSuccess('Connexion au compte testeur réussie ! Redirection...')
 
-                  // Si confirmation email désactivée, se connecter directement
-                  if (signUpData.session) {
-                    const { error: sessionError } = await supabase.auth.setSession({
-                      access_token: signUpData.session.access_token,
-                      refresh_token: signUpData.session.refresh_token,
-                    })
-
-                    if (sessionError) {
-                      console.error('Erreur session:', sessionError)
-                    }
-
-                    setSuccess('Connexion réussie ! Redirection...')
-                    setTimeout(() => {
-                      router.push('/dashboard')
-                      router.refresh()
-                    }, 500)
-                  } else {
-                    // Si confirmation email activée, afficher message
-                    setSuccess('Compte créé ! Vérifiez votre email (ou connectez-vous directement si confirmation désactivée).')
-                    // Essayer de se connecter quand même
-                    setTimeout(async () => {
-                      const { data: signInData } = await supabase.auth.signInWithPassword({
-                        email: testEmail,
-                        password: testPassword,
-                      })
-                      if (signInData?.session) {
-                        router.push('/dashboard')
-                        router.refresh()
-                      }
-                    }, 1000)
-                  }
+                  // Rediriger vers le dashboard
+                  router.push('/dashboard')
+                  router.refresh()
                 } catch (err: any) {
                   console.error('Erreur connexion testeur:', err)
                   setError(err.message || 'Erreur lors de la connexion testeur. Veuillez réessayer.')

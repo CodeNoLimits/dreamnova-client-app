@@ -9,11 +9,13 @@ import Link from 'next/link'
 const DEADLINE_DATE = new Date('2026-09-01')
 
 export default function DeadlineNotifications() {
-  const [daysRemaining, setDaysRemaining] = useState(0)
+  const [daysRemaining, setDaysRemaining] = useState<number | null>(null)
   const [showAlert, setShowAlert] = useState(false)
   const [alertLevel, setAlertLevel] = useState<'info' | 'warning' | 'urgent'>('info')
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     const calculateDays = () => {
       const today = new Date()
       const diff = DEADLINE_DATE.getTime() - today.getTime()
@@ -41,7 +43,8 @@ export default function DeadlineNotifications() {
     return () => clearInterval(interval)
   }, [])
 
-  if (!showAlert) return null
+  // Ne pas rendre avant le montage côté client pour éviter l'erreur d'hydratation
+  if (!mounted || !showAlert || daysRemaining === null) return null
 
   const alertConfig = {
     info: {

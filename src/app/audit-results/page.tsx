@@ -161,8 +161,8 @@ const AuditResultsPage = () => {
           <span className="material-symbols-outlined text-6xl text-slate-400 mb-4">error</span>
           <h2 className="text-xl font-bold text-slate-900 mb-2">Aucun résultat trouvé</h2>
           <p className="text-slate-600 mb-6">Veuillez d'abord compléter l'audit de conformité.</p>
-          <Link href="/">
-            <Button>Démarrer un audit</Button>
+          <Link href="/dashboard">
+            <Button>Retour au dashboard</Button>
           </Link>
         </Card>
       </div>
@@ -179,7 +179,7 @@ const AuditResultsPage = () => {
           <p className="text-slate-600 mb-6">
             Les résultats de l'audit sont incomplets. Veuillez refaire l'audit.
           </p>
-          <Link href="/">
+          <Link href="/audit">
             <Button>Refaire un audit</Button>
           </Link>
         </Card>
@@ -320,7 +320,7 @@ const AuditResultsPage = () => {
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/">
+            <Link href="/dashboard">
               <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
                 <div className="w-10 h-10 bg-gradient-dreamnova rounded-xl flex items-center justify-center">
                   <span className="text-white font-bold text-xl">D</span>

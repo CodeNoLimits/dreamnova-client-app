@@ -22,11 +22,12 @@ export async function middleware(request: NextRequest) {
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, {
               ...options,
-              // Améliorer la persistance de session
-              maxAge: options?.maxAge || 60 * 60 * 24 * 7, // 7 jours par défaut
-              sameSite: options?.sameSite || 'lax',
+              // CRITIQUE: Augmenter la durée de vie des cookies
+              maxAge: options?.maxAge || 60 * 60 * 24 * 30, // 30 jours au lieu de 7
+              sameSite: 'lax', // Toujours 'lax' pour la persistance
               secure: process.env.NODE_ENV === 'production',
               httpOnly: options?.httpOnly !== false,
+              path: '/', // CRITIQUE: Cookie accessible partout
             })
           )
         },
@@ -34,8 +35,18 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Rafraîchir la session si nécessaire
-  await supabase.auth.getUser()
+  // CRITIQUE: Rafraîchir la session à chaque requête
+  const { data: { user } } = await supabase.auth.getUser()
+
+  // Si l'utilisateur est connecté, s'assurer que la session est valide
+  if (user) {
+    // Vérifier que les cookies de session sont bien présents
+    const sessionCookie = request.cookies.get('sb-access-token')
+    if (!sessionCookie) {
+      // Si pas de cookie, essayer de rafraîchir la session
+      await supabase.auth.refreshSession()
+    }
+  }
 
   return supabaseResponse
 }

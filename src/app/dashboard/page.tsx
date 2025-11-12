@@ -121,14 +121,53 @@ const DashboardPage = () => {
 
   const chargerAbonnement = async (userId: string) => {
     const supabase = createClient()
+    
+    // Vérifier d'abord si c'est le compte testeur ou manubousky
+    const { data: { user } } = await supabase.auth.getUser()
+    const isTester = user?.email === 'tester@example.com'
+    const isManubousky = user?.email?.toLowerCase() === 'manubousky@gmail.com'
+    
+    // Pour manubousky, forcer Premium MAX
+    if (isManubousky) {
+      const { error: subError } = await supabase.from('subscriptions').upsert({
+        user_id: userId,
+        plan_type: 'premium',
+        plan_name: 'PREMIUM MAX',
+        status: 'active',
+        started_at: new Date().toISOString(),
+        expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+      }, { onConflict: 'user_id' })
+      
+      if (subError) {
+        console.error('Erreur mise à jour Premium MAX:', subError)
+      }
+    }
+    
+    // Pour le testeur, s'assurer qu'il a Growth
+    if (isTester) {
+      const { error: subError } = await supabase.from('subscriptions').upsert({
+        user_id: userId,
+        plan_type: 'growth',
+        plan_name: 'GROWTH',
+        status: 'active',
+        started_at: new Date().toISOString(),
+        expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+      }, { onConflict: 'user_id' })
+      
+      if (subError) {
+        console.error('Erreur mise à jour Growth:', subError)
+      }
+    }
+    
+    // Récupérer l'abonnement
     const { data, error } = await supabase
       .from('subscriptions')
       .select('plan_type, status, started_at, expires_at')
       .eq('user_id', userId)
-      .in('status', ['active', 'trialing', 'pending'])
+      .in('status', ['active', 'trialing', 'pending', 'paid'])
       .order('created_at', { ascending: false })
       .limit(1)
-      .single()
+      .maybeSingle()
 
     if (!error && data) {
       // Vérifier si c'est une période d'essai (7 jours après started_at)
@@ -145,7 +184,24 @@ const DashboardPage = () => {
         started_at: data.started_at
       })
     } else {
-      setSubscription({ plan_type: null, status: 'none', expires_at: null, started_at: null })
+      // Si pas d'abonnement trouvé, vérifier si c'est manubousky (Premium MAX) ou testeur (Growth)
+      if (isManubousky) {
+        setSubscription({ 
+          plan_type: 'premium' as PlanType, 
+          status: 'active',
+          expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+          started_at: new Date().toISOString()
+        })
+      } else if (isTester) {
+        setSubscription({ 
+          plan_type: 'growth' as PlanType, 
+          status: 'active',
+          expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+          started_at: new Date().toISOString()
+        })
+      } else {
+        setSubscription({ plan_type: null, status: 'none', expires_at: null, started_at: null })
+      }
     }
   }
 
@@ -279,7 +335,7 @@ const DashboardPage = () => {
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/">
+            <Link href="/dashboard">
               <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
                 <div className="w-10 h-10 bg-gradient-dreamnova rounded-xl flex items-center justify-center">
                   <span className="text-white font-bold text-xl">D</span>

@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import Button from '@/components/ui/Button'
@@ -10,9 +10,14 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ onStartAudit }) => {
-  const deadline = new Date('2026-09-01')
-  const today = new Date()
-  const daysRemaining = Math.ceil((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+  const [daysRemaining, setDaysRemaining] = useState<number | null>(null)
+
+  useEffect(() => {
+    const deadline = new Date('2026-09-01')
+    const today = new Date()
+    const diff = deadline.getTime() - today.getTime()
+    setDaysRemaining(Math.ceil(diff / (1000 * 60 * 60 * 24)))
+  }, [])
 
   return (
     <div className="relative overflow-hidden">
@@ -65,7 +70,7 @@ const Hero: React.FC<HeroProps> = ({ onStartAudit }) => {
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
             </svg>
-            <span>Plus que {daysRemaining} jours avant septembre 2026</span>
+            <span>Plus que {daysRemaining !== null ? daysRemaining : '...'} jours avant septembre 2026</span>
           </motion.div>
 
           {/* Main headline */}
