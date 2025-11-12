@@ -39,21 +39,44 @@ const LoginPage = () => {
 
       if (isLogin) {
         // Connexion
+        const userEmail = formData.email.toLowerCase().trim()
+        const isManubousky = userEmail === 'manubousky@gmail.com'
+        
         const { data, error: signInError } = await supabase.auth.signInWithPassword({
-          email: formData.email,
+          email: userEmail,
           password: formData.password,
         })
 
         if (signInError) throw signInError
 
         if (data.user && data.session) {
+          // Pour manubousky@gmail.com : s'assurer qu'il a Premium MAX
+          if (isManubousky) {
+            // Vérifier/créer abonnement Premium MAX
+            await supabase.from('subscriptions').upsert({
+              user_id: data.user.id,
+              plan_type: 'premium',
+              plan_name: 'PREMIUM MAX',
+              status: 'active',
+              started_at: new Date().toISOString(),
+              expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 an
+            }, { onConflict: 'user_id' })
+
+            // Créer/updater le profil
+            await supabase.from('profiles').upsert({
+              id: data.user.id,
+              full_name: data.user.user_metadata?.company_name || 'Admin',
+              company_name: data.user.user_metadata?.company_name || 'Admin',
+            }, { onConflict: 'id' })
+          }
+
           // Forcer la persistance de session
           await supabase.auth.setSession({
             access_token: data.session.access_token,
             refresh_token: data.session.refresh_token,
           })
 
-          setSuccess('Connexion réussie ! Redirection...')
+          setSuccess(isManubousky ? 'Connexion Premium MAX réussie ! Redirection...' : 'Connexion réussie ! Redirection...')
           setTimeout(() => {
             router.push('/dashboard')
             router.refresh() // Forcer le rafraîchissement
@@ -62,8 +85,111 @@ const LoginPage = () => {
       } else {
         // Inscription
         const baseUrl = getBaseUrl()
+        const userEmail = formData.email.toLowerCase().trim()
+        const isManubousky = userEmail === 'manubousky@gmail.com'
+        
+        // Pour manubousky@gmail.com : bypass confirmation et créer Premium MAX directement
+        if (isManubousky) {
+          const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+            email: userEmail,
+            password: formData.password,
+            options: {
+              emailRedirectTo: `${baseUrl}/dashboard`,
+              data: {
+                company_name: formData.companyName || 'Admin',
+                skip_email_confirmation: true, // Bypass pour manubousky
+              },
+            },
+          })
+
+          if (signUpError) {
+            // Si le compte existe déjà, essayer de se connecter
+            if (signUpError.message.includes('already registered') || signUpError.message.includes('User already registered')) {
+              const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+                email: userEmail,
+                password: formData.password,
+              })
+
+              if (signInError) throw signInError
+
+              if (signInData.user && signInData.session) {
+                // Créer/updater le profil
+                await supabase.from('profiles').upsert({
+                  id: signInData.user.id,
+                  full_name: formData.companyName || 'Admin',
+                  company_name: formData.companyName || 'Admin',
+                }, { onConflict: 'id' })
+
+                // Créer abonnement Premium MAX
+                await supabase.from('subscriptions').upsert({
+                  user_id: signInData.user.id,
+                  plan_type: 'premium',
+                  plan_name: 'PREMIUM MAX',
+                  status: 'active',
+                  started_at: new Date().toISOString(),
+                  expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 an
+                }, { onConflict: 'user_id' })
+
+                // Forcer la session
+                await supabase.auth.setSession({
+                  access_token: signInData.session.access_token,
+                  refresh_token: signInData.session.refresh_token,
+                })
+
+                setSuccess('Connexion réussie en mode Premium MAX ! Redirection...')
+                setTimeout(() => {
+                  router.push('/dashboard')
+                  router.refresh()
+                }, 500)
+                return
+              }
+            } else {
+              throw signUpError
+            }
+          }
+
+          // Si nouveau compte créé pour manubousky
+          if (signUpData?.user) {
+            // Créer le profil
+            await supabase.from('profiles').upsert({
+              id: signUpData.user.id,
+              full_name: formData.companyName || 'Admin',
+              company_name: formData.companyName || 'Admin',
+            }, { onConflict: 'id' })
+
+            // Créer abonnement Premium MAX
+            await supabase.from('subscriptions').upsert({
+              user_id: signUpData.user.id,
+              plan_type: 'premium',
+              plan_name: 'PREMIUM MAX',
+              status: 'active',
+              started_at: new Date().toISOString(),
+              expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 an
+            }, { onConflict: 'user_id' })
+
+            // Si session disponible, connecter directement
+            if (signUpData.session) {
+              await supabase.auth.setSession({
+                access_token: signUpData.session.access_token,
+                refresh_token: signUpData.session.refresh_token,
+              })
+
+              setSuccess('Compte Premium MAX créé ! Redirection...')
+              setTimeout(() => {
+                router.push('/dashboard')
+                router.refresh()
+              }, 500)
+              return
+            }
+          }
+
+          setSuccess('Compte Premium MAX créé ! Vérifiez votre email (ou connectez-vous directement).')
+          return
+        }
+
+        // Pour tous les autres emails : inscription normale
         const { data, error: signUpError } = await supabase.auth.signUp({
-          email: formData.email,
+          email: userEmail,
           password: formData.password,
           options: {
             emailRedirectTo: `${baseUrl}/dashboard`,
@@ -73,11 +199,42 @@ const LoginPage = () => {
           },
         })
 
-        if (signUpError) throw signUpError
+        if (signUpError) {
+          // Si le compte existe déjà, proposer de se connecter
+          if (signUpError.message.includes('already registered') || signUpError.message.includes('User already registered')) {
+            setError('Ce compte existe déjà. Veuillez vous connecter.')
+            setIsLogin(true)
+            return
+          }
+          throw signUpError
+        }
 
-        setSuccess(
-          'Compte créé avec succès ! Vérifiez votre email pour confirmer votre compte.'
-        )
+        // Créer le profil automatiquement
+        if (data?.user) {
+          await supabase.from('profiles').upsert({
+            id: data.user.id,
+            full_name: formData.companyName || '',
+            company_name: formData.companyName || '',
+          }, { onConflict: 'id' })
+        }
+
+        // Si confirmation email désactivée, connecter directement
+        if (data?.session) {
+          await supabase.auth.setSession({
+            access_token: data.session.access_token,
+            refresh_token: data.session.refresh_token,
+          })
+
+          setSuccess('Compte créé avec succès ! Redirection...')
+          setTimeout(() => {
+            router.push('/dashboard')
+            router.refresh()
+          }, 1000)
+        } else {
+          setSuccess(
+            'Compte créé avec succès ! Vérifiez votre email pour confirmer votre compte (ou connectez-vous directement si confirmation désactivée).'
+          )
+        }
       }
     } catch (err: any) {
       setError(err.message || 'Une erreur est survenue')
@@ -243,20 +400,81 @@ const LoginPage = () => {
                 try {
                   const supabase = createClient()
                   
-                  // Connexion anonyme
-                  const { data: authData, error: authError } = await supabase.auth.signInAnonymously()
+                  // Générer un email et mot de passe unique pour le testeur
+                  // Format COURT pour éviter erreur "email too long"
+                  const shortId = Date.now().toString().slice(-6) // 6 derniers chiffres
+                  const randomStr = Math.random().toString(36).substring(2, 5) // 3 lettres
+                  const testEmail = `test${shortId}${randomStr}@dreamnova.app`
+                  const testPassword = `Test${shortId}${randomStr}!`
                   
-                  if (authError) {
-                    throw new Error(authError.message)
+                  // Créer le compte avec email/password
+                  const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+                    email: testEmail,
+                    password: testPassword,
+                    options: {
+                      emailRedirectTo: `${getBaseUrl()}/dashboard`,
+                      data: {
+                        company_name: 'Entreprise Test',
+                        is_tester: true,
+                      },
+                    },
+                  })
+
+                  if (signUpError) {
+                    // Si le compte existe déjà, essayer de se connecter
+                    if (signUpError.message.includes('already registered') || signUpError.message.includes('User already registered')) {
+                      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+                        email: testEmail,
+                        password: testPassword,
+                      })
+
+                      if (signInError) {
+                        throw new Error('Erreur de connexion. Veuillez réessayer.')
+                      }
+
+                      if (!signInData.user) {
+                        throw new Error('Erreur: Utilisateur non trouvé')
+                      }
+
+                      // Vérifier/créer le profil et l'abonnement
+                      await supabase.from('profiles').upsert({
+                        id: signInData.user.id,
+                        full_name: 'Testeur Growth',
+                        company_name: 'Entreprise Test',
+                      }, { onConflict: 'id' })
+
+                      await supabase.from('subscriptions').upsert({
+                        user_id: signInData.user.id,
+                        plan_type: 'growth',
+                        status: 'active',
+                        started_at: new Date().toISOString(),
+                        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+                      }, { onConflict: 'user_id' })
+
+                      if (signInData.session) {
+                        await supabase.auth.setSession({
+                          access_token: signInData.session.access_token,
+                          refresh_token: signInData.session.refresh_token,
+                        })
+                      }
+
+                      setSuccess('Connexion réussie ! Redirection...')
+                      setTimeout(() => {
+                        router.push('/dashboard')
+                        router.refresh()
+                      }, 500)
+                      return
+                    }
+                    throw signUpError
                   }
 
-                  if (!authData.user) {
+                  if (!signUpData.user) {
                     throw new Error('Erreur: Utilisateur non créé')
                   }
 
                   // Créer le profil
                   const { error: profileError } = await supabase.from('profiles').upsert({
-                    id: authData.user.id,
+                    id: signUpData.user.id,
                     full_name: 'Testeur Growth',
                     company_name: 'Entreprise Test',
                   }, {
@@ -265,12 +483,11 @@ const LoginPage = () => {
 
                   if (profileError) {
                     console.error('Erreur profil:', profileError)
-                    // On continue même si le profil existe déjà
                   }
 
                   // Créer l'abonnement Growth
                   const { error: subError } = await supabase.from('subscriptions').upsert({
-                    user_id: authData.user.id,
+                    user_id: signUpData.user.id,
                     plan_type: 'growth',
                     status: 'active',
                     started_at: new Date().toISOString(),
@@ -281,28 +498,39 @@ const LoginPage = () => {
 
                   if (subError) {
                     console.error('Erreur abonnement:', subError)
-                    // On continue même si l'abonnement existe déjà
                   }
 
-                  // Forcer la session
-                  if (authData.session) {
+                  // Si confirmation email désactivée, se connecter directement
+                  if (signUpData.session) {
                     const { error: sessionError } = await supabase.auth.setSession({
-                      access_token: authData.session.access_token,
-                      refresh_token: authData.session.refresh_token,
+                      access_token: signUpData.session.access_token,
+                      refresh_token: signUpData.session.refresh_token,
                     })
 
                     if (sessionError) {
                       console.error('Erreur session:', sessionError)
                     }
-                  }
 
-                  setSuccess('Connexion réussie ! Redirection...')
-                  
-                  // Redirection
-                  setTimeout(() => {
-                    router.push('/dashboard')
-                    router.refresh()
-                  }, 500)
+                    setSuccess('Connexion réussie ! Redirection...')
+                    setTimeout(() => {
+                      router.push('/dashboard')
+                      router.refresh()
+                    }, 500)
+                  } else {
+                    // Si confirmation email activée, afficher message
+                    setSuccess('Compte créé ! Vérifiez votre email (ou connectez-vous directement si confirmation désactivée).')
+                    // Essayer de se connecter quand même
+                    setTimeout(async () => {
+                      const { data: signInData } = await supabase.auth.signInWithPassword({
+                        email: testEmail,
+                        password: testPassword,
+                      })
+                      if (signInData?.session) {
+                        router.push('/dashboard')
+                        router.refresh()
+                      }
+                    }, 1000)
+                  }
                 } catch (err: any) {
                   console.error('Erreur connexion testeur:', err)
                   setError(err.message || 'Erreur lors de la connexion testeur. Veuillez réessayer.')

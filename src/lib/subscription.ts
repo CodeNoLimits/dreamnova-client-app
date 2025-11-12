@@ -39,9 +39,35 @@ export interface SubscriptionFeatures {
 }
 
 /**
+ * Vérifie si un email a accès maximum (admin/testeur)
+ */
+export function hasMaxAccess(email: string | null | undefined): boolean {
+  if (!email) return false
+  // manubousky@gmail.com a accès maximum
+  return email.toLowerCase() === 'manubousky@gmail.com'
+}
+
+/**
  * Définit les fonctionnalités disponibles pour chaque plan
  */
-export function getPlanFeatures(planType: PlanType | null, isTrial: boolean = false): SubscriptionFeatures {
+export function getPlanFeatures(planType: PlanType | null, isTrial: boolean = false, userEmail?: string | null): SubscriptionFeatures {
+  // Accès maximum pour manubousky@gmail.com
+  if (hasMaxAccess(userEmail)) {
+    return {
+      maxInvoicesPerMonth: -1, // Illimité
+      maxPDPConnections: -1, // Illimité
+      hasAdvancedDashboard: true,
+      hasPDFReports: true,
+      hasFacturXConversion: true,
+      hasMultipleWorkflows: true,
+      hasAPIAccess: true,
+      hasPrioritySupport: true,
+      hasDedicatedManager: true,
+      supportLevel: '24/7',
+      supportResponseTime: 'Immédiat',
+    }
+  }
+
   // Par défaut, plan gratuit (aucun abonnement)
   if (!planType) {
     return {
@@ -151,9 +177,10 @@ export function getPlanFeatures(planType: PlanType | null, isTrial: boolean = fa
 export function hasFeatureAccess(
   planType: PlanType | null,
   feature: keyof SubscriptionFeatures,
-  isTrial: boolean = false
+  isTrial: boolean = false,
+  userEmail?: string | null
 ): boolean {
-  const features = getPlanFeatures(planType, isTrial)
+  const features = getPlanFeatures(planType, isTrial, userEmail)
   return features[feature] === true || (typeof features[feature] === 'number' && features[feature] > 0)
 }
 
@@ -164,9 +191,10 @@ export function canUseFeature(
   planType: PlanType | null,
   feature: 'invoices' | 'pdp',
   currentUsage: number,
-  isTrial: boolean = false
+  isTrial: boolean = false,
+  userEmail?: string | null
 ): boolean {
-  const features = getPlanFeatures(planType, isTrial)
+  const features = getPlanFeatures(planType, isTrial, userEmail)
   
   if (feature === 'invoices') {
     return features.maxInvoicesPerMonth === -1 || currentUsage < features.maxInvoicesPerMonth

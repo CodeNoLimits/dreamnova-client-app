@@ -15,8 +15,11 @@ export default function InstallPWA() {
   const [isInstalled, setIsInstalled] = useState(false)
 
   useEffect(() => {
+    // Vérifier que window existe (SSR)
+    if (typeof window === 'undefined') return
+
     // Vérifier si déjà installé
-    if (window.matchMedia('(display-mode: standalone)').matches) {
+    if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
       setIsInstalled(true)
       return
     }
@@ -32,19 +35,23 @@ export default function InstallPWA() {
       }, 3000)
     }
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+    if (window.addEventListener) {
+      window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
 
-    // Vérifier si installé après installation
-    const handleAppInstalled = () => {
-      setIsInstalled(true)
-      setShowInstallPrompt(false)
-    }
+      // Vérifier si installé après installation
+      const handleAppInstalled = () => {
+        setIsInstalled(true)
+        setShowInstallPrompt(false)
+      }
 
-    window.addEventListener('appinstalled', handleAppInstalled)
+      window.addEventListener('appinstalled', handleAppInstalled)
 
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
-      window.removeEventListener('appinstalled', handleAppInstalled)
+      return () => {
+        if (window.removeEventListener) {
+          window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+          window.removeEventListener('appinstalled', handleAppInstalled)
+        }
+      }
     }
   }, [])
 
@@ -68,7 +75,9 @@ export default function InstallPWA() {
   const handleDismiss = () => {
     setShowInstallPrompt(false)
     // Ne plus afficher pendant cette session
-    sessionStorage.setItem('pwa-install-dismissed', 'true')
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      sessionStorage.setItem('pwa-install-dismissed', 'true')
+    }
   }
 
   // Ne pas afficher si déjà installé ou si dismissé
@@ -76,7 +85,8 @@ export default function InstallPWA() {
     return null
   }
 
-  if (sessionStorage.getItem('pwa-install-dismissed') === 'true') {
+  // Vérifier sessionStorage côté client uniquement
+  if (typeof window !== 'undefined' && window.sessionStorage && sessionStorage.getItem('pwa-install-dismissed') === 'true') {
     return null
   }
 

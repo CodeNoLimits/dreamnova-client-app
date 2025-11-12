@@ -131,7 +131,7 @@ const CheckoutPageContent = () => {
     postalCode: '',
     country: 'France',
   })
-  const [paymentMethod, setPaymentMethod] = useState<'alma' | 'stripe' | 'klarna' | null>(null)
+  const [paymentMethod, setPaymentMethod] = useState<'alma' | 'stripe' | 'klarna' | 'simulate' | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [user, setUser] = useState<any>(null)
 
@@ -173,6 +173,57 @@ const CheckoutPageContent = () => {
         return
       }
 
+      // Simulation de paiement (pour tests)
+      if (paymentMethod === 'simulate') {
+        const planType = plan.type === 'monthly' ? plan.id : plan.id
+        const expiresAt = plan.type === 'monthly' 
+          ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 jours
+          : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString() // 1 an pour one-shot
+
+        // Créer l'abonnement simulé
+        const { error: subError } = await supabase.from('subscriptions').upsert({
+          user_id: user.id,
+          plan_type: planType,
+          plan_name: plan.name,
+          amount: plan.price * 100,
+          currency: 'EUR',
+          payment_method: plan.type,
+          payment_provider: 'simulate',
+          status: 'active',
+          started_at: new Date().toISOString(),
+          expires_at: expiresAt,
+        }, { onConflict: 'user_id' })
+
+        if (subError) {
+          console.error('Error creating simulated subscription:', subError)
+          alert('Erreur lors de la simulation. Veuillez réessayer.')
+          setIsLoading(false)
+          return
+        }
+
+        // Envoyer email de confirmation
+        try {
+          await fetch('/api/emails/subscription-confirmation', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: user.email,
+              planName: plan.name,
+              planPrice: plan.price,
+              planType: plan.type,
+            }),
+          })
+        } catch (emailError) {
+          console.error('Error sending email:', emailError)
+          // Ne pas bloquer si l'email échoue
+        }
+
+        // Passer à l'étape de confirmation
+        setStep(3)
+        setIsLoading(false)
+        return
+      }
+
       // Pour les plans mensuels, utiliser Stripe Checkout
       if (plan.type === 'monthly' && paymentMethod === 'stripe') {
         const planId = plan.id === 'starter' ? 'starter-monthly' :
@@ -203,9 +254,12 @@ const CheckoutPageContent = () => {
       }
 
       // Pour les plans one-shot avec Alma/Klarna ou paiement direct
+      // Note: 'simulate' est déjà géré plus haut (ligne 177)
       if (plan.type === 'one-shot') {
         // Pour l'instant, simuler le paiement (à remplacer par Alma/Klarna réel)
-        const { error } = await supabase.from('subscriptions').insert({
+        const expiresAt = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString() // 1 an
+        
+        const { error } = await supabase.from('subscriptions').upsert({
           user_id: user.id,
           plan_type: plan.id,
           plan_name: plan.name,
@@ -213,14 +267,33 @@ const CheckoutPageContent = () => {
           currency: 'EUR',
           payment_method: plan.type,
           payment_provider: paymentMethod,
-          status: 'paid', // Simulé comme payé
-        })
+          status: 'paid',
+          started_at: new Date().toISOString(),
+          expires_at: expiresAt,
+        }, { onConflict: 'user_id' })
 
         if (error) {
           console.error('Error creating subscription:', error)
           alert('Erreur lors de la création de l\'abonnement. Veuillez réessayer.')
           setIsLoading(false)
           return
+        }
+
+        // Envoyer email de confirmation
+        try {
+          await fetch('/api/emails/subscription-confirmation', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: user.email,
+              planName: plan.name,
+              planPrice: plan.price,
+              planType: plan.type,
+            }),
+          })
+        } catch (emailError) {
+          console.error('Error sending email:', emailError)
+          // Ne pas bloquer si l'email échoue
         }
 
         // Passer à l'étape de confirmation
@@ -447,7 +520,7 @@ const CheckoutPageContent = () => {
 
               <Card className="p-8">
                 <h2 className="text-2xl font-bold text-slate-900 mb-6">Méthode de paiement</h2>
-                <div className="grid grid-cols-2 gap-4">
+                <div className={`grid gap-4 ${plan.type === 'one-shot' ? 'grid-cols-3' : 'grid-cols-2'}`}>
                   {plan.type === 'one-shot' ? (
                     <>
                       <button
@@ -474,20 +547,46 @@ const CheckoutPageContent = () => {
                         <div className="font-bold text-slate-900">STRIPE</div>
                         <div className="text-sm text-slate-600">Paiement unique</div>
                       </button>
+                      <button
+                        onClick={() => setPaymentMethod('simulate')}
+                        className={`p-6 rounded-lg border-2 transition-all ${
+                          paymentMethod === 'simulate'
+                            ? 'border-success-500 bg-success-50'
+                            : 'border-slate-200 hover:border-success-300'
+                        }`}
+                      >
+                        <div className="text-3xl mb-2">🧪</div>
+                        <div className="font-bold text-slate-900">SIMULER</div>
+                        <div className="text-sm text-slate-600">Test uniquement</div>
+                      </button>
                     </>
                   ) : (
-                    <button
-                      onClick={() => setPaymentMethod('stripe')}
-                      className={`p-6 rounded-lg border-2 transition-all ${
-                        paymentMethod === 'stripe'
-                          ? 'border-primary-500 bg-primary-50'
-                          : 'border-slate-200 hover:border-primary-300'
-                      }`}
-                    >
-                      <div className="text-3xl mb-2">⚡</div>
-                      <div className="font-bold text-slate-900">STRIPE</div>
-                      <div className="text-sm text-slate-600">Carte bancaire</div>
-                    </button>
+                    <>
+                      <button
+                        onClick={() => setPaymentMethod('stripe')}
+                        className={`p-6 rounded-lg border-2 transition-all ${
+                          paymentMethod === 'stripe'
+                            ? 'border-primary-500 bg-primary-50'
+                            : 'border-slate-200 hover:border-primary-300'
+                        }`}
+                      >
+                        <div className="text-3xl mb-2">⚡</div>
+                        <div className="font-bold text-slate-900">STRIPE</div>
+                        <div className="text-sm text-slate-600">Carte bancaire</div>
+                      </button>
+                      <button
+                        onClick={() => setPaymentMethod('simulate')}
+                        className={`p-6 rounded-lg border-2 transition-all ${
+                          paymentMethod === 'simulate'
+                            ? 'border-success-500 bg-success-50'
+                            : 'border-slate-200 hover:border-success-300'
+                        }`}
+                      >
+                        <div className="text-3xl mb-2">🧪</div>
+                        <div className="font-bold text-slate-900">SIMULER</div>
+                        <div className="text-sm text-slate-600">Test uniquement</div>
+                      </button>
+                    </>
                   )}
                 </div>
               </Card>

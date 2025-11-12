@@ -265,8 +265,13 @@ const DashboardPage = () => {
 
   // Récupérer les fonctionnalités selon l'abonnement
   const isTrial = subscription ? isTrialPlan(subscription.plan_type, subscription.started_at || null) : false
-  const features = subscription ? getPlanFeatures(subscription.plan_type, isTrial) : getPlanFeatures(null)
+  const features = subscription 
+    ? getPlanFeatures(subscription.plan_type, isTrial, user?.email) 
+    : getPlanFeatures(null, false, user?.email)
   const hasSubscription = subscription && (subscription.status === 'active' || subscription.status === 'trialing')
+  
+  // Afficher "PREMIUM MAX" pour manubousky@gmail.com
+  const isMaxAccess = user?.email?.toLowerCase() === 'manubousky@gmail.com'
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -287,23 +292,26 @@ const DashboardPage = () => {
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3">
                 <span className="text-sm font-medium text-slate-900">{user?.email}</span>
-                {hasSubscription && subscription?.plan_type && (
+                {(hasSubscription && subscription?.plan_type) || isMaxAccess ? (
                   <div className={`px-3 py-1 rounded-full text-xs font-bold ${
-                    isTrial 
-                      ? 'bg-amber-100 text-amber-700' 
-                      : subscription.plan_type === 'growth' 
-                        ? 'bg-primary-100 text-primary-700'
-                        : subscription.plan_type === 'premium-monthly'
-                          ? 'bg-purple-100 text-purple-700'
-                          : 'bg-slate-100 text-slate-700'
+                    isMaxAccess
+                      ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+                      : isTrial 
+                        ? 'bg-amber-100 text-amber-700' 
+                        : subscription?.plan_type === 'growth' 
+                          ? 'bg-primary-100 text-primary-700'
+                          : subscription?.plan_type === 'premium-monthly'
+                            ? 'bg-purple-100 text-purple-700'
+                            : 'bg-slate-100 text-slate-700'
                   }`}>
-                    {isTrial ? 'ESSAI GRATUIT' :
-                     subscription.plan_type === 'growth' ? 'GROWTH' :
-                     subscription.plan_type === 'premium-monthly' ? 'PREMIUM' :
-                     subscription.plan_type === 'starter' ? 'STARTER' :
-                     subscription.plan_type.toUpperCase()}
+                    {isMaxAccess ? 'PREMIUM MAX' :
+                     isTrial ? 'ESSAI GRATUIT' :
+                     subscription?.plan_type === 'growth' ? 'GROWTH' :
+                     subscription?.plan_type === 'premium-monthly' ? 'PREMIUM' :
+                     subscription?.plan_type === 'starter' ? 'STARTER' :
+                     subscription?.plan_type?.toUpperCase() || 'PREMIUM MAX'}
                   </div>
-                )}
+                ) : null}
                 {!hasSubscription && (
                   <div className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium">
                     Sans abonnement

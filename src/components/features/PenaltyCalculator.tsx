@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useMemo, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import Card from '@/components/ui/Card'
 
@@ -46,11 +46,8 @@ const PenaltyCalculator: React.FC<PenaltyCalculatorProps> = ({ onCalculate }) =>
     }
   }, [])
 
-  // useMemo pour garantir le recalcul à chaque changement
-  const result = useMemo(
-    () => calculatePenalties(monthlyInvoices, hasPAPlatform),
-    [monthlyInvoices, hasPAPlatform, calculatePenalties]
-  )
+  // Calcul direct (pas de useMemo pour garantir la réactivité)
+  const result = calculatePenalties(monthlyInvoices, hasPAPlatform)
 
   React.useEffect(() => {
     if (onCalculate) {
@@ -144,9 +141,9 @@ const PenaltyCalculator: React.FC<PenaltyCalculatorProps> = ({ onCalculate }) =>
               </span>
             </div>
             <motion.div
-              key={`annual-${result.annualPenalties}`}
-              initial={{ scale: 0.95 }}
-              animate={{ scale: 1 }}
+              key={`annual-${result.annualPenalties}-${monthlyInvoices}-${hasPAPlatform}`}
+              initial={{ scale: 0.95, opacity: 0.8 }}
+              animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.2 }}
               className="text-4xl font-bold text-primary-700 mb-2"
             >
@@ -159,9 +156,9 @@ const PenaltyCalculator: React.FC<PenaltyCalculatorProps> = ({ onCalculate }) =>
 
           <div className="grid grid-cols-2 gap-4">
             <motion.div
-              key={`monthly-${result.monthlyPenalties}`}
-              initial={{ scale: 0.95 }}
-              animate={{ scale: 1 }}
+              key={`monthly-${result.monthlyPenalties}-${monthlyInvoices}`}
+              initial={{ scale: 0.95, opacity: 0.8 }}
+              animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.2 }}
               className="p-4 bg-slate-50 rounded-lg border border-slate-200"
             >
@@ -171,9 +168,9 @@ const PenaltyCalculator: React.FC<PenaltyCalculatorProps> = ({ onCalculate }) =>
               </div>
             </motion.div>
             <motion.div
-              key={`threeyear-${result.threeYearPenalties}`}
-              initial={{ scale: 0.95 }}
-              animate={{ scale: 1 }}
+              key={`threeyear-${result.threeYearPenalties}-${monthlyInvoices}`}
+              initial={{ scale: 0.95, opacity: 0.8 }}
+              animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.2 }}
               className="p-4 bg-slate-50 rounded-lg border border-slate-200"
             >
@@ -186,10 +183,10 @@ const PenaltyCalculator: React.FC<PenaltyCalculatorProps> = ({ onCalculate }) =>
 
           {result.annualPenalties > 0 && (
             <motion.div
-              key={`roi-${result.annualPenalties}`}
+              key={`roi-${result.annualPenalties}-${monthlyInvoices}`}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.2 }}
               className="p-4 bg-primary-50 border border-primary-200 rounded-lg"
             >
               <p className="text-sm text-primary-800">
