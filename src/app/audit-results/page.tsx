@@ -119,12 +119,33 @@ const AuditResultsPage = () => {
     )
   }
 
+  // Vérification de sécurité : s'assurer que tous les objets nécessaires existent
+  if (!results.audit || !results.company || !results.roi || !results.pdp) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <Card className="p-8 max-w-md text-center">
+          <span className="material-symbols-outlined text-6xl text-slate-400 mb-4">error</span>
+          <h2 className="text-xl font-bold text-slate-900 mb-2">Données incomplètes</h2>
+          <p className="text-slate-600 mb-6">
+            Les résultats de l'audit sont incomplets. Veuillez refaire l'audit.
+          </p>
+          <Link href="/">
+            <Button>Refaire un audit</Button>
+          </Link>
+        </Card>
+      </div>
+    )
+  }
+
   const { company, audit, roi, pdp } = results
 
+  // Vérification supplémentaire pour score_conformite
+  const scoreConformite = audit?.score_conformite ?? 0
+
   const scoreColor =
-    audit.score_conformite >= 80
+    scoreConformite >= 80
       ? 'text-success-600'
-      : audit.score_conformite >= 60
+      : scoreConformite >= 60
       ? 'text-warning-600'
       : 'text-danger-600'
 

@@ -32,23 +32,23 @@ export default function Home() {
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-4xl font-bold text-slate-900 mb-4">
-              Stop Overpaying for Compliance
+              Arrêtez de surpayer pour la conformité
             </h2>
             <p className="text-lg text-slate-600">
-              Contrast the slow, costly 'old way' of manual consultants with the smart, efficient
-              'DreamNova way' of AI automation.
+              Comparez l'ancienne méthode lente et coûteuse des consultants manuels avec la méthode
+              intelligente et efficace de DreamNova grâce à l'automatisation IA.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="p-8">
-              <h3 className="text-2xl font-bold mb-6">The Old Way: Manual & Costly</h3>
+              <h3 className="text-2xl font-bold mb-6">L'ancienne méthode : Manuelle et coûteuse</h3>
               <ul className="space-y-4">
                 {[
-                  'High hourly rates for consultants and endless meetings.',
-                  'Slow, manual processes prone to human error and delays.',
-                  'Fragmented data and lack of real-time visibility.',
-                  'Static reports that are outdated the moment they\'re printed.',
+                  'Tarifs horaires élevés pour les consultants et réunions interminables.',
+                  'Processus lents et manuels sujets aux erreurs humaines et aux retards.',
+                  'Données fragmentées et manque de visibilité en temps réel.',
+                  'Rapports statiques obsolètes dès leur impression.',
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-start gap-3">
                     <svg
@@ -70,14 +70,14 @@ export default function Home() {
 
             <Card className="p-8 border-2 border-primary-500 bg-primary-50/50">
               <h3 className="text-2xl font-bold text-primary-700 mb-6">
-                The DreamNova Way: Automated & Efficient
+                La méthode DreamNova : Automatisée et efficace
               </h3>
               <ul className="space-y-4">
                 {[
-                  'Predictable, transparent pricing with up to 70% cost reduction.',
-                  'AI-powered automation for speed, accuracy, and efficiency.',
-                  'Centralized dashboard with real-time compliance status.',
-                  'Dynamic, print-friendly, board-ready reports on demand.',
+                  'Tarification prévisible et transparente avec jusqu\'à 70% de réduction des coûts.',
+                  'Automatisation alimentée par l\'IA pour la rapidité, la précision et l\'efficacité.',
+                  'Tableau de bord centralisé avec statut de conformité en temps réel.',
+                  'Rapports dynamiques, imprimables et prêts pour le conseil d\'administration à la demande.',
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-start gap-3">
                     <svg
@@ -105,10 +105,10 @@ export default function Home() {
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-4xl font-bold text-slate-900 mb-4">
-              Compliance in 3 Simple Steps
+              Conformité en 3 étapes simples
             </h2>
             <p className="text-lg text-slate-600">
-              Our platform simplifies complexity. Get up and running in minutes, not months.
+              Notre plateforme simplifie la complexité. Opérationnelle en quelques minutes, pas en mois.
             </p>
           </div>
 
@@ -116,18 +116,18 @@ export default function Home() {
             {[
               {
                 icon: 'link',
-                title: '1. Connect',
-                desc: 'Securely connect your existing ERP, accounting, and IT systems with our pre-built integrations.',
+                title: '1. Connecter',
+                desc: 'Connectez en toute sécurité vos systèmes ERP, comptables et IT existants avec nos intégrations pré-construites.',
               },
               {
                 icon: 'analytics',
-                title: '2. Analyze',
-                desc: 'Our AI engine automatically analyzes your data and identifies compliance gaps in real-time.',
+                title: '2. Analyser',
+                desc: 'Notre moteur IA analyse automatiquement vos données et identifie les écarts de conformité en temps réel.',
               },
               {
                 icon: 'settings',
-                title: '3. Automate',
-                desc: 'Generate compliant e-invoices, CSRD reports, and NIS2 documentation automatically.',
+                title: '3. Automatiser',
+                desc: 'Générez automatiquement des factures électroniques conformes, des rapports CSRD et la documentation NIS2.',
               },
             ].map((step, idx) => (
               <motion.div
