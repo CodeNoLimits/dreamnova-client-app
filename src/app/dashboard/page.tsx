@@ -8,6 +8,8 @@ import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import DocumentUpload from '@/components/features/DocumentUpload'
 import QRCodePairing from '@/components/features/QRCodePairing'
+import ConformityChecklist from '@/components/features/ConformityChecklist'
+import DeadlineNotifications from '@/components/features/DeadlineNotifications'
 import { createClient } from '@/lib/supabase/client'
 import { getPlanFeatures, type PlanType, isTrialPlan } from '@/lib/subscription'
 import {
@@ -286,6 +288,9 @@ const DashboardPage = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-8 max-w-7xl">
+        {/* Notifications Deadline */}
+        <DeadlineNotifications />
+
         {/* En-tête avec actions */}
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -613,6 +618,16 @@ const DashboardPage = () => {
             </Card>
           </motion.div>
         </div>
+
+        {/* Checklist de Conformité */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="mb-8"
+        >
+          <ConformityChecklist />
+        </motion.div>
 
         {/* Historique des audits et actions */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

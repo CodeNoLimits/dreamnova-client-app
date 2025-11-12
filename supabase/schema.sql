@@ -157,6 +157,27 @@ CREATE TABLE IF NOT EXISTS invoices (
 );
 
 -- ============================================
+-- 8. TABLE E_REPORTING_LOGS (Logs e-reporting)
+-- ============================================
+CREATE TABLE IF NOT EXISTS e_reporting_logs (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  
+  -- Données transmission
+  invoice_id UUID REFERENCES invoices(id) ON DELETE SET NULL,
+  pdp_provider TEXT, -- 'pennylane' | 'qonto' | 'sellsy' | 'tiime' | 'ppf'
+  transmission_id TEXT UNIQUE,
+  
+  -- Statut
+  status TEXT DEFAULT 'pending', -- 'pending' | 'success' | 'failed' | 'retry'
+  error_message TEXT,
+  
+  -- Métadonnées
+  transmitted_at TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- ============================================
 -- 5. ROW LEVEL SECURITY (RLS)
 -- ============================================
 
@@ -168,6 +189,7 @@ ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE pairing_sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE mobile_uploads ENABLE ROW LEVEL SECURITY;
 ALTER TABLE invoices ENABLE ROW LEVEL SECURITY;
+ALTER TABLE e_reporting_logs ENABLE ROW LEVEL SECURITY;
 
 -- ============================================
 -- 6. POLITIQUES RLS - PROFILES
@@ -313,6 +335,20 @@ CREATE POLICY "Users can create own invoices"
 CREATE POLICY "Users can update own invoices"
   ON invoices FOR UPDATE
   USING (auth.uid() = user_id);
+
+-- ============================================
+-- 13. POLITIQUES RLS - E_REPORTING_LOGS
+-- ============================================
+
+-- Les utilisateurs peuvent voir leurs propres logs
+CREATE POLICY "Users can view own e-reporting logs"
+  ON e_reporting_logs FOR SELECT
+  USING (auth.uid() = user_id);
+
+-- Les utilisateurs peuvent créer leurs propres logs
+CREATE POLICY "Users can create own e-reporting logs"
+  ON e_reporting_logs FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
 
 -- ============================================
 -- 10. FUNCTION: Auto-create profile on signup

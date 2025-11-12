@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Outfit } from 'next/font/google'
 import './globals.css'
+import InstallPWA from '@/components/features/InstallPWA'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -25,6 +26,19 @@ export const metadata: Metadata = {
     initialScale: 1,
     maximumScale: 5,
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'DreamNova',
+  },
   openGraph: {
     title: 'DreamNova - Facturation Électronique 2026',
     description: 'Plateforme de conformité et facturation électronique pour les entreprises françaises.',
@@ -44,9 +58,28 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet"
         />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#6366f1" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="DreamNova" />
       </head>
       <body className="antialiased">
         {children}
+        <InstallPWA />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                  navigator.serviceWorker.register('/sw.js')
+                    .then((reg) => console.log('Service Worker registered:', reg))
+                    .catch((err) => console.log('Service Worker registration failed:', err))
+                })
+              }
+            `,
+          }}
+        />
       </body>
     </html>
   )

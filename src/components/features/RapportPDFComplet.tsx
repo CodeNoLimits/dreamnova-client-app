@@ -552,7 +552,7 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>DreamNova Compta | Rapport de Conformité 2026</Text>
-          <Text style={styles.pageNumber}>Page 4</Text>
+          <Text style={styles.pageNumber}>Page 4 sur 10</Text>
         </View>
       </Page>
 
@@ -573,25 +573,36 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
                 audit.amendes_potentielles.pa_manquante).toLocaleString('fr-FR')}
               € d'amendes potentielles
             </Text>
+            <Text style={[styles.alertText, { fontSize: 10, marginTop: 5, color: '#64748B' }]}>
+              Basé sur {company.volume_factures_b2b || 0} factures B2B/mois × 12 mois × 15€/facture (plafond 15,000€/an)
+            </Text>
           </View>
 
           <View style={styles.metricsGrid}>
             <View style={styles.metricBox}>
               <Text style={styles.metricLabel}>Amendes Mensuelles</Text>
               <Text style={styles.metricValue}>
-                {audit.amendes_potentielles.mensuelle.toLocaleString('fr-FR')}€
+                {audit.amendes_potentielles.mensuelle > 0 
+                  ? audit.amendes_potentielles.mensuelle.toLocaleString('fr-FR') + '€'
+                  : '0€ (aucune facture B2B)'}
               </Text>
-              <Text style={{ ...styles.text, fontSize: 9, marginTop: 5 }}>
-                15€ par facture non conforme
+              <Text style={{ ...styles.text, fontSize: 9, marginTop: 5, color: '#64748B' }}>
+                {company.volume_factures_b2b > 0 
+                  ? `${company.volume_factures_b2b} factures/mois × 15€ = ${(company.volume_factures_b2b * 15).toLocaleString('fr-FR')}€/mois`
+                  : '15€ par facture B2B non conforme'}
               </Text>
             </View>
             <View style={styles.metricBox}>
               <Text style={styles.metricLabel}>Amendes Annuelles</Text>
               <Text style={styles.metricValue}>
-                {audit.amendes_potentielles.annuelle.toLocaleString('fr-FR')}€
+                {audit.amendes_potentielles.annuelle > 0
+                  ? audit.amendes_potentielles.annuelle.toLocaleString('fr-FR') + '€'
+                  : '0€ (volume faible)'}
               </Text>
-              <Text style={{ ...styles.text, fontSize: 9, marginTop: 5 }}>
-                Plafond légal : 15,000€/an
+              <Text style={{ ...styles.text, fontSize: 9, marginTop: 5, color: '#64748B' }}>
+                {audit.amendes_potentielles.annuelle > 0
+                  ? `Plafond légal : 15,000€/an (${Math.min(company.volume_factures_b2b * 12 * 15, 15000).toLocaleString('fr-FR')}€ calculé)`
+                  : 'Plafond légal : 15,000€/an'}
               </Text>
             </View>
           </View>
@@ -663,7 +674,7 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>DreamNova Compta | Rapport de Conformité 2026</Text>
-          <Text style={styles.pageNumber}>Page 5</Text>
+          <Text style={styles.pageNumber}>Page 5 sur 10</Text>
         </View>
       </Page>
 
@@ -679,25 +690,39 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
 
           <View style={[styles.scoreContainer, { backgroundColor: '#F0FDF4', borderColor: '#10B981' }]}>
             <Text style={[styles.scoreValue, { color: '#10B981' }]}>
-              {roi.roi.annuel.toFixed(0)}%
+              {roi.roi.annuel > 0 ? roi.roi.annuel.toFixed(0) + '%' : '0%'}
             </Text>
             <Text style={styles.scoreLabel}>ROI Annuel</Text>
+            {roi.roi.annuel === 0 && (
+              <Text style={{ ...styles.text, fontSize: 10, marginTop: 5, color: '#64748B', textAlign: 'center' }}>
+                Volume faible : ROI calculé sur amendes évitées uniquement
+              </Text>
+            )}
           </View>
 
           <View style={styles.metricsGrid}>
             <View style={styles.metricBox}>
               <Text style={styles.metricLabel}>Économies An 1</Text>
               <Text style={[styles.metricValue, { color: '#10B981' }]}>
-                {(roi.economies_amendes.annuelle + roi.gains_productivite.annuel).toLocaleString(
-                  'fr-FR'
-                )}
-                €
+                {(roi.economies_amendes.annuelle + roi.gains_productivite.annuel) > 0
+                  ? (roi.economies_amendes.annuelle + roi.gains_productivite.annuel).toLocaleString('fr-FR') + '€'
+                  : '0€'}
+              </Text>
+              <Text style={{ ...styles.text, fontSize: 9, marginTop: 5, color: '#64748B' }}>
+                {roi.economies_amendes.annuelle > 0 
+                  ? `Amendes évitées: ${roi.economies_amendes.annuelle.toLocaleString('fr-FR')}€`
+                  : 'Aucune amende évitée (volume faible)'}
               </Text>
             </View>
             <View style={styles.metricBox}>
               <Text style={styles.metricLabel}>Breakeven</Text>
               <Text style={[styles.metricValue, { color: '#6366F1' }]}>
-                {roi.breakeven_mois} mois
+                {roi.breakeven_mois > 0 ? roi.breakeven_mois + ' mois' : 'N/A'}
+              </Text>
+              <Text style={{ ...styles.text, fontSize: 9, marginTop: 5, color: '#64748B' }}>
+                {roi.breakeven_mois > 0
+                  ? 'Temps pour récupérer l\'investissement'
+                  : 'Volume trop faible pour calculer'}
               </Text>
             </View>
           </View>
@@ -713,19 +738,27 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
             <View style={styles.tableRow}>
               <Text style={{ ...styles.tableCell, flex: 2 }}>Amendes évitées</Text>
               <Text style={{ ...styles.tableCell, flex: 1 }}>
-                {roi.economies_amendes.annuelle.toLocaleString('fr-FR')}€
+                {roi.economies_amendes.annuelle > 0
+                  ? roi.economies_amendes.annuelle.toLocaleString('fr-FR') + '€'
+                  : '0€'}
               </Text>
               <Text style={{ ...styles.tableCell, flex: 1 }}>
-                {roi.economies_amendes.trois_ans.toLocaleString('fr-FR')}€
+                {roi.economies_amendes.trois_ans > 0
+                  ? roi.economies_amendes.trois_ans.toLocaleString('fr-FR') + '€'
+                  : '0€'}
               </Text>
             </View>
             <View style={styles.tableRow}>
               <Text style={{ ...styles.tableCell, flex: 2 }}>Gains de productivité</Text>
               <Text style={{ ...styles.tableCell, flex: 1 }}>
-                {roi.gains_productivite.annuel.toLocaleString('fr-FR')}€
+                {roi.gains_productivite.annuel > 0
+                  ? roi.gains_productivite.annuel.toLocaleString('fr-FR') + '€'
+                  : '0€'}
               </Text>
               <Text style={{ ...styles.tableCell, flex: 1 }}>
-                {roi.gains_productivite.trois_ans.toLocaleString('fr-FR')}€
+                {roi.gains_productivite.trois_ans > 0
+                  ? roi.gains_productivite.trois_ans.toLocaleString('fr-FR') + '€'
+                  : '0€'}
               </Text>
             </View>
             <View style={[styles.tableRow, { backgroundColor: '#F0FDF4' }]}>
@@ -770,7 +803,7 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>DreamNova Compta | Rapport de Conformité 2026</Text>
-          <Text style={styles.pageNumber}>Page 6</Text>
+          <Text style={styles.pageNumber}>Page 6 sur 10</Text>
         </View>
       </Page>
 
@@ -818,7 +851,7 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>DreamNova Compta | Rapport de Conformité 2026</Text>
-          <Text style={styles.pageNumber}>Page 7</Text>
+          <Text style={styles.pageNumber}>Page 7 sur 10</Text>
         </View>
       </Page>
 
@@ -870,7 +903,7 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>DreamNova Compta | Rapport de Conformité 2026</Text>
-          <Text style={styles.pageNumber}>Page 8</Text>
+          <Text style={styles.pageNumber}>Page 8 sur 10</Text>
         </View>
       </Page>
 
@@ -941,7 +974,7 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>DreamNova Compta | Rapport de Conformité 2026</Text>
-          <Text style={styles.pageNumber}>Page 9</Text>
+          <Text style={styles.pageNumber}>Page 9 sur 10</Text>
         </View>
       </Page>
 
@@ -1005,7 +1038,7 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>DreamNova Compta | Rapport de Conformité 2026</Text>
-          <Text style={styles.pageNumber}>Page 10</Text>
+          <Text style={styles.pageNumber}>Page 10 sur 10</Text>
         </View>
       </Page>
     </Document>
