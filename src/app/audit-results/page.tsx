@@ -201,9 +201,9 @@ const AuditResultsPage = () => {
           transition={{ duration: 0.5 }}
           className="mb-8"
         >
-          <h2 className="text-3xl font-bold text-slate-900 mb-2">{company.nom_entreprise}</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-2">{company.nom_entreprise || company.companyName || 'Entreprise'}</h2>
           <p className="text-slate-600">
-            {company.secteur_activite} • {company.taille_entreprise} • {company.nombre_employes} employés • {(company.ca_annuel / 1000000).toFixed(1)}M€ CA
+            {company.secteur_activite || company.sector || 'Secteur'} • {company.taille_entreprise || 'Taille'} • {company.nombre_employes || company.employees || 0} employés • {company.ca_annuel ? (company.ca_annuel / 1000000).toFixed(1) + 'M€' : 'CA'} CA
           </p>
         </motion.div>
 
@@ -221,7 +221,7 @@ const AuditResultsPage = () => {
                   <div>
                     <p className="text-sm font-medium text-slate-600 mb-2">Score de Conformité</p>
                     <div className="flex items-baseline gap-2">
-                      <p className={`text-5xl font-bold ${scoreColor}`}>{audit.score_conformite}%</p>
+                      <p className={`text-5xl font-bold ${scoreColor}`}>{scoreConformite}%</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-center">
@@ -240,22 +240,22 @@ const AuditResultsPage = () => {
                           cy="18"
                           r="16"
                           fill="none"
-                          stroke={audit.score_conformite >= 80 ? '#10b981' : audit.score_conformite >= 60 ? '#f59e0b' : '#ef4444'}
+                          stroke={scoreConformite >= 80 ? '#10b981' : scoreConformite >= 60 ? '#f59e0b' : '#ef4444'}
                           strokeWidth="3"
-                          strokeDasharray={`${audit.score_conformite}, 100`}
+                          strokeDasharray={`${scoreConformite}, 100`}
                           strokeLinecap="round"
                         />
                       </svg>
                       <div className="absolute inset-0 flex items-center justify-center">
                         <span className="text-2xl font-bold text-slate-900">
-                          {audit.score_conformite}%
+                          {scoreConformite}%
                         </span>
                       </div>
                     </div>
                   </div>
-                  <div className={`flex items-center gap-2 p-3 rounded-lg border ${riskColor[audit.niveau_risque]}`}>
-                    <span className="material-symbols-outlined">{riskIcon[audit.niveau_risque]}</span>
-                    <span className="font-bold">Risque {audit.niveau_risque}</span>
+                  <div className={`flex items-center gap-2 p-3 rounded-lg border ${riskColor[audit.niveau_risque || 'MODÉRÉ']}`}>
+                    <span className="material-symbols-outlined">{riskIcon[audit.niveau_risque || 'MODÉRÉ']}</span>
+                    <span className="font-bold">Risque {audit.niveau_risque || 'MODÉRÉ'}</span>
                   </div>
                 </div>
               </Card>
@@ -276,27 +276,27 @@ const AuditResultsPage = () => {
                   <div>
                     <p className="text-sm text-slate-600">Mensuelle</p>
                     <p className="text-2xl font-bold text-danger-600">
-                      {audit.amendes_potentielles.mensuelle.toLocaleString('fr-FR')}€
+                      {(audit.amendes_potentielles?.mensuelle || 0).toLocaleString('fr-FR')}€
                     </p>
                   </div>
                   <div>
                     <p className="text-sm text-slate-600">Annuelle (factures)</p>
                     <p className="text-3xl font-bold text-danger-700">
-                      {audit.amendes_potentielles.annuelle.toLocaleString('fr-FR')}€
+                      {(audit.amendes_potentielles?.annuelle || 0).toLocaleString('fr-FR')}€
                     </p>
                   </div>
-                  {audit.amendes_potentielles.pa_manquante > 0 && (
+                  {(audit.amendes_potentielles?.pa_manquante || 0) > 0 && (
                     <div className="pt-3 border-t border-danger-200">
                       <p className="text-sm text-slate-600">PA manquante (an 1)</p>
                       <p className="text-xl font-bold text-danger-600">
-                        +{audit.amendes_potentielles.pa_manquante.toLocaleString('fr-FR')}€
+                        +{(audit.amendes_potentielles?.pa_manquante || 0).toLocaleString('fr-FR')}€
                       </p>
                     </div>
                   )}
                   <div className="pt-3 border-t border-danger-200">
                     <p className="text-sm font-medium text-slate-700">Total An 1</p>
                     <p className="text-4xl font-bold text-danger-900">
-                      {(audit.amendes_potentielles.annuelle + audit.amendes_potentielles.pa_manquante).toLocaleString('fr-FR')}€
+                      {((audit.amendes_potentielles?.annuelle || 0) + (audit.amendes_potentielles?.pa_manquante || 0)).toLocaleString('fr-FR')}€
                     </p>
                   </div>
                 </div>

@@ -83,39 +83,146 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onBack }) => {
       if (formData.employees === '0-10') score -= 10
       if (formData.suppliersRange === '50+') score -= 20
 
-      // Store results in sessionStorage for results page
-      sessionStorage.setItem('auditResults', JSON.stringify({
-        ...auditData,
-        actions,
-        penalties: {
-          annual: totalPenalties,
-          monthly: totalPenalties / 12,
-          threeYear: totalPenalties * 3,
+      // Calculer le niveau de risque basé sur le score
+      const niveauRisque = score >= 80 ? 'FAIBLE' : score >= 60 ? 'MODÉRÉ' : score >= 40 ? 'ÉLEVÉ' : 'CRITIQUE'
+
+      // Transformer les données au format attendu par audit-results
+      const formattedResults = {
+        company: {
+          nom_entreprise: formData.companyName,
+          secteur_activite: 'Non spécifié',
+          taille_entreprise: formData.employees,
+          nombre_employes: { '0-10': 5, '10-50': 30, '50+': 100 }[formData.employees] || 30,
+          ca_annuel: 0,
+          volume_factures_b2b: invoices,
+          volume_factures_b2c: 0,
+          logiciel_actuel: system,
+          format_actuel: 'PDF',
         },
-        score: Math.max(0, Math.min(100, score)),
-        timestamp: new Date().toISOString(),
-      }))
+        audit: {
+          score_conformite: Math.max(0, Math.min(100, score)),
+          niveau_risque: niveauRisque as 'CRITIQUE' | 'ÉLEVÉ' | 'MODÉRÉ' | 'FAIBLE',
+          amendes_potentielles: {
+            mensuelle: totalPenalties / 12,
+            annuelle: totalPenalties,
+            pa_manquante: paPenalties,
+          },
+          plan_migration: {
+            duree_estimee: '3-6 mois',
+            cout_total: 8000,
+            etapes: actions || ['Analyse des besoins', 'Intégration PDP', 'Formation équipe', 'Mise en production'],
+          },
+          points_critiques: [
+            formData.invoicingMethod === 'manual' ? 'Facturation manuelle non conforme' : '',
+            !hasPA ? 'Plateforme d\'archivage (PA) manquante' : '',
+            formData.invoicingMethod === 'other' ? 'Solution actuelle non identifiée' : '',
+          ].filter(Boolean),
+          recommandations: actions || ['Mettre en place une solution de facturation électronique', 'Choisir un PDP conforme', 'Former les équipes'],
+        },
+        roi: {
+          economies_amendes: {
+            annuelle: totalPenalties,
+            trois_ans: totalPenalties * 3,
+          },
+          gains_productivite: {
+            annuel: invoices * 12 * 2, // Estimation: 2€ par facture économisés
+            trois_ans: invoices * 12 * 2 * 3,
+          },
+          roi: {
+            mensuel: 0,
+            annuel: ((totalPenalties + invoices * 12 * 2) / 8000) * 100,
+            trois_ans: ((totalPenalties * 3 + invoices * 12 * 2 * 3) / 8000) * 100,
+          },
+          breakeven_mois: Math.ceil(8000 / ((totalPenalties + invoices * 12 * 2) / 12)),
+        },
+        pdp: {
+          provider: 'Pennylane',
+          score_match: 85,
+          raisons: ['Intégration facile', 'Prix compétitif', 'Support français'],
+          prix_mensuel: 49,
+          delai_integration: '2-4 semaines',
+          fonctionnalites_cles: ['Facturation électronique', 'Archivage conforme', 'Export comptable'],
+        },
+      }
+
+      // Store results in sessionStorage for results page
+      sessionStorage.setItem('auditResults', JSON.stringify(formattedResults))
 
       // Navigate to results page
       router.push('/audit-results')
     } catch (error) {
       console.error('Failed to complete audit:', error)
-      // Still navigate to results with fallback data
-      sessionStorage.setItem('auditResults', JSON.stringify({
-        ...auditData,
-        actions: [
-          'Inventorier tous vos fournisseurs actuels',
-          'Évaluer votre logiciel de comptabilité actuel',
-          'Former votre équipe aux nouvelles obligations'
-        ],
-        penalties: {
-          annual: Math.min(invoices * 12 * 15, 15000),
-          monthly: Math.min(invoices * 12 * 15, 15000) / 12,
-          threeYear: Math.min(invoices * 12 * 15, 15000) * 3,
+      
+      // Fallback avec format correct même en cas d'erreur
+      const score = Math.max(0, Math.min(100, 
+        100 - (formData.invoicingMethod === 'manual' ? 40 : formData.invoicingMethod === 'other' ? 30 : 0)
+        - (formData.employees === '0-10' ? 10 : 0)
+        - (formData.suppliersRange === '50+' ? 20 : 0)
+      ))
+      const niveauRisque = score >= 80 ? 'FAIBLE' : score >= 60 ? 'MODÉRÉ' : score >= 40 ? 'ÉLEVÉ' : 'CRITIQUE'
+      const annualPenalties = Math.min(invoices * 12 * 15, 15000)
+      const paPenalties = formData.invoicingMethod === 'platform' ? 0 : 500 + (1000 * 4)
+      const totalPenalties = annualPenalties + paPenalties
+      
+      const fallbackResults = {
+        company: {
+          nom_entreprise: formData.companyName,
+          secteur_activite: 'Non spécifié',
+          taille_entreprise: formData.employees,
+          nombre_employes: { '0-10': 5, '10-50': 30, '50+': 100 }[formData.employees] || 30,
+          ca_annuel: 0,
+          volume_factures_b2b: invoices,
+          volume_factures_b2c: 0,
+          logiciel_actuel: system,
+          format_actuel: 'PDF',
         },
-        score: 65,
-        timestamp: new Date().toISOString(),
-      }))
+        audit: {
+          score_conformite: score,
+          niveau_risque: niveauRisque as 'CRITIQUE' | 'ÉLEVÉ' | 'MODÉRÉ' | 'FAIBLE',
+          amendes_potentielles: {
+            mensuelle: totalPenalties / 12,
+            annuelle: totalPenalties,
+            pa_manquante: paPenalties,
+          },
+          plan_migration: {
+            duree_estimee: '3-6 mois',
+            cout_total: 8000,
+            etapes: ['Analyse des besoins', 'Intégration PDP', 'Formation équipe', 'Mise en production'],
+          },
+          points_critiques: [
+            formData.invoicingMethod === 'manual' ? 'Facturation manuelle non conforme' : '',
+            formData.invoicingMethod !== 'platform' ? 'Plateforme d\'archivage (PA) manquante' : '',
+          ].filter(Boolean),
+          recommandations: ['Mettre en place une solution de facturation électronique', 'Choisir un PDP conforme', 'Former les équipes'],
+        },
+        roi: {
+          economies_amendes: {
+            annuelle: totalPenalties,
+            trois_ans: totalPenalties * 3,
+          },
+          gains_productivite: {
+            annuel: invoices * 12 * 2,
+            trois_ans: invoices * 12 * 2 * 3,
+          },
+          roi: {
+            mensuel: 0,
+            annuel: ((totalPenalties + invoices * 12 * 2) / 8000) * 100,
+            trois_ans: ((totalPenalties * 3 + invoices * 12 * 2 * 3) / 8000) * 100,
+          },
+          breakeven_mois: Math.ceil(8000 / ((totalPenalties + invoices * 12 * 2) / 12)),
+        },
+        pdp: {
+          provider: 'Pennylane',
+          score_match: 85,
+          raisons: ['Intégration facile', 'Prix compétitif', 'Support français'],
+          prix_mensuel: 49,
+          delai_integration: '2-4 semaines',
+          fonctionnalites_cles: ['Facturation électronique', 'Archivage conforme', 'Export comptable'],
+        },
+      }
+      
+      // Still navigate to results with fallback data
+      sessionStorage.setItem('auditResults', JSON.stringify(fallbackResults))
       router.push('/audit-results')
     } finally {
       setIsLoading(false)

@@ -142,9 +142,8 @@ const PricingPage = () => {
   ]
 
   const handleSelectPlan = (planId: string) => {
-    // TODO: Integrate with payment provider (Alma, Stripe)
-    console.log('Selected plan:', planId)
-    // Navigate to checkout or show payment modal
+    // Rediriger vers la page de checkout avec le plan sélectionné
+    window.location.href = `/checkout?plan=${planId}`
   }
 
   return (
