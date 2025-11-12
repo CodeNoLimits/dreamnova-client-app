@@ -68,16 +68,16 @@ export default function ConformityChecklist() {
           id: 'pdp',
           label: 'PDP configuré',
           description: 'Connectez votre Plateforme de Dématérialisation Partenaire',
-          status: 'pending',
-          actionUrl: '/dashboard',
+          status: hasSubscription ? 'pending' : 'blocked',
+          actionUrl: hasSubscription ? '/dashboard#pdp-integration' : undefined,
           actionLabel: 'Configurer PDP',
         },
         {
           id: 'facturx',
           label: 'Factur-X configuré',
           description: 'Configurez la conversion automatique en format Factur-X',
-          status: 'pending',
-          actionUrl: '/dashboard',
+          status: hasSubscription ? 'pending' : 'blocked',
+          actionUrl: hasSubscription ? '/dashboard#document-upload' : undefined,
           actionLabel: 'Configurer Factur-X',
         },
         {
@@ -92,24 +92,24 @@ export default function ConformityChecklist() {
           id: 'tests',
           label: 'Tests de facturation effectués',
           description: 'Testez votre processus de facturation avant la deadline',
-          status: 'pending',
-          actionUrl: '/dashboard',
+          status: hasSubscription ? 'pending' : 'blocked',
+          actionUrl: hasSubscription ? '/dashboard#test-flow' : undefined,
           actionLabel: 'Tester',
         },
         {
           id: 'archivage',
           label: 'Archivage configuré',
           description: 'Configurez l\'archivage sécurisé de vos factures',
-          status: 'pending',
-          actionUrl: '/dashboard',
+          status: hasSubscription ? 'pending' : 'blocked',
+          actionUrl: hasSubscription ? '/dashboard#archivage' : undefined,
           actionLabel: 'Configurer',
         },
         {
           id: 'ereporting',
           label: 'E-reporting configuré',
           description: 'Configurez la transmission automatique à la DGFIP',
-          status: 'pending',
-          actionUrl: '/dashboard',
+          status: hasSubscription ? 'pending' : 'blocked',
+          actionUrl: hasSubscription ? '/dashboard#e-reporting' : undefined,
           actionLabel: 'Configurer',
         },
       ]
@@ -180,11 +180,16 @@ export default function ConformityChecklist() {
               <h3 className="font-semibold text-slate-900 mb-1">{item.label}</h3>
               <p className="text-sm text-slate-600 mb-2">{item.description}</p>
               {item.status !== 'done' && item.actionUrl && (
-                <Link href={item.actionUrl}>
+                <Link href={item.actionUrl} className="inline-block">
                   <Button
                     size="sm"
                     variant={item.status === 'blocked' ? 'ghost' : 'primary'}
                     disabled={item.status === 'blocked'}
+                    onClick={(e) => {
+                      if (item.status === 'blocked') {
+                        e.preventDefault()
+                      }
+                    }}
                   >
                     {item.actionLabel || 'Commencer'}
                   </Button>

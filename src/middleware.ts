@@ -20,7 +20,14 @@ export async function middleware(request: NextRequest) {
             request,
           })
           cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
+            supabaseResponse.cookies.set(name, value, {
+              ...options,
+              // Améliorer la persistance de session
+              maxAge: options?.maxAge || 60 * 60 * 24 * 7, // 7 jours par défaut
+              sameSite: options?.sameSite || 'lax',
+              secure: process.env.NODE_ENV === 'production',
+              httpOnly: options?.httpOnly !== false,
+            })
           )
         },
       },

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Outfit } from 'next/font/google'
 import './globals.css'
 import InstallPWA from '@/components/features/InstallPWA'
+import BetaBanner from '@/components/layout/BetaBanner'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -21,11 +22,6 @@ export const metadata: Metadata = {
   description: 'Plateforme de conformité et facturation électronique pour les entreprises françaises. Préparez-vous aux obligations 2026.',
   keywords: ['facturation électronique', 'conformité', 'e-invoicing', 'PPF', 'PDP', '2026'],
   authors: [{ name: 'DreamNova' }],
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -44,6 +40,12 @@ export const metadata: Metadata = {
     description: 'Plateforme de conformité et facturation électronique pour les entreprises françaises.',
     type: 'website',
   },
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 }
 
 export default function RootLayout({
@@ -65,21 +67,22 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="DreamNova" />
       </head>
       <body className="antialiased">
+        <BetaBanner />
         {children}
         <InstallPWA />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                  navigator.serviceWorker.register('/sw.js')
-                    .then((reg) => console.log('Service Worker registered:', reg))
-                    .catch((err) => console.log('Service Worker registration failed:', err))
-                })
-              }
-            `,
-          }}
-        />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+                    window.addEventListener('load', () => {
+                      navigator.serviceWorker.register('/sw.js')
+                        .then((reg) => console.log('Service Worker registered:', reg))
+                        .catch((err) => console.log('Service Worker registration failed:', err))
+                    })
+                  }
+                `,
+              }}
+            />
       </body>
     </html>
   )

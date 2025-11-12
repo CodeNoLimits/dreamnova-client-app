@@ -51,23 +51,58 @@ const DashboardPage = () => {
 
   useEffect(() => {
     const supabase = createClient()
+    let isMounted = true
 
-    // Vérifier la session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        router.push('/login')
-      } else {
-        setUser(session.user)
-        chargerAudits(session.user.id)
-        chargerAbonnement(session.user.id)
+    // Timeout de sécurité (10 secondes max)
+    const timeoutId = setTimeout(() => {
+      if (isMounted) {
+        console.warn('Dashboard: Timeout lors du chargement de la session')
         setLoading(false)
       }
-    })
+    }, 10000)
+
+    // Vérifier la session
+    supabase.auth.getSession()
+      .then(({ data: { session }, error }) => {
+        if (!isMounted) return
+
+        clearTimeout(timeoutId)
+
+        if (error) {
+          console.error('Dashboard: Erreur lors de la récupération de la session:', error)
+          setLoading(false)
+          return
+        }
+
+        if (!session) {
+          router.push('/login')
+          return
+        }
+
+        setUser(session.user)
+        // Charger les données en parallèle
+        Promise.all([
+          chargerAudits(session.user.id),
+          chargerAbonnement(session.user.id)
+        ]).finally(() => {
+          if (isMounted) {
+            setLoading(false)
+          }
+        })
+      })
+      .catch((error) => {
+        if (!isMounted) return
+        clearTimeout(timeoutId)
+        console.error('Dashboard: Erreur lors de getSession:', error)
+        setLoading(false)
+      })
 
     // Écouter les changements d'auth
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!isMounted) return
+
       if (!session) {
         router.push('/login')
       } else {
@@ -77,7 +112,11 @@ const DashboardPage = () => {
       }
     })
 
-    return () => subscription.unsubscribe()
+    return () => {
+      isMounted = false
+      clearTimeout(timeoutId)
+      subscription.unsubscribe()
+    }
   }, [router])
 
   const chargerAbonnement = async (userId: string) => {
@@ -628,6 +667,78 @@ const DashboardPage = () => {
         >
           <ConformityChecklist />
         </motion.div>
+        
+        {/* Section E-Reporting */}
+        <motion.div
+          id="e-reporting"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9 }}
+          className="mb-8 scroll-mt-20"
+        >
+          <Card className="p-6">
+            <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <span className="material-symbols-outlined text-primary-600">send</span>
+              E-Reporting automatique
+            </h2>
+            <p className="text-slate-600 mb-4">
+              Configurez la transmission automatique de vos factures à la DGFIP via votre Plateforme de Dématérialisation Partenaire (PDP).
+            </p>
+            {hasSubscription ? (
+              <div className="space-y-4">
+                <div className="bg-primary-50 border border-primary-200 rounded-lg p-4">
+                  <p className="text-sm text-primary-800 mb-3">
+                    <strong>✅ E-Reporting disponible</strong>
+                    <br />
+                    Connectez votre PDP pour activer la transmission automatique.
+                  </p>
+                  <Link href="/dashboard#pdp-integration">
+                    <Button size="sm" variant="primary">
+                      Configurer PDP
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                <p className="text-sm text-slate-600 mb-3">
+                  Cette fonctionnalité nécessite un abonnement actif.
+                </p>
+                <Link href="/pricing">
+                  <Button size="sm" variant="secondary">
+                    Voir les offres
+                  </Button>
+                </Link>
+              </div>
+            )}
+          </Card>
+        </motion.div>
+        
+        {/* Section Archivage */}
+        <motion.div
+          id="archivage"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0 }}
+          className="mb-8 scroll-mt-20"
+        >
+          <Card className="p-6">
+            <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <span className="material-symbols-outlined text-primary-600">archive</span>
+              Archivage sécurisé
+            </h2>
+            <p className="text-slate-600 mb-4">
+              Tous vos documents convertis sont automatiquement archivés dans Supabase Storage avec une durée de conservation conforme aux obligations légales (10 ans).
+            </p>
+            <div className="bg-primary-50 border border-primary-200 rounded-lg p-4">
+              <p className="text-sm text-primary-800">
+                <strong>✅ Archivage automatique activé</strong>
+                <br />
+                Vos factures sont stockées de manière sécurisée et accessible depuis votre dashboard.
+              </p>
+            </div>
+          </Card>
+        </motion.div>
 
         {/* Historique des audits et actions */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -706,9 +817,11 @@ const DashboardPage = () => {
 
           {/* Actions rapides */}
           <motion.div
+            id="test-flow"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0 }}
+            className="scroll-mt-20"
           >
             <Card className="p-6">
               <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
@@ -781,21 +894,41 @@ const DashboardPage = () => {
             </Card>
           </motion.div>
 
-          {/* QR Code Pairing pour mobile */}
+          {/* QR Code Pairing pour mobile - PDP Integration */}
           {features.hasFacturXConversion && (
             <motion.div
+              id="pdp-integration"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.1 }}
-              className="col-span-1"
+              className="col-span-1 scroll-mt-20"
             >
+              <Card className="p-6 mb-6">
+                <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-primary-600">link</span>
+                  Configuration PDP
+                </h3>
+                <p className="text-sm text-slate-600 mb-4">
+                  Connectez votre Plateforme de Dématérialisation Partenaire (Pennylane, Qonto, Sellsy, Tiime) pour activer l'e-reporting automatique.
+                </p>
+                <div className="bg-primary-50 border border-primary-200 rounded-lg p-4 mb-4">
+                  <p className="text-sm text-primary-800">
+                    <strong>📋 PDP recommandé:</strong> {dernierAudit?.pdp_recommande || 'À déterminer via audit'}
+                  </p>
+                </div>
+                <Button variant="primary" size="sm" className="w-full">
+                  <span className="material-symbols-outlined mr-2">settings</span>
+                  Configurer PDP
+                </Button>
+              </Card>
               <QRCodePairing
                 onPaired={(sessionId) => {
                   console.log('Mobile appairé:', sessionId)
                 }}
                 onUploadComplete={(file) => {
                   console.log('Document uploadé depuis mobile:', file.name)
-                  // TODO: Rafraîchir la liste des documents
+                  // Rafraîchir la liste des documents
+                  chargerAudits(user?.id || '')
                 }}
               />
             </motion.div>
@@ -804,15 +937,19 @@ const DashboardPage = () => {
           {/* Upload de documents (desktop) */}
           {features.hasFacturXConversion ? (
             <motion.div
+              id="document-upload"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2 }}
-              className="col-span-1"
+              className="col-span-1 scroll-mt-20"
             >
               <DocumentUpload
-                onUploadComplete={(file, format) => {
-                  console.log('Document uploadé:', file.name, 'Format:', format)
-                  // TODO: Rafraîchir la liste des documents
+                onUploadComplete={async (file, format) => {
+                  console.log('✅ Document uploadé:', file.name, 'Format:', format)
+                  // Rafraîchir les données du dashboard
+                  if (user) {
+                    await chargerAudits(user.id)
+                  }
                 }}
               />
             </motion.div>

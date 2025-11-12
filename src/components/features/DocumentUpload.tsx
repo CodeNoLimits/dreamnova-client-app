@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import { createClient } from '@/lib/supabase/client'
 
 interface DocumentUploadProps {
   onUploadComplete?: (file: File, convertedFormat?: string) => void
@@ -77,35 +78,37 @@ export default function DocumentUpload({
         reader.readAsDataURL(file)
       }
 
-      // Simuler la conversion (à remplacer par l'API réelle)
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      // ✅ Appeler l'API de conversion vers Factur-X (RÉEL)
+      const formData = new FormData()
+      formData.append('file', file)
+      
+      const response = await fetch('/api/documents/convert', {
+        method: 'POST',
+        body: formData,
+      })
 
-      // TODO: Appeler l'API de conversion vers Factur-X
-      // const formData = new FormData()
-      // formData.append('file', file)
-      // const response = await fetch('/api/documents/convert', {
-      //   method: 'POST',
-      //   body: formData
-      // })
-      // const convertedFile = await response.json()
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Erreur lors de la conversion')
+      }
 
+      const result = await response.json()
+      
       clearInterval(progressInterval)
       setUploadProgress(100)
 
-      // Sauvegarder dans Supabase
-      // TODO: Implémenter la sauvegarde dans la table documents
-      // await supabase.from('documents').insert({
-      //   user_id: user.id,
-      //   file_name: file.name,
-      //   file_type: file.type,
-      //   file_size: file.size,
-      //   converted_format: 'factur-x',
-      //   file_url: uploadedUrl
-      // })
-
+      // ✅ Le document est déjà sauvegardé dans Supabase par l'API
+      // L'API a fait :
+      // - Upload vers Supabase Storage
+      // - Conversion Factur-X (si PDF)
+      // - Insertion dans la table documents
+      
       if (onUploadComplete) {
-        onUploadComplete(file, 'factur-x')
+        onUploadComplete(file, result.document?.converted_format || null)
       }
+      
+      // Afficher un message de succès
+      setError(null)
 
       // Reset après 2 secondes
       setTimeout(() => {

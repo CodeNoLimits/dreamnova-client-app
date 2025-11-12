@@ -223,6 +223,9 @@ const AuditResultsPage = () => {
 
     try {
       // Préparer les données pour le PDF
+      // S'assurer que volume_factures_b2b est bien récupéré
+      const volumeB2B = company.volume_factures_b2b || (company as any).volume_b2b_mensuel || 0
+      
       const pdfData = {
         company: {
           nom_entreprise: company.nom_entreprise || (company as any).companyName || 'Entreprise',
@@ -230,7 +233,7 @@ const AuditResultsPage = () => {
           taille_entreprise: company.taille_entreprise || 'Non spécifié',
           nombre_employes: company.nombre_employes || (company as any).employees || 0,
           ca_annuel: company.ca_annuel || 0,
-          volume_factures_b2b: company.volume_factures_b2b || (company as any).volume_b2b_mensuel || 0,
+          volume_factures_b2b: volumeB2B, // Utiliser la valeur normalisée
           volume_factures_b2c: company.volume_factures_b2c || (company as any).volume_b2c_mensuel || 0,
           format_actuel: company.format_actuel || 'PDF',
         },

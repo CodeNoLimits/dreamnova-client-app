@@ -3,12 +3,17 @@ import { createClient } from '@/lib/supabase/server'
 import { constructWebhookEvent, WEBHOOK_EVENTS } from '@/adapters/payment'
 import Stripe from 'stripe'
 
-// Initialiser Stripe pour récupérer les détails d'abonnement
-const stripeKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder'
-const stripe = new Stripe(stripeKey, {
-  apiVersion: '2025-10-29.clover',
-  typescript: true,
-})
+// Fonction helper pour obtenir Stripe (lazy initialization)
+function getStripe(): Stripe {
+  const stripeKey = process.env.STRIPE_SECRET_KEY
+  if (!stripeKey || stripeKey.includes('placeholder')) {
+    throw new Error('STRIPE_SECRET_KEY manquante ou invalide')
+  }
+  return new Stripe(stripeKey, {
+    apiVersion: '2025-10-29.clover',
+    typescript: true,
+  })
+}
 
 /**
  * API Route: Webhooks Stripe
@@ -59,6 +64,7 @@ export async function POST(request: NextRequest) {
         // Si c'est un abonnement
         if (session.mode === 'subscription' && session.subscription) {
           // Récupérer les détails de l'abonnement Stripe pour vérifier le statut trial
+          const stripe = getStripe()
           const stripeSubscription = await stripe.subscriptions.retrieve(session.subscription as string)
           const isTrialing = stripeSubscription.status === 'trialing'
           

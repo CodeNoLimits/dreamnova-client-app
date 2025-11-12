@@ -45,10 +45,17 @@ const LoginPage = () => {
 
         if (signInError) throw signInError
 
-        if (data.user) {
+        if (data.user && data.session) {
+          // Forcer la persistance de session
+          await supabase.auth.setSession({
+            access_token: data.session.access_token,
+            refresh_token: data.session.refresh_token,
+          })
+
           setSuccess('Connexion réussie ! Redirection...')
           setTimeout(() => {
             router.push('/dashboard')
+            router.refresh() // Forcer le rafraîchissement
           }, 1000)
         }
       } else {
@@ -214,6 +221,137 @@ const LoginPage = () => {
               </p>
             </div>
           )}
+
+          {/* Connexion invité test */}
+          <div className="mt-8 pt-8 border-t-2 border-dashed border-primary-300 bg-primary-50/50 rounded-lg p-6">
+            <p className="text-center text-sm font-bold text-primary-700 mb-4 flex items-center justify-center gap-2">
+              <span className="material-symbols-outlined text-lg">science</span>
+              Connexion Invité Test
+            </p>
+            <p className="text-center text-xs text-slate-600 mb-4">
+              Testez rapidement avec différents niveaux d'accès
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <Button
+                variant="secondary"
+                size="md"
+                onClick={async () => {
+                  setIsLoading(true)
+                  try {
+                    const supabase = createClient()
+                    const { data, error } = await supabase.auth.signInAnonymously()
+                    if (!error && data.user) {
+                      await supabase.from('profiles').upsert({
+                        id: data.user.id,
+                        full_name: 'Invité (Sans abonnement)',
+                        company_name: 'Test Company',
+                      })
+                      if (data.session) {
+                        await supabase.auth.setSession({
+                          access_token: data.session.access_token,
+                          refresh_token: data.session.refresh_token,
+                        })
+                      }
+                      router.push('/dashboard')
+                      router.refresh()
+                    }
+                  } catch (err: any) {
+                    setError(err.message || 'Erreur lors de la connexion invité')
+                  } finally {
+                    setIsLoading(false)
+                  }
+                }}
+                disabled={isLoading}
+                className="bg-white border-2 border-slate-300 hover:border-primary-500 hover:bg-primary-50"
+              >
+                <span className="material-symbols-outlined mr-2 text-sm">person</span>
+                Sans abonnement
+              </Button>
+              <Button
+                variant="primary"
+                size="md"
+                onClick={async () => {
+                  setIsLoading(true)
+                  try {
+                    const supabase = createClient()
+                    const { data, error } = await supabase.auth.signInAnonymously()
+                    if (!error && data.user) {
+                      await supabase.from('profiles').upsert({
+                        id: data.user.id,
+                        full_name: 'Invité (Growth)',
+                        company_name: 'Test Company',
+                      })
+                      await supabase.from('subscriptions').upsert({
+                        user_id: data.user.id,
+                        plan_type: 'growth',
+                        status: 'active',
+                        started_at: new Date().toISOString(),
+                        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+                      })
+                      if (data.session) {
+                        await supabase.auth.setSession({
+                          access_token: data.session.access_token,
+                          refresh_token: data.session.refresh_token,
+                        })
+                      }
+                      router.push('/dashboard')
+                      router.refresh()
+                    }
+                  } catch (err: any) {
+                    setError(err.message || 'Erreur lors de la connexion invité')
+                  } finally {
+                    setIsLoading(false)
+                  }
+                }}
+                disabled={isLoading}
+              >
+                <span className="material-symbols-outlined mr-2 text-sm">trending_up</span>
+                Growth
+              </Button>
+              <Button
+                variant="primary"
+                size="md"
+                onClick={async () => {
+                  setIsLoading(true)
+                  try {
+                    const supabase = createClient()
+                    const { data, error } = await supabase.auth.signInAnonymously()
+                    if (!error && data.user) {
+                      await supabase.from('profiles').upsert({
+                        id: data.user.id,
+                        full_name: 'Invité (Premium)',
+                        company_name: 'Test Company',
+                      })
+                      await supabase.from('subscriptions').upsert({
+                        user_id: data.user.id,
+                        plan_type: 'premium-monthly',
+                        status: 'active',
+                        started_at: new Date().toISOString(),
+                        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+                      })
+                      if (data.session) {
+                        await supabase.auth.setSession({
+                          access_token: data.session.access_token,
+                          refresh_token: data.session.refresh_token,
+                        })
+                      }
+                      router.push('/dashboard')
+                      router.refresh()
+                    }
+                  } catch (err: any) {
+                    setError(err.message || 'Erreur lors de la connexion invité')
+                  } finally {
+                    setIsLoading(false)
+                  }
+                }}
+                disabled={isLoading}
+                className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"
+              >
+                <span className="material-symbols-outlined mr-2 text-sm">star</span>
+                Premium
+              </Button>
+            </div>
+          </div>
         </Card>
       </motion.div>
     </div>

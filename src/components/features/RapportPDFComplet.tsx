@@ -405,13 +405,27 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
             <Text style={styles.metricLabel}>Amendes Potentielles (An 1)</Text>
             <Text style={styles.metricValue}>
               {(audit.amendes_potentielles.annuelle +
-                audit.amendes_potentielles.pa_manquante).toLocaleString('fr-FR')}
-              €
+                audit.amendes_potentielles.pa_manquante) > 0
+                ? (audit.amendes_potentielles.annuelle +
+                    audit.amendes_potentielles.pa_manquante).toLocaleString('fr-FR') + '€'
+                : '0€'}
             </Text>
+            {(audit.amendes_potentielles.annuelle + audit.amendes_potentielles.pa_manquante) === 0 && (
+              <Text style={{ ...styles.text, fontSize: 8, marginTop: 3, color: '#64748B' }}>
+                Volume faible
+              </Text>
+            )}
           </View>
           <View style={styles.metricBox}>
             <Text style={styles.metricLabel}>ROI Conformité (An 1)</Text>
-            <Text style={styles.metricValue}>{roi.roi.annuel.toFixed(0)}%</Text>
+            <Text style={styles.metricValue}>
+              {roi.roi.annuel > 0 ? roi.roi.annuel.toFixed(0) + '%' : '0%'}
+            </Text>
+            {roi.roi.annuel === 0 && (
+              <Text style={{ ...styles.text, fontSize: 8, marginTop: 3, color: '#64748B' }}>
+                Volume faible
+              </Text>
+            )}
           </View>
         </View>
 
@@ -422,13 +436,20 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
           </View>
           <View style={styles.metricBox}>
             <Text style={styles.metricLabel}>Breakeven</Text>
-            <Text style={styles.metricValue}>{roi.breakeven_mois} mois</Text>
+            <Text style={styles.metricValue}>
+              {roi.breakeven_mois > 0 ? roi.breakeven_mois + ' mois' : 'N/A'}
+            </Text>
+            {roi.breakeven_mois === 0 && (
+              <Text style={{ ...styles.text, fontSize: 8, marginTop: 3, color: '#64748B' }}>
+                Volume faible
+              </Text>
+            )}
           </View>
         </View>
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>DreamNova Compta | Rapport de Conformité 2026</Text>
-          <Text style={styles.pageNumber}>Page 2</Text>
+          <Text style={styles.pageNumber}>Page 2 sur 10</Text>
         </View>
       </Page>
 
@@ -565,6 +586,19 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Calcul des Amendes Potentielles</Text>
+          {company.volume_factures_b2b > 0 && (
+            <Text style={{ ...styles.text, fontSize: 10, marginBottom: 10, color: '#64748B' }}>
+              Volume actuel : {company.volume_factures_b2b} factures B2B par mois
+            </Text>
+          )}
+          {company.volume_factures_b2b === 0 && (
+            <View style={[styles.alertBox, { backgroundColor: '#F0F9FF', borderLeftColor: '#3B82F6', marginBottom: 10 }]}>
+              <Text style={[styles.alertText, { fontSize: 10, color: '#1E40AF' }]}>
+                ℹ️ Note : Aucune facture B2B déclarée. Les amendes sont calculées uniquement sur les factures B2B (obligation 2026).
+                Si vous émettez des factures B2B, veuillez les inclure dans votre audit.
+              </Text>
+            </View>
+          )}
 
           <View style={styles.alertBox}>
             <Text style={styles.alertTitle}>💰 Impact Financier An 1</Text>
@@ -615,6 +649,19 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
               <Text style={[styles.alertText, { color: '#78350F' }]}>
                 Vous n'avez pas configuré de Plateforme d'Agrément. Pénalité de 500€ + 1,000€ par
                 trimestre = {audit.amendes_potentielles.pa_manquante.toLocaleString('fr-FR')}€/an
+              </Text>
+            </View>
+          )}
+          
+          {(audit.amendes_potentielles.annuelle === 0 && company.volume_factures_b2b > 0) && (
+            <View style={[styles.alertBox, { backgroundColor: '#F0F9FF', borderLeftColor: '#3B82F6', marginTop: 10 }]}>
+              <Text style={[styles.alertTitle, { color: '#1E40AF' }]}>
+                ℹ️ Information sur le calcul des amendes
+              </Text>
+              <Text style={[styles.alertText, { color: '#1E3A8A', fontSize: 10 }]}>
+                Avec {company.volume_factures_b2b} facture{company.volume_factures_b2b > 1 ? 's' : ''} B2B/mois, le calcul théorique serait de {company.volume_factures_b2b} × 15€ × 12 mois = {(company.volume_factures_b2b * 15 * 12).toLocaleString('fr-FR')}€/an (plafond 15,000€/an).
+                {'\n\n'}
+                Si les amendes affichées sont à 0€, cela peut indiquer que votre situation actuelle est déjà conforme selon l'analyse IA, ou que des ajustements sont nécessaires dans votre configuration.
               </Text>
             </View>
           )}
@@ -786,16 +833,20 @@ const RapportPDFComplet: React.FC<RapportPDFProps> = ({ company, audit, roi, pdp
             </View>
             <View style={styles.tableRow}>
               <Text style={{ ...styles.tableCell, flex: 1 }}>Mensuel</Text>
-              <Text style={{ ...styles.tableCell, flex: 2 }}>{roi.roi.mensuel.toFixed(1)}%</Text>
+              <Text style={{ ...styles.tableCell, flex: 2 }}>
+                {roi.roi.mensuel > 0 ? roi.roi.mensuel.toFixed(1) + '%' : '0.0%'}
+              </Text>
             </View>
             <View style={styles.tableRow}>
               <Text style={{ ...styles.tableCell, flex: 1 }}>Annuel</Text>
-              <Text style={{ ...styles.tableCell, flex: 2 }}>{roi.roi.annuel.toFixed(1)}%</Text>
+              <Text style={{ ...styles.tableCell, flex: 2 }}>
+                {roi.roi.annuel > 0 ? roi.roi.annuel.toFixed(1) + '%' : '0.0%'}
+              </Text>
             </View>
             <View style={styles.tableRow}>
               <Text style={{ ...styles.tableCell, flex: 1 }}>3 Ans</Text>
               <Text style={{ ...styles.tableCellBold, flex: 2 }}>
-                {roi.roi.trois_ans.toFixed(1)}%
+                {roi.roi.trois_ans > 0 ? roi.roi.trois_ans.toFixed(1) + '%' : '0.0%'}
               </Text>
             </View>
           </View>

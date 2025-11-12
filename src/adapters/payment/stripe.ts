@@ -8,12 +8,32 @@
 
 import Stripe from 'stripe'
 
-// Initialisation Stripe (avec fallback si clé manquante)
-const stripeKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder'
-const stripe = new Stripe(stripeKey, {
-  apiVersion: '2025-10-29.clover',
-  typescript: true,
-})
+// Initialisation Stripe (lazy pour éviter erreur au build)
+let stripeInstance: Stripe | null = null
+
+function getStripe(): Stripe {
+  if (stripeInstance) {
+    return stripeInstance
+  }
+
+  const stripeKey = process.env.STRIPE_SECRET_KEY
+
+  if (!stripeKey || stripeKey === 'sk_test_placeholder' || stripeKey.includes('placeholder')) {
+    throw new Error(
+      'STRIPE_SECRET_KEY manquante ou invalide. Veuillez configurer votre clé API Stripe dans .env.local'
+    )
+  }
+
+  stripeInstance = new Stripe(stripeKey, {
+    apiVersion: '2025-10-29.clover',
+    typescript: true,
+  })
+
+  return stripeInstance
+}
+
+// Ne pas initialiser au niveau du module pour éviter erreur au build
+// Utiliser getStripe() dans chaque fonction
 
 // IDs des prix Stripe (à créer dans le dashboard Stripe)
 export const STRIPE_PRICES = {
@@ -217,6 +237,7 @@ export async function createCheckoutSession(options: CheckoutOptions): Promise<S
     locale: 'fr',
   }
 
+  const stripe = getStripe()
   const session = await stripe.checkout.sessions.create(sessionParams)
 
   return session
@@ -231,6 +252,7 @@ export async function verifyPayment(sessionId: string): Promise<{
   subscriptionId?: string
   paymentIntentId?: string
 }> {
+  const stripe = getStripe()
   const session = await stripe.checkout.sessions.retrieve(sessionId, {
     expand: ['customer', 'subscription', 'payment_intent'],
   })
@@ -249,6 +271,7 @@ export async function verifyPayment(sessionId: string): Promise<{
  * Permet aux clients de gérer leur abonnement (changement plan, annulation, etc.)
  */
 export async function createCustomerPortalSession(customerId: string, returnUrl?: string): Promise<string> {
+  const stripe = getStripe()
   const session = await stripe.billingPortal.sessions.create({
     customer: customerId,
     return_url: returnUrl || `${process.env.NEXT_PUBLIC_URL}/dashboard`,
@@ -261,6 +284,7 @@ export async function createCustomerPortalSession(customerId: string, returnUrl?
  * Annuler un abonnement à la fin de la période
  */
 export async function cancelSubscription(subscriptionId: string): Promise<Stripe.Subscription> {
+  const stripe = getStripe()
   return await stripe.subscriptions.update(subscriptionId, {
     cancel_at_period_end: true,
   })
@@ -270,6 +294,7 @@ export async function cancelSubscription(subscriptionId: string): Promise<Stripe
  * Annuler un abonnement immédiatement
  */
 export async function cancelSubscriptionImmediately(subscriptionId: string): Promise<Stripe.Subscription> {
+  const stripe = getStripe()
   return await stripe.subscriptions.cancel(subscriptionId)
 }
 
@@ -280,6 +305,7 @@ export async function updateSubscription(
   subscriptionId: string,
   newPriceId: string
 ): Promise<Stripe.Subscription> {
+  const stripe = getStripe()
   const subscription = await stripe.subscriptions.retrieve(subscriptionId)
 
   return await stripe.subscriptions.update(subscriptionId, {
@@ -297,6 +323,7 @@ export async function updateSubscription(
  * Récupérer les détails d'un abonnement
  */
 export async function getSubscription(subscriptionId: string): Promise<Stripe.Subscription> {
+  const stripe = getStripe()
   return await stripe.subscriptions.retrieve(subscriptionId, {
     expand: ['customer', 'default_payment_method'],
   })
@@ -306,6 +333,7 @@ export async function getSubscription(subscriptionId: string): Promise<Stripe.Su
  * Récupérer tous les abonnements d'un client
  */
 export async function getCustomerSubscriptions(customerId: string): Promise<Stripe.Subscription[]> {
+  const stripe = getStripe()
   const subscriptions = await stripe.subscriptions.list({
     customer: customerId,
     status: 'all',
@@ -319,6 +347,7 @@ export async function getCustomerSubscriptions(customerId: string): Promise<Stri
  * Créer un client Stripe
  */
 export async function createCustomer(email: string, name: string, metadata?: Record<string, string>): Promise<Stripe.Customer> {
+  const stripe = getStripe()
   return await stripe.customers.create({
     email,
     name,
@@ -346,13 +375,14 @@ export function constructWebhookEvent(
   signature: string,
   secret: string
 ): Stripe.Event {
+  const stripe = getStripe()
   return stripe.webhooks.constructEvent(payload, signature, secret)
 }
 
 /**
- * Exporter l'instance Stripe pour usage avancé
+ * Exporter getStripe pour usage avancé
  */
-export { stripe }
+export { getStripe }
 
 /**
  * Notes pour l'intégration Alma:
