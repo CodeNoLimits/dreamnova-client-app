@@ -60,8 +60,15 @@ export async function POST(request: NextRequest) {
     let userId: string
 
     if (createError) {
+      // Convertir le message d'erreur en minuscules pour comparaison insensible à la casse
+      const errorMsg = (createError.message || '').toLowerCase()
+      console.log('🔍 Erreur création:', createError.message)
+
       // Si l'erreur est "User already registered", le compte existe déjà
-      if (createError.message?.includes('already registered') || createError.message?.includes('already exists')) {
+      if (errorMsg.includes('already registered') ||
+          errorMsg.includes('already exists') ||
+          errorMsg.includes('user with this email') ||
+          errorMsg.includes('duplicate')) {
         console.log('ℹ️ Compte testeur existe déjà, connexion directe...')
 
         // Se connecter pour récupérer l'ID utilisateur
@@ -71,6 +78,7 @@ export async function POST(request: NextRequest) {
         })
 
         if (signInError || !signInData.user) {
+          console.error('❌ Erreur sign-in compte existant:', signInError)
           return NextResponse.json(
             { error: 'Erreur connexion compte testeur existant', details: signInError?.message },
             { status: 500 }
@@ -80,6 +88,7 @@ export async function POST(request: NextRequest) {
         userId = signInData.user.id
         console.log('✅ Compte testeur existant récupéré:', userId)
       } else {
+        console.error('❌ Erreur création non gérée:', createError.message)
         return NextResponse.json(
           { error: 'Erreur création compte testeur', details: createError.message },
           { status: 500 }
