@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
@@ -13,6 +14,7 @@ interface OnboardingFlowProps {
 }
 
 const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onBack }) => {
+  const router = useRouter()
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState<OnboardingData>({
     companyName: '',
@@ -57,7 +59,9 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onBack }) => {
       suppliers,
       invoices,
       system,
-      size: formData.employees
+      size: formData.employees,
+      companyName: formData.companyName,
+      email: formData.email,
     }
 
     try {
@@ -65,10 +69,54 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onBack }) => {
       const aiAdapter = getAIAdapter('gemini')
       const actions = await aiAdapter.generatePriorityActions(auditData)
 
-      // TODO: Navigate to dashboard with results
-      console.log('Audit complete:', { auditData, actions })
+      // Calculate penalties
+      const monthlyInvoices = invoices
+      const annualPenalties = Math.min(monthlyInvoices * 12 * 15, 15000)
+      const hasPA = formData.invoicingMethod === 'platform'
+      const paPenalties = hasPA ? 0 : 500 + (1000 * 4)
+      const totalPenalties = annualPenalties + paPenalties
+
+      // Calculate compliance score (0-100)
+      let score = 100
+      if (formData.invoicingMethod === 'manual') score -= 40
+      if (formData.invoicingMethod === 'other') score -= 30
+      if (formData.employees === '0-10') score -= 10
+      if (formData.suppliersRange === '50+') score -= 20
+
+      // Store results in sessionStorage for results page
+      sessionStorage.setItem('auditResults', JSON.stringify({
+        ...auditData,
+        actions,
+        penalties: {
+          annual: totalPenalties,
+          monthly: totalPenalties / 12,
+          threeYear: totalPenalties * 3,
+        },
+        score: Math.max(0, Math.min(100, score)),
+        timestamp: new Date().toISOString(),
+      }))
+
+      // Navigate to results page
+      router.push('/audit-results')
     } catch (error) {
       console.error('Failed to complete audit:', error)
+      // Still navigate to results with fallback data
+      sessionStorage.setItem('auditResults', JSON.stringify({
+        ...auditData,
+        actions: [
+          'Inventorier tous vos fournisseurs actuels',
+          'Évaluer votre logiciel de comptabilité actuel',
+          'Former votre équipe aux nouvelles obligations'
+        ],
+        penalties: {
+          annual: Math.min(invoices * 12 * 15, 15000),
+          monthly: Math.min(invoices * 12 * 15, 15000) / 12,
+          threeYear: Math.min(invoices * 12 * 15, 15000) * 3,
+        },
+        score: 65,
+        timestamp: new Date().toISOString(),
+      }))
+      router.push('/audit-results')
     } finally {
       setIsLoading(false)
     }

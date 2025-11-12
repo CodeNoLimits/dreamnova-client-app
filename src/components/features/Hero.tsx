@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import Button from '@/components/ui/Button'
 
@@ -21,26 +22,32 @@ const Hero: React.FC<HeroProps> = ({ onStartAudit }) => {
       {/* Navigation */}
       <nav className="container mx-auto px-6 py-6">
         <div className="flex items-center justify-between">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center gap-3"
-          >
-            <div className="w-10 h-10 bg-gradient-dreamnova rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-xl">D</span>
-            </div>
-            <span className="text-2xl font-display font-bold text-slate-900">DreamNova</span>
-          </motion.div>
+          <Link href="/">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+            >
+              <div className="w-10 h-10 bg-gradient-dreamnova rounded-xl flex items-center justify-center">
+                <span className="text-white font-bold text-xl">D</span>
+              </div>
+              <span className="text-2xl font-display font-bold text-slate-900">
+                DreamNova Compta
+              </span>
+            </motion.div>
+          </Link>
 
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <Button variant="ghost" size="sm">
-              Connexion
-            </Button>
+            <Link href="/login">
+              <Button variant="ghost" size="sm">
+                Connexion
+              </Button>
+            </Link>
           </motion.div>
         </div>
       </nav>
@@ -98,9 +105,11 @@ const Hero: React.FC<HeroProps> = ({ onStartAudit }) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </Button>
-            <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-              En savoir plus
-            </Button>
+            <Link href="#calculator">
+              <Button variant="secondary" size="lg" className="w-full sm:w-auto">
+                En savoir plus
+              </Button>
+            </Link>
           </motion.div>
 
           {/* Trust indicators */}
