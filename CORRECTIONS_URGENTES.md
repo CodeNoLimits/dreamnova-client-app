@@ -1,8 +1,8 @@
 # 🚨 CORRECTIONS URGENTES - GUIDE COMPLET
 
-**Date**: 13 Novembre 2025  
-**Tests effectués par**: Alexis  
-**Statut**: En cours de correction
+**Date**: 13 Novembre 2025
+**Tests effectués par**: Alexis
+**Statut**: ✅ TERMINÉ - Partie 2/2 complète
 
 ---
 
@@ -11,10 +11,13 @@
 1. ✅ **Barre orange "version bêta"** supprimée
 2. ✅ **Onglet "Développeur"** visible mode testeur (testeur@example.com)
 3. ✅ **Documents téléchargeables** (URLs signées)
+4. ✅ **Page `/audits`** créée avec liste complète des audits
+5. ✅ **Bouton retour** ajouté sur page `/audit-results`
+6. ✅ **Lien "Voir tous"** ajouté dans dashboard vers `/audits`
 
 ---
 
-## 🚨 À CORRIGER (Critique)
+## 🚨 À CORRIGER PAR TOI (Critique)
 
 ### 4. AUDITS NON SAUVEGARDÉS
 
@@ -22,7 +25,7 @@
 
 **SOLUTION** (5 minutes):
 1. Va sur https://supabase.com/dashboard/project/dgflttnrpotuqivltiwd/sql/new
-2. Copie-colle ce SQL:
+2. Copie-colle le contenu du fichier `supabase/fix-audits-table.sql`:
 
 ```sql
 ALTER TABLE audits ALTER COLUMN ca_annuel TYPE TEXT;
@@ -37,20 +40,6 @@ ALTER TABLE audits ALTER COLUMN cout_estime DROP NOT NULL;
 
 3. Clique "Run"
 4. Teste un nouvel audit
-
----
-
-### 5. PAGE LISTE AUDITS MANQUANTE
-
-**Action**: Créer `/audits` qui liste TOUS les audits
-**Status**: En cours par Claude
-
----
-
-### 6. BOUTON RETOUR MANQUANT
-
-**Action**: Ajouter bouton "← Retour" après audit
-**Status**: En cours par Claude
 
 ---
 
@@ -76,10 +65,43 @@ ALTER TABLE audits ALTER COLUMN cout_estime DROP NOT NULL;
 
 ---
 
-## 🎯 PROCHAINE ÉTAPE
+## 🎉 NOUVELLES FONCTIONNALITÉS AJOUTÉES
 
-**TOI**: Exécute SQL migration (5 min)
-**CLAUDE**: Crée page /audits + bouton retour
-**TEST**: On vérifie TOUT ensemble
+### Page `/audits` - Liste complète
+✅ **Créée avec**:
+- Vue d'ensemble de TOUS les audits (sans limite)
+- Statistiques globales (total, score moyen, audits critiques, amendes totales)
+- Recherche par nom entreprise / secteur
+- Filtres par niveau de risque
+- Tri par date / score / amendes
+- Design moderne avec Material Symbols
+- Animations Framer Motion
 
-🚀 **OBJECTIF: 30 MINUTES MAX**
+### Bouton retour sur `/audit-results`
+✅ **Ajouté**:
+- Bouton "← Retour" en haut à gauche
+- Retour vers `/dashboard`
+- Design cohérent avec le reste
+
+### Lien dashboard → audits
+✅ **Ajouté**:
+- Bouton "Voir tous" dans section "Historique des audits"
+- Bouton "Voir tous les audits (X)" en bas de liste si +3 audits
+- Navigation fluide
+
+---
+
+## 🎯 PROCHAINES ÉTAPES
+
+### URGENT (TOI - 5 min):
+1. ⚠️ Exécuter migration SQL (supabase/fix-audits-table.sql)
+2. ✅ Tester un nouvel audit
+3. ✅ Vérifier que l'audit apparaît dans `/audits`
+
+### TESTING (NOUS - 15 min):
+1. Tester page `/audits` avec plusieurs audits
+2. Tester filtres/recherche/tri
+3. Tester bouton retour sur `/audit-results`
+4. Vérifier responsive mobile
+
+🚀 **OBJECTIF: TOUT FONCTIONNE DANS 20 MINUTES**

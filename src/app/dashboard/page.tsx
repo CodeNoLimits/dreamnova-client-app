@@ -833,10 +833,20 @@ const DashboardPage = () => {
             className="lg:col-span-2"
           >
             <Card className="p-6">
-              <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary-600">history</span>
-                Historique des audits
-              </h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-primary-600">history</span>
+                  Historique des audits
+                </h2>
+                {audits.length > 0 && (
+                  <Link href="/audits">
+                    <Button variant="ghost" size="sm">
+                      Voir tous
+                      <span className="material-symbols-outlined ml-1">arrow_forward</span>
+                    </Button>
+                  </Link>
+                )}
+              </div>
               {audits.length > 0 ? (
                 <div className="space-y-3">
                   {audits.map((audit, index) => (
@@ -877,6 +887,13 @@ const DashboardPage = () => {
                       </div>
                     </div>
                   ))}
+                  {audits.length > 3 && (
+                    <Link href="/audits">
+                      <Button variant="secondary" className="w-full mt-3">
+                        Voir tous les audits ({audits.length})
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               ) : (
                 <div className="text-center py-12">
