@@ -55,6 +55,8 @@ export default function AuditDetailPage() {
       }
 
       // Charger l'audit
+      console.log('🔍 [Audit Detail] Chargement audit:', auditId, 'pour user:', user.id)
+      
       const { data, error } = await supabase
         .from('audits')
         .select('*')
@@ -63,12 +65,46 @@ export default function AuditDetailPage() {
         .single()
 
       if (error) {
-        console.error('Erreur chargement audit:', error)
+        console.error('❌ [Audit Detail] Erreur chargement audit:', error)
+        console.error('❌ [Audit Detail] Détails:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        })
+        alert(`Erreur lors du chargement de l'audit: ${error.message}`)
         router.push('/audits')
         return
       }
 
-      setAudit(data)
+      if (!data) {
+        console.error('❌ [Audit Detail] Aucune donnée retournée')
+        alert('Audit introuvable')
+        router.push('/audits')
+        return
+      }
+
+      console.log('✅ [Audit Detail] Audit chargé:', data)
+      
+      // Normaliser les données
+      const auditNormalise = {
+        ...data,
+        company_name: data.company_name || 'Entreprise sans nom',
+        sector: data.sector || 'Non spécifié',
+        employees: data.employees?.toString() || 'Non spécifié',
+        ca_annuel: data.ca_annuel?.toString() || 'Non spécifié',
+        score_conformite: data.score_conformite || 0,
+        niveau_risque: data.niveau_risque || 'MODÉRÉ',
+        amendes_annuelles: data.amendes_annuelles || 0,
+        amendes_mensuelles: data.amendes_mensuelles || 0,
+        amendes_3_ans: data.amendes_3_ans || 0,
+        pdp_recommandé: data.pdp_recommandé || null,
+        duree_migration_estimee: data.duree_migration_estimee || null,
+        cout_estime: data.cout_estime || null,
+        audit_data: data.audit_data || null,
+      }
+      
+      setAudit(auditNormalise)
       setLoading(false)
     }
 
@@ -76,26 +112,53 @@ export default function AuditDetailPage() {
   }, [auditId, router])
 
   const handleGeneratePDF = async () => {
-    if (!audit?.audit_data) return
+    if (!audit) {
+      alert('Aucun audit à télécharger')
+      return
+    }
+
+    if (!audit.audit_data) {
+      alert('Les données complètes de l\'audit ne sont pas disponibles. Cet audit a été créé avant la mise à jour du système.')
+      return
+    }
 
     setIsGeneratingPDF(true)
 
     try {
+      console.log('📄 [PDF] Génération PDF pour audit:', audit.id)
+      console.log('📄 [PDF] Données audit:', audit.audit_data)
+
+      // Déconstruire les données de l'audit pour passer aux props du PDF
+      const { company, audit: auditData, roi, pdp } = audit.audit_data
+
       // Générer le PDF avec les données complètes de l'audit
-      const pdfDoc = <RapportPDFComplet results={audit.audit_data} />
+      const pdfDoc = (
+        <RapportPDFComplet
+          company={company}
+          audit={auditData}
+          roi={roi}
+          pdp={pdp}
+        />
+      )
       const blob = await pdf(pdfDoc).toBlob()
+
+      console.log('✅ [PDF] PDF généré, taille:', blob.size, 'bytes')
 
       // Télécharger le PDF
       const url = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
-      link.download = `audit-${audit.company_name.replace(/\s/g, '-')}-${new Date(audit.created_at).toLocaleDateString('fr-FR')}.pdf`
+      const fileName = `audit-${audit.company_name.replace(/\s/g, '-')}-${new Date(audit.created_at).toLocaleDateString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-')}.pdf`
+      link.download = fileName
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
       URL.revokeObjectURL(url)
-    } catch (error) {
-      console.error('Erreur génération PDF:', error)
+      
+      console.log('✅ [PDF] Téléchargement déclenché:', fileName)
+    } catch (error: any) {
+      console.error('❌ [PDF] Erreur génération PDF:', error)
+      alert(`Erreur lors de la génération du PDF: ${error.message || 'Erreur inconnue'}`)
     } finally {
       setIsGeneratingPDF(false)
     }
@@ -330,7 +393,9 @@ export default function AuditDetailPage() {
                   {audit.cout_estime && (
                     <div>
                       <p className="text-sm text-slate-600 mb-1">Coût estimé</p>
-                      <p className="font-bold text-primary-600 text-lg">{audit.cout_estime}</p>
+                      <p className="font-bold text-primary-600 text-lg">
+                        {audit.cout_estime}
+                      </p>
                     </div>
                   )}
                 </div>

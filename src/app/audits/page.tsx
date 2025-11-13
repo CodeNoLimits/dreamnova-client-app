@@ -34,6 +34,8 @@ const AuditsPage = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [filterRisk, setFilterRisk] = useState<string>('all')
   const [sortBy, setSortBy] = useState<'date' | 'score' | 'amendes'>('date')
+  const [debugInfo, setDebugInfo] = useState<any>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   useEffect(() => {
     const supabase = createClient()
@@ -55,25 +57,100 @@ const AuditsPage = () => {
 
   const chargerAudits = async (userId: string) => {
     setLoading(true)
+    setErrorMessage(null)
+    setDebugInfo(null)
     const supabase = createClient()
 
-    console.log('🔍 [Audits] Chargement audits pour user:', userId)
+    console.log('🔍 [Audits] ========== DÉBUT CHARGEMENT ==========')
+    console.log('🔍 [Audits] User ID:', userId)
+    console.log('🔍 [Audits] Supabase client créé')
 
-    const { data, error } = await supabase
-      .from('audits')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
+    try {
+      // Test 1: Vérifier la session
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+      console.log('🔍 [Audits] Session:', session ? 'OK' : 'AUCUNE')
+      if (sessionError) {
+        console.error('❌ [Audits] Erreur session:', sessionError)
+      }
 
-    if (error) {
-      console.error('❌ [Audits] Erreur chargement audits:', error)
-    } else {
-      console.log('✅ [Audits] Audits chargés:', data?.length || 0, 'audits')
-      console.log('📊 [Audits] Données:', data)
-      setAudits(data || [])
+      // Test 2: Vérifier l'utilisateur
+      const { data: { user: currentUser }, error: userError } = await supabase.auth.getUser()
+      console.log('🔍 [Audits] User:', currentUser ? currentUser.email : 'AUCUN')
+      if (userError) {
+        console.error('❌ [Audits] Erreur user:', userError)
+      }
+
+      // Test 3: Tester la connexion à la table
+      console.log('🔍 [Audits] Tentative de requête Supabase...')
+      const { data, error, count } = await supabase
+        .from('audits')
+        .select('*', { count: 'exact' })
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+
+      console.log('🔍 [Audits] Résultat requête:')
+      console.log('  - Error:', error)
+      console.log('  - Data length:', data?.length || 0)
+      console.log('  - Count:', count)
+      console.log('  - Data:', data)
+
+      // Stocker les infos de debug
+      setDebugInfo({
+        userId,
+        userEmail: currentUser?.email,
+        hasSession: !!session,
+        error: error ? {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        } : null,
+        dataCount: data?.length || 0,
+        rawData: data
+      })
+
+      if (error) {
+        console.error('❌ [Audits] Erreur chargement audits:', error)
+        const errorMsg = `Erreur: ${error.message}${error.hint ? ` (${error.hint})` : ''}`
+        setErrorMessage(errorMsg)
+        setAudits([])
+      } else {
+        console.log('✅ [Audits] Audits chargés:', data?.length || 0, 'audits')
+        
+        if (!data || data.length === 0) {
+          console.warn('⚠️ [Audits] Aucun audit trouvé pour cet utilisateur')
+          setAudits([])
+        } else {
+          console.log('📊 [Audits] Données brutes:', data)
+          
+          // Normaliser les données pour s'assurer que tout est au bon format
+          const auditsNormalises = data.map((audit: any) => ({
+            ...audit,
+            company_name: audit.company_name || 'Entreprise sans nom',
+            sector: audit.sector || 'Non spécifié',
+            employees: audit.employees?.toString() || 'Non spécifié',
+            ca_annuel: audit.ca_annuel?.toString() || 'Non spécifié',
+            score_conformite: audit.score_conformite || 0,
+            niveau_risque: audit.niveau_risque || 'MODÉRÉ',
+            amendes_annuelles: audit.amendes_annuelles || 0,
+            pdp_recommandé: audit.pdp_recommandé || null,
+            duree_migration_estimee: audit.duree_migration_estimee || null,
+            cout_estime: audit.cout_estime || null,
+            audit_data: audit.audit_data || null,
+          }))
+          
+          console.log('📊 [Audits] Données normalisées:', auditsNormalises)
+          setAudits(auditsNormalises)
+        }
+      }
+    } catch (err: any) {
+      console.error('❌ [Audits] Erreur inattendue:', err)
+      setErrorMessage(`Erreur inattendue: ${err.message}`)
+      setAudits([])
+    } finally {
+      setLoading(false)
+      console.log('🔍 [Audits] ========== FIN CHARGEMENT ==========')
     }
-
-    setLoading(false)
   }
 
   const handleSignOut = async () => {
@@ -85,22 +162,33 @@ const AuditsPage = () => {
   // Filtrer et trier les audits
   const auditsFiltres = audits
     .filter((audit) => {
+      // Recherche textuelle
       const matchSearch =
-        searchTerm === '' || // ✅ Si pas de recherche, tout passe
+        !searchTerm || // Si searchTerm est vide/null/undefined, tout passe
+        searchTerm.trim() === '' || // Si searchTerm est juste des espaces, tout passe
         audit.company_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         audit.sector?.toLowerCase().includes(searchTerm.toLowerCase())
 
+      // Filtre par niveau de risque - ULTRA PERMISSIF
       const matchRisk =
-        filterRisk === 'all' || audit.niveau_risque === filterRisk
+        !filterRisk || // Si pas de filtre
+        filterRisk === 'all' || // Si "tous"
+        filterRisk === '' || // Si vide
+        !audit.niveau_risque || // Si pas de niveau_risque dans l'audit, on l'affiche quand même
+        audit.niveau_risque === filterRisk // Sinon, match exact
 
-      console.log('🔍 [Filter]', {
-        audit: audit.company_name,
-        searchTerm,
+      // Logs ultra-détaillés
+      console.log('🔍 [Filter Debug]', {
+        company: audit.company_name,
+        id: audit.id,
+        searchTerm: `"${searchTerm}"`,
+        searchTermLength: searchTerm?.length || 0,
         matchSearch,
-        filterRisk,
-        niveau_risque: audit.niveau_risque,
+        filterRisk: `"${filterRisk}"`,
+        audit_niveau_risque: `"${audit.niveau_risque}"`,
+        niveau_risque_type: typeof audit.niveau_risque,
         matchRisk,
-        result: matchSearch && matchRisk
+        FINAL_RESULT: matchSearch && matchRisk
       })
 
       return matchSearch && matchRisk
@@ -176,6 +264,30 @@ const AuditsPage = () => {
 
         {/* Main Content */}
         <main className="container mx-auto px-6 py-8 max-w-7xl">
+          {/* Debug Info (développement seulement) */}
+          {debugInfo && process.env.NODE_ENV === 'development' && (
+            <Card className="p-4 mb-6 bg-yellow-50 border-yellow-200">
+              <details>
+                <summary className="cursor-pointer font-bold text-sm text-yellow-800">
+                  🔍 Debug Info (cliquez pour voir)
+                </summary>
+                <pre className="mt-2 text-xs overflow-auto max-h-64 bg-white p-3 rounded border">
+                  {JSON.stringify(debugInfo, null, 2)}
+                </pre>
+              </details>
+            </Card>
+          )}
+
+          {/* Message d'erreur */}
+          {errorMessage && (
+            <Card className="p-4 mb-6 bg-red-50 border-red-200">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-red-600">error</span>
+                <p className="text-red-800 font-medium">{errorMessage}</p>
+              </div>
+            </Card>
+          )}
+
           {/* En-tête avec stats */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
@@ -291,6 +403,7 @@ const AuditsPage = () => {
                 <select
                   value={filterRisk}
                   onChange={(e) => setFilterRisk(e.target.value)}
+                  aria-label="Filtrer par niveau de risque"
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
                   <option value="all">Tous les niveaux</option>
@@ -309,6 +422,7 @@ const AuditsPage = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
+                  aria-label="Trier les audits"
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
                   <option value="date">Date (plus récent)</option>
@@ -445,7 +559,11 @@ const AuditsPage = () => {
                             <div>
                               <p className="text-slate-600">Coût estimé</p>
                               <p className="font-medium text-slate-900">
-                                {audit.cout_estime.toLocaleString('fr-FR')}€
+                                {typeof audit.cout_estime === 'string' 
+                                  ? audit.cout_estime 
+                                  : (typeof audit.cout_estime === 'number' 
+                                    ? (audit.cout_estime as number).toLocaleString('fr-FR') + '€'
+                                    : String(audit.cout_estime || ''))}
                               </p>
                             </div>
                           )}
