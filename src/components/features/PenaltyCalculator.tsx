@@ -49,11 +49,12 @@ const PenaltyCalculator: React.FC<PenaltyCalculatorProps> = ({ onCalculate }) =>
   // Calcul direct (pas de useMemo pour garantir la réactivité)
   const result = calculatePenalties(monthlyInvoices, hasPAPlatform)
 
+  // Force re-render quand les valeurs changent
   React.useEffect(() => {
     if (onCalculate) {
       onCalculate(result)
     }
-  }, [result, onCalculate])
+  }, [monthlyInvoices, hasPAPlatform, onCalculate])
 
   const riskColors = {
     LOW: 'bg-success-500 text-white',
@@ -126,13 +127,7 @@ const PenaltyCalculator: React.FC<PenaltyCalculatorProps> = ({ onCalculate }) =>
         </div>
 
         {/* Results */}
-        <motion.div
-          key={`result-${monthlyInvoices}-${hasPAPlatform}`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
-          className="space-y-4"
-        >
+        <div className="space-y-4">
           <div className="p-6 bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl border-2 border-primary-200">
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm font-semibold text-primary-800">Risque annuel</span>
@@ -140,55 +135,31 @@ const PenaltyCalculator: React.FC<PenaltyCalculatorProps> = ({ onCalculate }) =>
                 {riskLabels[result.riskLevel]}
               </span>
             </div>
-            <motion.div
-              key={`annual-${result.annualPenalties}-${monthlyInvoices}-${hasPAPlatform}`}
-              initial={{ scale: 0.95, opacity: 0.8 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.2 }}
-              className="text-4xl font-bold text-primary-700 mb-2"
-            >
+            <div className="text-4xl font-bold text-primary-700 mb-2">
               {result.annualPenalties.toLocaleString('fr-FR')}€
-            </motion.div>
+            </div>
             <p className="text-sm text-primary-700">
               Amendes potentielles par an si vous n'êtes pas conforme
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <motion.div
-              key={`monthly-${result.monthlyPenalties}-${monthlyInvoices}`}
-              initial={{ scale: 0.95, opacity: 0.8 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.2 }}
-              className="p-4 bg-slate-50 rounded-lg border border-slate-200"
-            >
+            <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
               <div className="text-sm text-slate-600 mb-1">Par mois</div>
               <div className="text-2xl font-bold text-slate-900">
                 {result.monthlyPenalties.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€
               </div>
-            </motion.div>
-            <motion.div
-              key={`threeyear-${result.threeYearPenalties}-${monthlyInvoices}`}
-              initial={{ scale: 0.95, opacity: 0.8 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.2 }}
-              className="p-4 bg-slate-50 rounded-lg border border-slate-200"
-            >
+            </div>
+            <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
               <div className="text-sm text-slate-600 mb-1">Sur 3 ans</div>
               <div className="text-2xl font-bold text-slate-900">
                 {result.threeYearPenalties.toLocaleString('fr-FR')}€
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {result.annualPenalties > 0 && (
-            <motion.div
-              key={`roi-${result.annualPenalties}-${monthlyInvoices}`}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.2 }}
-              className="p-4 bg-primary-50 border border-primary-200 rounded-lg"
-            >
+            <div className="p-4 bg-primary-50 border border-primary-200 rounded-lg">
               <p className="text-sm text-primary-800">
                 <strong>💡 ROI potentiel:</strong> Notre offre URGENCE à 8,000€ vous fait économiser{' '}
                 <strong>{result.annualPenalties.toLocaleString('fr-FR')}€/an</strong> en amendes.
@@ -201,9 +172,9 @@ const PenaltyCalculator: React.FC<PenaltyCalculatorProps> = ({ onCalculate }) =>
                 </strong>
                 .
               </p>
-            </motion.div>
+            </div>
           )}
-        </motion.div>
+        </div>
       </div>
     </Card>
   )
