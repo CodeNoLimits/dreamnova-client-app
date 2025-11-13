@@ -114,7 +114,10 @@ export default function AuditWizardComplete({ onBack }: AuditWizardProps) {
             // Recommandations
             pdp_recommandé: pdpResult.provider || null,
             duree_migration_estimee: auditResult.migration.durée_estimée || null,
-            cout_estime: auditResult.migration.coût_estimé || null
+            cout_estime: auditResult.migration.coût_estimé || null,
+
+            // ✅ NOUVEAU: Stocker le JSON complet de l'audit (critères, recommandations, etc.)
+            audit_data: completeResults
           }
 
           const { error } = await supabase.from('audits').insert(auditData)

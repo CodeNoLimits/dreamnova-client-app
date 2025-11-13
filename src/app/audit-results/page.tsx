@@ -339,6 +339,10 @@ const AuditResultsPage = () => {
 
       const { company, audit, pdp } = results
 
+      // ✅ Récupérer les données brutes de sessionStorage pour le JSON complet
+      const storedResults = sessionStorage.getItem('auditResults')
+      const completeResults = storedResults ? JSON.parse(storedResults) : results
+
       const auditData = {
         user_id: user.id,
         company_name: company.nom_entreprise,
@@ -357,6 +361,9 @@ const AuditResultsPage = () => {
         pdp_recommandé: pdp.provider || null,
         duree_migration_estimee: audit.plan_migration.duree_estimee || null,
         cout_estime: String(audit.plan_migration.cout_total) || null,
+
+        // ✅ NOUVEAU: Stocker le JSON complet de l'audit
+        audit_data: completeResults
       }
 
       const { error: insertError } = await supabase.from('audits').insert(auditData)

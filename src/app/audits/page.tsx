@@ -405,10 +405,12 @@ const AuditsPage = () => {
 
                         {/* Actions */}
                         <div className="flex-shrink-0">
-                          <Button variant="ghost" size="sm">
-                            <span className="material-symbols-outlined mr-2">visibility</span>
-                            Voir détails
-                          </Button>
+                          <Link href={`/audits/${audit.id}`}>
+                            <Button variant="ghost" size="sm">
+                              <span className="material-symbols-outlined mr-2">visibility</span>
+                              Voir détails
+                            </Button>
+                          </Link>
                         </div>
                       </div>
                     </div>
