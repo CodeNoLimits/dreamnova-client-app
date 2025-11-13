@@ -131,10 +131,18 @@ export async function POST(request: NextRequest) {
 
     console.log('✅ [API /convert] Upload OK:', uploadData.path)
 
-    // Obtenir l'URL publique
-    const { data: urlData } = supabase.storage
+    // ✅ Obtenir une URL signée (valide 1 an pour bucket privé)
+    const { data: urlData, error: urlError } = await supabase.storage
       .from('documents')
-      .getPublicUrl(fileName)
+      .createSignedUrl(fileName, 31536000) // 1 an en secondes
+
+    if (urlError || !urlData) {
+      console.error('❌ [API /convert] Erreur création URL:', urlError)
+      return NextResponse.json(
+        { error: 'Erreur création URL de téléchargement' },
+        { status: 500 }
+      )
+    }
 
     // Enregistrer dans la table documents
     console.log('💾 [API /convert] Insertion DB...')
@@ -145,7 +153,7 @@ export async function POST(request: NextRequest) {
         file_name: originalFileName,
         file_type: file.type,
         file_size: finalBuffer.length, // Taille après conversion
-        file_url: urlData.publicUrl,
+        file_url: urlData.signedUrl,
         converted_format: isConverted ? 'factur-x' : null,
         status: isConverted ? 'converted' : 'uploaded',
       })
