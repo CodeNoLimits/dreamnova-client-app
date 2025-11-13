@@ -14,7 +14,7 @@ interface Audit {
   id: string
   created_at: string
   company_name: string
-  secteur_activite: string
+  sector: string // ✅ Corrigé: sector au lieu de secteur_activite
   ca_annuel: string
   employees: string
   score_conformite: number
@@ -22,7 +22,8 @@ interface Audit {
   amendes_annuelles: number
   pdp_recommandé: string | null
   duree_migration_estimee: string | null
-  cout_estime: number | null
+  cout_estime: string | null // ✅ Corrigé: string au lieu de number
+  audit_data?: any // ✅ Ajouté: pour le JSON complet
 }
 
 const AuditsPage = () => {
@@ -56,6 +57,8 @@ const AuditsPage = () => {
     setLoading(true)
     const supabase = createClient()
 
+    console.log('🔍 [Audits] Chargement audits pour user:', userId)
+
     const { data, error } = await supabase
       .from('audits')
       .select('*')
@@ -63,8 +66,10 @@ const AuditsPage = () => {
       .order('created_at', { ascending: false })
 
     if (error) {
-      console.error('Erreur chargement audits:', error)
+      console.error('❌ [Audits] Erreur chargement audits:', error)
     } else {
+      console.log('✅ [Audits] Audits chargés:', data?.length || 0, 'audits')
+      console.log('📊 [Audits] Données:', data)
       setAudits(data || [])
     }
 
@@ -82,7 +87,7 @@ const AuditsPage = () => {
     .filter((audit) => {
       const matchSearch =
         audit.company_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        audit.secteur_activite?.toLowerCase().includes(searchTerm.toLowerCase())
+        audit.sector?.toLowerCase().includes(searchTerm.toLowerCase())
 
       const matchRisk =
         filterRisk === 'all' || audit.niveau_risque === filterRisk
@@ -353,7 +358,7 @@ const AuditsPage = () => {
                           <div className="flex items-center gap-4 text-sm text-slate-600 mb-2">
                             <span className="flex items-center gap-1">
                               <span className="material-symbols-outlined text-sm">business</span>
-                              {audit.secteur_activite || 'Non spécifié'}
+                              {audit.sector || 'Non spécifié'}
                             </span>
                             <span className="flex items-center gap-1">
                               <span className="material-symbols-outlined text-sm">people</span>
