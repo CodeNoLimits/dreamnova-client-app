@@ -90,6 +90,13 @@ export default function DocumentUpload({
       }
 
       // ✅ Appeler l'API de conversion vers Factur-X (RÉEL)
+      console.log('📤 [Upload] Début:', {
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        sizeKB: (file.size / 1024).toFixed(2),
+      })
+
       const formData = new FormData()
       formData.append('file', file)
       
@@ -98,12 +105,16 @@ export default function DocumentUpload({
         body: formData,
       })
 
+      console.log('📥 [Upload] Réponse:', response.status, response.statusText)
+
       if (!response.ok) {
         const errorData = await response.json()
-        throw new Error(errorData.error || 'Erreur lors de la conversion')
+        console.error('❌ [Upload] Erreur:', errorData)
+        throw new Error(errorData.details || errorData.error || 'Erreur lors de la conversion')
       }
 
       const result = await response.json()
+      console.log('✅ [Upload] Succès:', result)
       
       clearInterval(progressInterval)
       setUploadProgress(100)
@@ -127,9 +138,9 @@ export default function DocumentUpload({
         setIsUploading(false)
         setPreview(null)
       }, 2000)
-    } catch (err) {
-      console.error('Erreur upload:', err)
-      setError('Erreur lors du téléchargement. Veuillez réessayer.')
+    } catch (err: any) {
+      console.error('❌ [Upload] Erreur globale:', err)
+      setError(err.message || 'Erreur lors du téléchargement. Veuillez réessayer.')
       setIsUploading(false)
       setUploadProgress(0)
     }

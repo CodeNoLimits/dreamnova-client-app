@@ -203,7 +203,7 @@ export default function ConformityChecklist() {
                       variant={item.status === 'blocked' ? 'ghost' : 'primary'}
                       disabled={item.status === 'blocked'}
                       onClick={() => {
-                        if (!item.status === 'blocked') {
+                        if (item.status !== 'blocked') {
                           setShowPDPModal(true)
                         }
                       }}

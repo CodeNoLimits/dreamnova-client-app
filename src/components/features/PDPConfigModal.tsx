@@ -120,18 +120,21 @@ export default function PDPConfigModal({ isOpen, onClose }: { isOpen: boolean; o
 
             <div className="grid grid-cols-2 gap-4">
               {PDP_OPTIONS.map((pdp) => (
-                <Card
+                <div
                   key={pdp.id}
-                  className={`p-4 cursor-pointer transition-all ${
-                    selectedPDP === pdp.id
-                      ? 'border-2 border-primary-600 bg-primary-50'
-                      : 'border-2 border-slate-200 hover:border-primary-300'
-                  }`}
                   onClick={() => {
                     setSelectedPDP(pdp.id)
                     setError(null)
                   }}
+                  className="cursor-pointer"
                 >
+                  <Card
+                    className={`p-4 transition-all ${
+                      selectedPDP === pdp.id
+                        ? 'border-2 border-primary-600 bg-primary-50'
+                        : 'border-2 border-slate-200 hover:border-primary-300'
+                    }`}
+                  >
                   <div className="flex flex-col items-center gap-2">
                     <div className="text-4xl mb-2">{pdp.icon}</div>
                     <h3 className="font-semibold text-slate-900">{pdp.name}</h3>
@@ -142,7 +145,8 @@ export default function PDPConfigModal({ isOpen, onClose }: { isOpen: boolean; o
                       </span>
                     )}
                   </div>
-                </Card>
+                  </Card>
+                </div>
               ))}
             </div>
 

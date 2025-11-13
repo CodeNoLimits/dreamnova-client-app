@@ -1,17 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { convertToFacturX, isFacturXPDF } from '@/lib/facturx'
+import { checkConversionLimit } from '@/lib/conversion-limits'
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('📤 [API /convert] Début upload')
+
     const supabase = await createClient()
-    
+
     // Vérifier l'authentification
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) {
+      console.error('❌ [API /convert] Non authentifié')
       return NextResponse.json(
         { error: 'Non authentifié' },
         { status: 401 }
+      )
+    }
+
+    console.log('✅ [API /convert] User:', user.email)
+
+    // ✅ Vérifier les limites de conversion
+    const limitCheck = await checkConversionLimit(user.id)
+    console.log('📊 [API /convert] Limites:', {
+      allowed: limitCheck.allowed,
+      remaining: limitCheck.remaining,
+      isPaid: limitCheck.isPaid,
+    })
+
+    if (!limitCheck.allowed) {
+      console.error('❌ [API /convert] Limite atteinte')
+      return NextResponse.json(
+        {
+          error: 'Limite de conversion atteinte',
+          details: limitCheck.reason,
+          remaining: limitCheck.remaining,
+          total: limitCheck.total,
+          isPaid: limitCheck.isPaid,
+        },
+        { status: 403 }
       )
     }
 
@@ -19,11 +47,14 @@ export async function POST(request: NextRequest) {
     const file = formData.get('file') as File
 
     if (!file) {
+      console.error('❌ [API /convert] Aucun fichier')
       return NextResponse.json(
         { error: 'Aucun fichier fourni' },
         { status: 400 }
       )
     }
+
+    console.log('✅ [API /convert] Fichier:', file.name, file.type, `${(file.size / 1024).toFixed(2)} KB`)
 
     // Vérifier le format
     const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg']
@@ -81,6 +112,8 @@ export async function POST(request: NextRequest) {
 
     // Sauvegarder dans Supabase Storage
     const fileName = `${user.id}/${Date.now()}_${convertedFileName}`
+    console.log('📤 [API /convert] Upload Storage:', fileName)
+
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from('documents')
       .upload(fileName, finalBuffer, {
@@ -89,12 +122,14 @@ export async function POST(request: NextRequest) {
       })
 
     if (uploadError) {
-      console.error('Erreur upload Supabase:', uploadError)
+      console.error('❌ [API /convert] Erreur upload:', uploadError)
       return NextResponse.json(
-        { error: 'Erreur lors du téléchargement' },
+        { error: 'Erreur lors du téléchargement', details: uploadError.message },
         { status: 500 }
       )
     }
+
+    console.log('✅ [API /convert] Upload OK:', uploadData.path)
 
     // Obtenir l'URL publique
     const { data: urlData } = supabase.storage
@@ -102,6 +137,7 @@ export async function POST(request: NextRequest) {
       .getPublicUrl(fileName)
 
     // Enregistrer dans la table documents
+    console.log('💾 [API /convert] Insertion DB...')
     const { data: documentData, error: dbError } = await supabase
       .from('documents')
       .insert({
@@ -117,12 +153,14 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (dbError) {
-      console.error('Erreur DB:', dbError)
+      console.error('❌ [API /convert] Erreur DB:', dbError)
       return NextResponse.json(
-        { error: 'Erreur lors de l\'enregistrement' },
+        { error: 'Erreur lors de l\'enregistrement', details: dbError.message },
         { status: 500 }
       )
     }
+
+    console.log('✅ [API /convert] Document enregistré:', documentData.id)
 
     return NextResponse.json({
       success: true,
@@ -134,10 +172,10 @@ export async function POST(request: NextRequest) {
         status: documentData.status,
       },
     })
-  } catch (error) {
-    console.error('Erreur conversion document:', error)
+  } catch (error: any) {
+    console.error('❌ [API /convert] Erreur globale:', error)
     return NextResponse.json(
-      { error: 'Erreur serveur' },
+      { error: 'Erreur serveur', details: error.message },
       { status: 500 }
     )
   }
