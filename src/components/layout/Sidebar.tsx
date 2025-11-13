@@ -22,6 +22,13 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Réglementation', icon: 'gavel', href: '/reglementation' },
 ]
 
+// Onglet développeur (uniquement mode testeur)
+const DEV_NAV_ITEM: NavItem = {
+  label: 'Développeur',
+  icon: 'code',
+  href: '/dev-tools',
+}
+
 export default function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
@@ -105,6 +112,38 @@ export default function Sidebar() {
               </li>
             )
           })}
+
+          {/* Onglet Développeur (uniquement mode testeur) */}
+          {user?.email === 'alex@test.com' && (
+            <>
+              <li className="px-3 py-2">
+                <div className="border-t border-slate-700"></div>
+              </li>
+              <li key={DEV_NAV_ITEM.href}>
+                <Link
+                  href={DEV_NAV_ITEM.href}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
+                    pathname === DEV_NAV_ITEM.href || pathname.startsWith(DEV_NAV_ITEM.href + '/')
+                      ? 'bg-yellow-600 text-white'
+                      : 'text-yellow-400 hover:bg-slate-800 hover:text-yellow-300'
+                  }`}
+                  title={isCollapsed ? DEV_NAV_ITEM.label : undefined}
+                >
+                  <span className="material-symbols-outlined text-xl flex-shrink-0">
+                    {DEV_NAV_ITEM.icon}
+                  </span>
+                  {!isCollapsed && (
+                    <>
+                      <span className="flex-1">{DEV_NAV_ITEM.label}</span>
+                      <span className="px-2 py-0.5 bg-yellow-500 text-yellow-900 text-xs rounded-full font-bold">
+                        DEV
+                      </span>
+                    </>
+                  )}
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
 
