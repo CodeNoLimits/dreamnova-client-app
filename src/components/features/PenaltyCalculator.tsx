@@ -1,7 +1,6 @@
 'use client'
 
-import React, { useState, useCallback } from 'react'
-import { motion } from 'framer-motion'
+import React, { useState } from 'react'
 import Card from '@/components/ui/Card'
 
 interface PenaltyCalculatorProps {
@@ -20,41 +19,33 @@ const PenaltyCalculator: React.FC<PenaltyCalculatorProps> = ({ onCalculate }) =>
   const [monthlyInvoices, setMonthlyInvoices] = useState<number>(500)
   const [hasPAPlatform, setHasPAPlatform] = useState<boolean>(false)
 
-  // Calcul des amendes selon la formule: min(volume_mensuel * 12 * 15€, 15000€)
-  const calculatePenalties = useCallback((invoices: number, hasPA: boolean): PenaltyResult => {
-    const baseAnnualPenalties = Math.min(invoices * 12 * 15, 15000)
+  // ✅ CALCUL DIRECT INLINE - Garantit le re-render à chaque changement
+  const baseAnnualPenalties = Math.min(monthlyInvoices * 12 * 15, 15000)
+  const paPenalties = hasPAPlatform ? 0 : 500 + (1000 * 4)
+  const annualPenalties = baseAnnualPenalties + paPenalties
+  const monthlyPenalties = Math.round(annualPenalties / 12)
+  const threeYearPenalties = annualPenalties * 3
 
-    // Ajouter pénalités absence PA: 500€ + 1000€/trimestre
-    const paPenalties = hasPA ? 0 : 500 + (1000 * 4)
+  // Déterminer le niveau de risque
+  let riskLevel: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL' = 'LOW'
+  if (annualPenalties >= 10000) riskLevel = 'CRITICAL'
+  else if (annualPenalties >= 5000) riskLevel = 'HIGH'
+  else if (annualPenalties >= 2000) riskLevel = 'MODERATE'
 
-    const annualPenalties = baseAnnualPenalties + paPenalties
-    const monthlyPenalties = annualPenalties / 12
-    const threeYearPenalties = annualPenalties * 3
+  const result: PenaltyResult = {
+    monthlyInvoices,
+    annualPenalties,
+    monthlyPenalties,
+    threeYearPenalties,
+    riskLevel,
+  }
 
-    // Déterminer le niveau de risque
-    let riskLevel: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL' = 'LOW'
-    if (annualPenalties >= 10000) riskLevel = 'CRITICAL'
-    else if (annualPenalties >= 5000) riskLevel = 'HIGH'
-    else if (annualPenalties >= 2000) riskLevel = 'MODERATE'
-
-    return {
-      monthlyInvoices: invoices,
-      annualPenalties,
-      monthlyPenalties,
-      threeYearPenalties,
-      riskLevel,
-    }
-  }, [])
-
-  // Calcul direct (pas de useMemo pour garantir la réactivité)
-  const result = calculatePenalties(monthlyInvoices, hasPAPlatform)
-
-  // Force re-render quand les valeurs changent
+  // Callback pour parent component
   React.useEffect(() => {
     if (onCalculate) {
       onCalculate(result)
     }
-  }, [monthlyInvoices, hasPAPlatform, onCalculate])
+  }, [annualPenalties, monthlyPenalties, threeYearPenalties, riskLevel, onCalculate])
 
   const riskColors = {
     LOW: 'bg-success-500 text-white',

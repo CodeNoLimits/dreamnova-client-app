@@ -231,7 +231,7 @@ const AuditResultsPage = () => {
           nom_entreprise: company.nom_entreprise || (company as any).companyName || 'Entreprise',
           secteur_activite: company.secteur_activite || (company as any).sector || 'Non spécifié',
           taille_entreprise: company.taille_entreprise || 'Non spécifié',
-          nombre_employes: company.nombre_employes || (company as any).employees || 0,
+          nombre_employes: (company as any).employees || company.nombre_employes || 0,
           ca_annuel: company.ca_annuel || 0,
           volume_factures_b2b: volumeB2B, // Utiliser la valeur normalisée
           volume_factures_b2c: company.volume_factures_b2c || (company as any).volume_b2c_mensuel || 0,
@@ -362,7 +362,7 @@ const AuditResultsPage = () => {
         >
           <h2 className="text-3xl font-bold text-slate-900 mb-2">{company.nom_entreprise || (company as any).companyName || 'Entreprise'}</h2>
           <p className="text-slate-600">
-            {company.secteur_activite || (company as any).sector || 'Secteur'} • {company.taille_entreprise || 'Taille'} • {company.nombre_employes || (company as any).employees || 0} employés • {company.ca_annuel ? (company.ca_annuel / 1000000).toFixed(1) + 'M€' : 'CA'} CA
+            {company.secteur_activite || (company as any).sector || 'Secteur'} • {company.taille_entreprise || 'Taille'} • {(company as any).employees || company.nombre_employes || 0} employés • {company.ca_annuel ? (company.ca_annuel / 1000000).toFixed(1) + 'M€' : 'CA'} CA
           </p>
         </motion.div>
 
