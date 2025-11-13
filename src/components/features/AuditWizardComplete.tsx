@@ -93,16 +93,16 @@ export default function AuditWizardComplete({ onBack }: AuditWizardProps) {
             user_id: user.id,
             company_name: companyData.nom,
 
-            // Données entreprise
-            employees: companyData.effectif,
+            // Données entreprise (TEXT dans Supabase)
+            employees: String(companyData.effectif), // Convertir en string
             sector: companyData.secteur,
-            ca_annuel: companyData.ca_annuel,
+            ca_annuel: String(companyData.ca_annuel), // Convertir en string
 
             // Données facturation
             volume_b2b_mensuel: companyData.volume_b2b_mensuel,
-            volume_b2c_mensuel: companyData.volume_b2c_mensuel,
-            solution_actuelle: companyData.solution_actuelle,
-            format_actuel: companyData.format_actuel,
+            volume_b2c_mensuel: companyData.volume_b2c_mensuel || null,
+            solution_actuelle: companyData.solution_actuelle || null,
+            format_actuel: companyData.format_actuel || null,
 
             // Résultats audit
             score_conformite: auditResult.score_conformite,
@@ -112,9 +112,9 @@ export default function AuditWizardComplete({ onBack }: AuditWizardProps) {
             amendes_3_ans: auditResult.amendes_potentielles.sur_3_ans,
 
             // Recommandations
-            pdp_recommandé: pdpResult.provider,
-            duree_migration_estimee: auditResult.migration.durée_estimée,
-            cout_estime: auditResult.migration.coût_estimé
+            pdp_recommandé: pdpResult.provider || null,
+            duree_migration_estimee: auditResult.migration.durée_estimée || null,
+            cout_estime: auditResult.migration.coût_estimé || null
           }
 
           const { error } = await supabase.from('audits').insert(auditData)

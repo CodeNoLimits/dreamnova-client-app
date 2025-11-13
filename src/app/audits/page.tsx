@@ -169,12 +169,20 @@ const AuditsPage = () => {
                   Historique complet de tous vos audits e-facture 2026
                 </p>
               </div>
-              <Link href="/audit">
-                <Button size="lg">
-                  <span className="material-symbols-outlined mr-2">add_circle</span>
-                  Nouvel audit
-                </Button>
-              </Link>
+              <div className="flex gap-3">
+                <Link href="/dashboard">
+                  <Button variant="ghost" size="lg">
+                    <span className="material-symbols-outlined mr-2">arrow_back</span>
+                    Retour Dashboard
+                  </Button>
+                </Link>
+                <Link href="/audit">
+                  <Button size="lg">
+                    <span className="material-symbols-outlined mr-2">add_circle</span>
+                    Nouvel audit
+                  </Button>
+                </Link>
+              </div>
             </div>
 
             {/* Stats rapides */}

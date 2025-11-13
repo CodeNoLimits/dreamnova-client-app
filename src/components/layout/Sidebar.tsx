@@ -15,7 +15,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { label: 'Dashboard', icon: 'dashboard', href: '/dashboard' },
   { label: 'Mes Documents', icon: 'description', href: '/documents' },
-  { label: 'Audits', icon: 'assessment', href: '/audit' },
+  { label: 'Audits', icon: 'assessment', href: '/audits' }, // ✅ Corrigé: /audits au lieu de /audit
   { label: 'Convertisseur', icon: 'transform', href: '/convertisseur' },
   { label: 'Tarifs', icon: 'credit_card', href: '/pricing' },
   { label: 'Formation', icon: 'school', href: '/formation' },

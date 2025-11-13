@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
       .from('documents')
       .insert({
         user_id: user.id,
-        file_name: originalFileName,
+        file_name: convertedFileName, // ✅ Utiliser le nom converti (avec _facturx.pdf)
         file_type: file.type,
         file_size: finalBuffer.length, // Taille après conversion
         file_url: urlData.signedUrl,
