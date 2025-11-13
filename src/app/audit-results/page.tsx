@@ -75,6 +75,8 @@ const AuditResultsPage = () => {
   const [results, setResults] = useState<StoredAuditResults | null>(null)
   const [isGenerating, setIsGenerating] = useState(true)
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
+  const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
 
   useEffect(() => {
     // Get audit results from sessionStorage
@@ -314,6 +316,67 @@ const AuditResultsPage = () => {
     window.print()
   }
 
+  const handleSaveAudit = async () => {
+    if (!results) {
+      setSaveMessage({ type: 'error', text: 'Aucune donnée à sauvegarder' })
+      return
+    }
+
+    setIsSaving(true)
+    setSaveMessage(null)
+
+    try {
+      const { createClient } = await import('@/lib/supabase/client')
+      const supabase = createClient()
+
+      const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+      if (authError || !user) {
+        setSaveMessage({ type: 'error', text: 'Vous devez être connecté pour sauvegarder' })
+        setIsSaving(false)
+        return
+      }
+
+      const { company, audit, pdp } = results
+
+      const auditData = {
+        user_id: user.id,
+        company_name: company.nom_entreprise,
+        employees: String(company.nombre_employes),
+        sector: company.secteur_activite,
+        ca_annuel: String(company.ca_annuel),
+        volume_b2b_mensuel: company.volume_factures_b2b,
+        volume_b2c_mensuel: company.volume_factures_b2c || null,
+        solution_actuelle: company.logiciel_actuel || null,
+        format_actuel: company.format_actuel || null,
+        score_conformite: audit.score_conformite,
+        niveau_risque: audit.niveau_risque,
+        amendes_annuelles: audit.amendes_potentielles.annuelle,
+        amendes_mensuelles: audit.amendes_potentielles.mensuelle,
+        amendes_3_ans: audit.amendes_potentielles.annuelle * 3,
+        pdp_recommandé: pdp.provider || null,
+        duree_migration_estimee: audit.plan_migration.duree_estimee || null,
+        cout_estime: String(audit.plan_migration.cout_total) || null,
+      }
+
+      const { error: insertError } = await supabase.from('audits').insert(auditData)
+
+      if (insertError) {
+        console.error('Erreur sauvegarde:', insertError)
+        setSaveMessage({ type: 'error', text: `Erreur: ${insertError.message}` })
+      } else {
+        setSaveMessage({ type: 'success', text: '✅ Audit sauvegardé avec succès!' })
+        // Cacher le message après 3 secondes
+        setTimeout(() => setSaveMessage(null), 3000)
+      }
+    } catch (error: any) {
+      console.error('Erreur:', error)
+      setSaveMessage({ type: 'error', text: `Erreur: ${error.message}` })
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
@@ -355,12 +418,46 @@ const AuditResultsPage = () => {
                   {isGeneratingPDF ? 'Génération...' : 'Générer PDF'}
                 </span>
               </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleSaveAudit}
+                isLoading={isSaving}
+                disabled={isSaving}
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                <span className="material-symbols-outlined text-lg">save</span>
+                <span className="ml-2">
+                  {isSaving ? 'Sauvegarde...' : 'Sauvegarder'}
+                </span>
+              </Button>
             </div>
           </div>
         </div>
       </header>
 
       <main className="container mx-auto px-6 py-8 max-w-7xl">
+        {/* Message de sauvegarde */}
+        {saveMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className={`mb-6 p-4 rounded-lg border-2 ${
+              saveMessage.type === 'success'
+                ? 'bg-success-50 border-success-300 text-success-800'
+                : 'bg-danger-50 border-danger-300 text-danger-800'
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <span className="material-symbols-outlined text-2xl">
+                {saveMessage.type === 'success' ? 'check_circle' : 'error'}
+              </span>
+              <span className="font-medium text-lg">{saveMessage.text}</span>
+            </div>
+          </motion.div>
+        )}
+
         {/* Company Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
