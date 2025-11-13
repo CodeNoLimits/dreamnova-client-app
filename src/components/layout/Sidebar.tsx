@@ -35,15 +35,27 @@ export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [user, setUser] = useState<any>(null)
 
-  // Charger user au mount
+  // Charger user au mount ET à chaque changement de route
   useEffect(() => {
     const loadUser = async () => {
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
+      console.log('🔍 [Sidebar] User loaded:', user?.email)
       setUser(user)
     }
     loadUser()
-  }, [])
+
+    // Écouter les changements d'auth
+    const supabase = createClient()
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log('🔄 [Sidebar] Auth state changed:', session?.user?.email)
+      setUser(session?.user || null)
+    })
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [pathname])
 
   const handleLogout = async () => {
     const supabase = createClient()
@@ -114,7 +126,7 @@ export default function Sidebar() {
           })}
 
           {/* Onglet Développeur (uniquement mode testeur) */}
-          {user?.email === 'testeur@example.com' && (
+          {user && user.email === 'testeur@example.com' && (
             <>
               <li className="px-3 py-2">
                 <div className="border-t border-slate-700"></div>
@@ -143,6 +155,13 @@ export default function Sidebar() {
                 </Link>
               </li>
             </>
+          )}
+
+          {/* DEBUG: Afficher le user email pour vérifier */}
+          {process.env.NODE_ENV === 'development' && user && (
+            <li className="px-3 py-2 text-xs text-slate-500">
+              User: {user.email}
+            </li>
           )}
         </ul>
       </nav>
