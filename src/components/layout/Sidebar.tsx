@@ -114,7 +114,7 @@ export default function Sidebar() {
           })}
 
           {/* Onglet Développeur (uniquement mode testeur) */}
-          {user?.email === 'alex@test.com' && (
+          {user?.email === 'testeur@example.com' && (
             <>
               <li className="px-3 py-2">
                 <div className="border-t border-slate-700"></div>

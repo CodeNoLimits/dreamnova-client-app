@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Inter, Outfit } from 'next/font/google'
 import './globals.css'
 import InstallPWA from '@/components/features/InstallPWA'
-import BetaBanner from '@/components/layout/BetaBanner'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -67,7 +66,6 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="DreamNova" />
       </head>
       <body className="antialiased">
-        <BetaBanner />
         {children}
         <InstallPWA />
             <script
