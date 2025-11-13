@@ -125,8 +125,8 @@ export default function Sidebar() {
             )
           })}
 
-          {/* Onglet Développeur (uniquement mode testeur) */}
-          {user && user.email === 'testeur@example.com' && (
+          {/* Onglet Développeur - TEMPORAIREMENT VISIBLE POUR TOUS */}
+          {user && (
             <>
               <li className="px-3 py-2">
                 <div className="border-t border-slate-700"></div>
@@ -150,18 +150,16 @@ export default function Sidebar() {
                       <span className="px-2 py-0.5 bg-yellow-500 text-yellow-900 text-xs rounded-full font-bold">
                         DEV
                       </span>
+                      {user.email === 'testeur@example.com' && (
+                        <span className="px-2 py-0.5 bg-green-500 text-white text-xs rounded-full font-bold ml-1">
+                          ✓
+                        </span>
+                      )}
                     </>
                   )}
                 </Link>
               </li>
             </>
-          )}
-
-          {/* DEBUG: Afficher le user email pour vérifier */}
-          {process.env.NODE_ENV === 'development' && user && (
-            <li className="px-3 py-2 text-xs text-slate-500">
-              User: {user.email}
-            </li>
           )}
         </ul>
       </nav>
