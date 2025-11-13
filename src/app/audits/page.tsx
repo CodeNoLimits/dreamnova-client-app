@@ -86,11 +86,22 @@ const AuditsPage = () => {
   const auditsFiltres = audits
     .filter((audit) => {
       const matchSearch =
+        searchTerm === '' || // ✅ Si pas de recherche, tout passe
         audit.company_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         audit.sector?.toLowerCase().includes(searchTerm.toLowerCase())
 
       const matchRisk =
         filterRisk === 'all' || audit.niveau_risque === filterRisk
+
+      console.log('🔍 [Filter]', {
+        audit: audit.company_name,
+        searchTerm,
+        matchSearch,
+        filterRisk,
+        niveau_risque: audit.niveau_risque,
+        matchRisk,
+        result: matchSearch && matchRisk
+      })
 
       return matchSearch && matchRisk
     })
