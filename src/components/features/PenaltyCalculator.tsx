@@ -165,6 +165,26 @@ const PenaltyCalculator: React.FC<PenaltyCalculatorProps> = ({ onCalculate }) =>
               </p>
             </div>
           )}
+
+          {monthlyInvoices >= 90 && !hasPAPlatform && (
+            <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="flex items-start gap-3">
+                <span className="material-symbols-outlined text-blue-600 flex-shrink-0 mt-0.5">
+                  info
+                </span>
+                <div className="text-sm text-blue-800">
+                  <strong>ℹ️ Plafond atteint:</strong>
+                  <p className="mt-1">
+                    Les amendes légales sont plafonnées à <strong>15 000€/an</strong> (90 factures × 12 × 15€).
+                    Le montant affiché inclut les pénalités pour absence de Plateforme d'Agrément (+<strong>4 500€</strong>).
+                  </p>
+                  <p className="mt-2 text-xs">
+                    <strong>Calcul:</strong> 15 000€ (amendes) + 4 500€ (absence PA) = <strong>19 500€ maximum</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Card>

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import DashboardLayout from '@/components/layout/DashboardLayout'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import DocumentUpload from '@/components/features/DocumentUpload'
@@ -229,41 +230,35 @@ const DashboardPage = () => {
   }
 
   const chargerAudits = async (userId: string) => {
-    // TODO: Récupérer les audits depuis Supabase
-    // Pour l'instant, utiliser des données de démo
-    const auditsDemo: AuditSauvegarde[] = [
-      {
-        id: '1',
-        created_at: '2025-11-10T10:00:00',
-        nom_entreprise: 'Ma Société',
-        score_conformite: 68,
-        niveau_risque: 'MODÉRÉ',
-        amendes_potentielles: 12500,
-        roi_annuel: 245,
-        pdp_recommande: 'Pennylane',
-      },
-      {
-        id: '2',
-        created_at: '2025-11-05T14:30:00',
-        nom_entreprise: 'Ma Société',
-        score_conformite: 55,
-        niveau_risque: 'ÉLEVÉ',
-        amendes_potentielles: 15000,
-        roi_annuel: 180,
-        pdp_recommande: 'Tiime',
-      },
-      {
-        id: '3',
-        created_at: '2025-10-28T09:15:00',
-        nom_entreprise: 'Ma Société',
-        score_conformite: 42,
-        niveau_risque: 'CRITIQUE',
-        amendes_potentielles: 15000,
-        roi_annuel: 150,
-        pdp_recommande: 'Qonto',
-      },
-    ]
-    setAudits(auditsDemo)
+    // ✅ Charger les VRAIS audits depuis Supabase
+    const supabase = createClient()
+
+    const { data: auditsData, error } = await supabase
+      .from('audits')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(10)
+
+    if (error) {
+      console.error('Erreur chargement audits:', error)
+      setAudits([])
+      return
+    }
+
+    // Mapper vers le format attendu
+    const auditsFormates: AuditSauvegarde[] = (auditsData || []).map((audit) => ({
+      id: audit.id,
+      created_at: audit.created_at,
+      nom_entreprise: audit.company_name || 'Entreprise',
+      score_conformite: audit.score_conformite || 0,
+      niveau_risque: audit.niveau_risque || 'MODÉRÉ',
+      amendes_potentielles: audit.amendes_annuelles || 0,
+      roi_annuel: 0, // TODO: Ajouter au schéma si besoin
+      pdp_recommande: audit.pdp_recommandé || 'Pennylane',
+    }))
+
+    setAudits(auditsFormates)
   }
 
   const handleSignOut = async () => {
@@ -353,10 +348,11 @@ const DashboardPage = () => {
   const isMaxAccess = user?.email?.toLowerCase() === 'manubousky@gmail.com'
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4">
+    <DashboardLayout>
+      <div className="min-h-screen bg-slate-50">
+        {/* Header */}
+        <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
+          <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="/dashboard">
               <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
@@ -1063,7 +1059,8 @@ const DashboardPage = () => {
           )}
         </div>
       </main>
-    </div>
+      </div>
+    </DashboardLayout>
   )
 }
 
