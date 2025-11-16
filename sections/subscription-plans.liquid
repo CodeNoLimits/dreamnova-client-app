@@ -1,0 +1,302 @@
+{% comment %} 
+  Plans d'abonnement avec Sky Pilot
+  Accès illimité à tous les livres numériques
+{% endcomment %}
+
+<div class="subscription-section" data-sky-pilot>
+  <h2>📚 Abonnement Illimité - Bibliothèque Esther Ifrah</h2>
+  
+  <div class="plans-grid">
+    <!-- Plan Mensuel -->
+    <div class="plan-card" data-plan="monthly">
+      <h3>Abonnement Mensuel</h3>
+      <div class="price">
+        <span class="amount">29€</span>
+        <span class="period">/mois</span>
+      </div>
+      
+      <ul class="features">
+        <li>✅ Accès aux 30 titres numériques</li>
+        <li>✅ Nouveautés incluses automatiquement</li>
+        <li>✅ Lecture sur 3 appareils simultanés</li>
+        <li>✅ Mode hors-ligne (téléchargement crypté)</li>
+        <li>✅ Notes et marque-pages synchronisés</li>
+        <li>✅ Support prioritaire par email</li>
+        <li>✅ Annulation à tout moment</li>
+      </ul>
+      
+      <button class="btn-subscribe" data-sky-pilot-plan="monthly-29">
+        Essai Gratuit 7 Jours
+      </button>
+    </div>
+    
+    <!-- Plan Annuel -->
+    <div class="plan-card featured" data-plan="yearly">
+      <div class="badge">Économisez 20%</div>
+      <h3>Abonnement Annuel</h3>
+      <div class="price">
+        <span class="amount">279€</span>
+        <span class="period">/an</span>
+        <span class="savings">Au lieu de 348€</span>
+      </div>
+      
+      <ul class="features">
+        <li>✅ Tous les avantages du mensuel</li>
+        <li>✅ <strong>2 mois GRATUITS</strong></li>
+        <li>✅ Accès anticipé aux nouveautés</li>
+        <li>✅ Webinaires exclusifs avec Esther Ifrah</li>
+        <li>✅ PDF bonus téléchargeables</li>
+        <li>✅ Lecture sur 5 appareils</li>
+        <li>✅ Support prioritaire WhatsApp</li>
+      </ul>
+      
+      <button class="btn-subscribe primary" data-sky-pilot-plan="yearly-279">
+        Essai Gratuit 14 Jours
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Configuration Sky Pilot
+document.addEventListener('DOMContentLoaded', function() {
+  if(typeof SkyPilot !== 'undefined') {
+    SkyPilot.init({
+      shop: '{{ shop.permanent_domain }}',
+      customer: {{ customer | json }},
+      
+      // Plans configuration
+      plans: {
+        'monthly-29': {
+          id: '{{ settings.sky_pilot_monthly_id }}',
+          price: 29,
+          currency: 'EUR',
+          interval: 'month',
+          trial: 7,
+          access: 'all-digital-products'
+        },
+        'yearly-279': {
+          id: '{{ settings.sky_pilot_yearly_id }}',
+          price: 279,
+          currency: 'EUR',
+          interval: 'year',
+          trial: 14,
+          access: 'all-digital-products',
+          bonuses: ['early-access', 'webinars', 'bonus-pdfs']
+        }
+      },
+      
+      // Callbacks
+      onSubscribe: function(plan) {
+        // Track conversion
+        if(typeof gtag !== 'undefined') {
+          gtag('event', 'subscribe', {
+            'plan_type': plan.interval,
+            'value': plan.price,
+            'currency': plan.currency
+          });
+        }
+        
+        // Redirect to account
+        window.location.href = '/account#subscription';
+      },
+      
+      onCancel: function() {
+        // Show retention offer
+        if(confirm('Attendez! Nous vous offrons 50% sur le prochain mois. Voulez-vous rester?')) {
+          SkyPilot.applyDiscount('RETENTION50');
+        }
+      }
+    });
+    
+    // Event listeners pour les boutons
+    document.querySelectorAll('.btn-subscribe').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const planId = this.dataset.skyPilotPlan;
+        if(SkyPilot && SkyPilot.plans[planId]) {
+          SkyPilot.subscribe(planId);
+        } else {
+          // Fallback: rediriger vers produit
+          const productHandle = planId.includes('monthly') ? 'abonnement-mensuel' : 'abonnement-annuel';
+          window.location.href = `/products/${productHandle}`;
+        }
+      });
+    });
+  }
+});
+</script>
+
+<style>
+.subscription-section {
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8eaf6 100%);
+  text-align: center;
+}
+
+.subscription-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: #1a237e;
+  margin-bottom: 50px;
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 900px;
+  margin: 40px auto;
+}
+
+.plan-card {
+  background: white;
+  border-radius: 12px;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.plan-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(26, 35, 126, 0.2);
+}
+
+.plan-card.featured {
+  transform: scale(1.05);
+  border: 2px solid #ffd700;
+  box-shadow: 0 8px 30px rgba(26, 35, 126, 0.2);
+}
+
+.badge {
+  position: absolute;
+  top: -15px;
+  right: 20px;
+  background: #ffd700;
+  color: #1a1a1a;
+  padding: 5px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.plan-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #1a237e;
+  margin: 20px 0;
+}
+
+.price {
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.price .amount {
+  font-size: 48px;
+  font-weight: bold;
+  color: #1a237e;
+  line-height: 1;
+}
+
+.price .period {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.price .savings {
+  font-size: 0.9rem;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 30px 0;
+  text-align: left;
+  min-height: 300px;
+}
+
+.features li {
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.features li:last-child {
+  border-bottom: none;
+}
+
+.btn-subscribe {
+  width: 100%;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 20px;
+  background: #1a237e;
+  color: white;
+}
+
+.btn-subscribe:hover {
+  background: #0d47a1;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(26, 35, 126, 0.3);
+}
+
+.btn-subscribe.primary {
+  background: #ffd700;
+  color: #1a237e;
+}
+
+.btn-subscribe.primary:hover {
+  background: #ffed4e;
+}
+
+@media (max-width: 768px) {
+  .plans-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .plan-card.featured {
+    transform: scale(1);
+  }
+  
+  .subscription-section h2 {
+    font-size: 2rem;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Subscription Plans",
+  "settings": [
+    {
+      "type": "text",
+      "id": "sky_pilot_monthly_id",
+      "label": "Sky Pilot Monthly Plan ID"
+    },
+    {
+      "type": "text",
+      "id": "sky_pilot_yearly_id",
+      "label": "Sky Pilot Yearly Plan ID"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Subscription Plans"
+    }
+  ]
+}
+{% endschema %}
+

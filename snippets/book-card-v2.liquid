@@ -1,0 +1,430 @@
+{% comment %}
+  ============================================
+  CARD PRODUIT V2 - BRESLEV BOOKS
+  ============================================
+
+  Card produit professionnelle inspirée de Tikoun Aolam:
+  - Image ratio 3:4 (standard livre)
+  - Badges visuels (Nouveau, Promo, etc.)
+  - Prix avec comparaison
+  - Bouton ajout panier
+  - Hover effects élégants
+  - Responsive parfait
+
+  Usage: {% render 'book-card-v2', product: product %}
+{% endcomment %}
+
+<article class="book-card-v2" data-product-id="{{ product.id }}">
+
+  {%comment%} === IMAGE PRODUIT === {%endcomment%}
+  <div class="book-card-image">
+    <a href="{{ product.url }}" class="book-card-image-link">
+      {% if product.featured_image %}
+        <img
+          src="{{ product.featured_image | img_url: '600x800' }}"
+          alt="{{ product.title | escape }}"
+          width="600"
+          height="800"
+          loading="lazy"
+          class="book-img"
+        >
+      {% else %}
+        <div class="book-img-placeholder">
+          <svg width="60" height="80" viewBox="0 0 60 80" fill="none">
+            <rect width="60" height="80" fill="#f5f5f5"/>
+            <rect x="10" y="10" width="40" height="60" stroke="#ccc" stroke-width="2"/>
+          </svg>
+        </div>
+      {% endif %}
+    </a>
+
+    {%comment%} Badges {%endcomment%}
+    <div class="book-card-badges">
+      {% if product.tags contains 'nouveau' or product.tags contains 'new' %}
+        <span class="badge badge-new">Nouveau</span>
+      {% endif %}
+
+      {% if product.compare_at_price > product.price %}
+        {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+        <span class="badge badge-sale">-{{ discount }}%</span>
+      {% endif %}
+
+      {% if product.tags contains 'bestseller' %}
+        <span class="badge badge-bestseller">Bestseller</span>
+      {% endif %}
+
+      {% if product.tags contains 'digital' %}
+        <span class="badge badge-digital">Numérique</span>
+      {% endif %}
+    </div>
+
+    {%comment%} Actions rapides (au hover) {%endcomment%}
+    <div class="book-card-quick-actions">
+      <button class="quick-action-btn" aria-label="Aperçu rapide" data-product-id="{{ product.id }}">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M10 3C5 3 1.73 7.11 1 10c.73 2.89 4 7 9 7s8.27-4.11 9-7c-.73-2.89-4-7-9-7z" stroke="currentColor" stroke-width="2"/>
+          <circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </button>
+      <button class="quick-action-btn" aria-label="Ajouter aux favoris">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M10 17.5l-1.4-1.3C4.4 12.4 2 10.1 2 7.5 2 5.5 3.5 4 5.5 4c1.3 0 2.5.6 3.2 1.5.7-.9 1.9-1.5 3.2-1.5 2 0 3.5 1.5 3.5 3.5 0 2.6-2.4 4.9-6.6 8.7l-1.4 1.3z" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {%comment%} === INFORMATIONS PRODUIT === {%endcomment%}
+  <div class="book-card-body">
+
+    {%comment%} Catégorie/Auteur {%endcomment%}
+    <div class="book-card-meta">
+      {% if product.vendor and product.vendor != blank %}
+        <span class="book-author">{{ product.vendor }}</span>
+      {% elsif product.metafields.book.author %}
+        <span class="book-author">{{ product.metafields.book.author }}</span>
+      {% else %}
+        <span class="book-author">Rabbi Nachman</span>
+      {% endif %}
+    </div>
+
+    {%comment%} Titre {%endcomment%}
+    <h3 class="book-card-title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    {%comment%} Avis (si disponibles) {%endcomment%}
+    {% if product.metafields.reviews.rating %}
+      <div class="book-card-rating">
+        {% assign rating = product.metafields.reviews.rating %}
+        {% for i in (1..5) %}
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="{% if i <= rating %}#ffd700{% else %}#e0e0e0{% endif %}">
+            <path d="M7 0l1.545 4.755h5l-4.045 2.94 1.545 4.755L7 9.51l-4.045 2.94 1.545-4.755L.455 4.755h5L7 0z"/>
+          </svg>
+        {% endfor %}
+        <span class="rating-count">({{ product.metafields.reviews.count | default: 0 }})</span>
+      </div>
+    {% endif %}
+
+    {%comment%} Prix {%endcomment%}
+    <div class="book-card-price">
+      {% if product.compare_at_price > product.price %}
+        <span class="price-old">{{ product.compare_at_price | money }}</span>
+      {% endif %}
+      <span class="price-current">{{ product.price | money }}</span>
+    </div>
+
+    {%comment%} Bouton ajout panier {%endcomment%}
+    <form action="/cart/add" method="post" class="book-card-form">
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+      {% if product.available %}
+        <button type="submit" class="btn btn-primary btn-full add-to-cart-btn">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M2 2h2l2.4 9.6h8.4L17 5H5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="7" cy="15" r="1" fill="currentColor"/>
+            <circle cx="14" cy="15" r="1" fill="currentColor"/>
+          </svg>
+          <span>Ajouter au panier</span>
+        </button>
+      {% else %}
+        <button type="button" class="btn btn-full btn-disabled" disabled>
+          Épuisé
+        </button>
+      {% endif %}
+    </form>
+
+  </div>
+
+</article>
+
+<style>
+/* ============================================
+   BOOK CARD V2 STYLES
+   ============================================ */
+
+.book-card-v2 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-white, #ffffff);
+  border-radius: var(--radius-lg, 0.75rem);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.book-card-v2:hover {
+  box-shadow: var(--shadow-xl, 0 20px 25px rgba(0, 0, 0, 0.1));
+  transform: translateY(-5px);
+}
+
+/* === IMAGE === */
+.book-card-image {
+  position: relative;
+  padding-top: 133.33%; /* Ratio 3:4 pour livres */
+  overflow: hidden;
+  background-color: var(--color-gray-100, #f5f5f5);
+}
+
+.book-card-image-link {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.book-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.book-card-v2:hover .book-img {
+  transform: scale(1.05);
+}
+
+.book-img-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-gray-100, #f5f5f5);
+}
+
+/* === BADGES === */
+.book-card-badges {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-bold, 700);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius-full, 9999px);
+  line-height: 1.2;
+}
+
+.badge-new {
+  background-color: var(--color-badge-new, #ffd700);
+  color: var(--color-primary, #1a1a1a);
+}
+
+.badge-sale {
+  background-color: var(--color-badge-sale, #e91e63);
+  color: white;
+}
+
+.badge-bestseller {
+  background-color: var(--color-badge-bestseller, #ff5722);
+  color: white;
+}
+
+.badge-digital {
+  background-color: var(--color-badge-digital, #6b46c1);
+  color: white;
+}
+
+/* === ACTIONS RAPIDES === */
+.book-card-quick-actions {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 0.75rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 3;
+}
+
+.book-card-v2:hover .book-card-quick-actions {
+  opacity: 1;
+  visibility: visible;
+}
+
+.quick-action-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  color: var(--color-text-primary, #333333);
+  cursor: pointer;
+  box-shadow: var(--shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1));
+  transition: all 0.2s ease;
+}
+
+.quick-action-btn:hover {
+  background-color: var(--color-accent, #ef4a21);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* === BODY (INFOS) === */
+.book-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+/* Meta (auteur/catégorie) */
+.book-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.book-author {
+  font-size: var(--font-size-sm, 0.875rem);
+  color: var(--color-text-secondary, #666666);
+  font-weight: var(--font-weight-medium, 500);
+}
+
+/* Titre */
+.book-card-title {
+  margin: 0;
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: var(--font-size-md, 1.125rem);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: var(--line-height-tight, 1.25);
+  min-height: 2.5em; /* 2 lignes minimum pour alignement */
+}
+
+.book-card-title a {
+  color: var(--color-text-primary, #333333);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.book-card-title a:hover {
+  color: var(--color-accent, #ef4a21);
+}
+
+/* Rating */
+.book-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rating-count {
+  font-size: var(--font-size-sm, 0.875rem);
+  color: var(--color-text-secondary, #666666);
+}
+
+/* Prix */
+.book-card-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin: auto 0 0.5rem;
+}
+
+.price-old {
+  font-size: var(--font-size-base, 1rem);
+  color: var(--color-text-muted, #999999);
+  text-decoration: line-through;
+}
+
+.price-current {
+  font-size: var(--font-size-xl, 1.5rem);
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-primary, #1a1a1a);
+}
+
+/* Form & Bouton */
+.book-card-form {
+  margin-top: auto;
+}
+
+.add-to-cart-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.add-to-cart-btn svg {
+  flex-shrink: 0;
+}
+
+.btn-disabled {
+  background-color: var(--color-gray-300, #e0e0e0);
+  color: var(--color-text-secondary, #666666);
+  cursor: not-allowed;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .book-card-body {
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+
+  .book-card-title {
+    font-size: var(--font-size-base, 1rem);
+  }
+
+  .price-current {
+    font-size: var(--font-size-lg, 1.25rem);
+  }
+
+  .book-card-quick-actions {
+    opacity: 1;
+    visibility: visible;
+    bottom: 0.75rem;
+    top: auto;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (max-width: 480px) {
+  .book-card-badges {
+    gap: 0.25rem;
+  }
+
+  .badge {
+    padding: 0.125rem 0.5rem;
+    font-size: 0.625rem;
+  }
+}
+</style>
+
+<script>
+// Quick view functionality placeholder
+document.addEventListener('DOMContentLoaded', function() {
+  const quickViewBtns = document.querySelectorAll('.quick-action-btn[data-product-id]');
+
+  quickViewBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const productId = this.dataset.productId;
+      // TODO: Implement quick view modal
+      console.log('Quick view for product:', productId);
+    });
+  });
+});
+</script>

@@ -1,0 +1,159 @@
+{
+  "frontend": {
+    "status": "active",
+    "tasks": [
+      {
+        "id": 1731168000000,
+        "description": "Optimiser templates produits",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      },
+      {
+        "id": 1731168000001,
+        "description": "Créer sections avancées",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      },
+      {
+        "id": 1731168000002,
+        "description": "Tests responsive",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      }
+    ],
+    "files": []
+  },
+  "backend": {
+    "status": "completed",
+    "tasks": [],
+    "files": [
+      "fliphtml5-config.js",
+      "shipping-config.js"
+    ]
+  },
+  "database": {
+    "status": "active",
+    "tasks": [
+      {
+        "id": 1731168000003,
+        "description": "Créer metafields schema",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      },
+      {
+        "id": 1731168000004,
+        "description": "Organiser collections",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      },
+      {
+        "id": 1731168000005,
+        "description": "Structurer 30 produits",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      }
+    ],
+    "files": []
+  },
+  "payments": {
+    "status": "completed",
+    "tasks": [],
+    "files": [
+      "subscription-plans.liquid"
+    ]
+  },
+  "style": {
+    "status": "completed",
+    "tasks": [],
+    "files": [
+      "design-system.css"
+    ]
+  },
+  "tests": {
+    "status": "pending",
+    "tasks": [
+      {
+        "id": 1731168000006,
+        "description": "Tests fonctionnels",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      },
+      {
+        "id": 1731168000007,
+        "description": "Tests UI/UX",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      },
+      {
+        "id": 1731168000008,
+        "description": "Tests performance",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      }
+    ],
+    "files": []
+  },
+  "research": {
+    "status": "completed",
+    "tasks": [],
+    "files": [
+      "research-report.md"
+    ]
+  },
+  "screenshots": {
+    "status": "pending",
+    "tasks": [
+      {
+        "id": 1731168000009,
+        "description": "Screenshots sites références",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      },
+      {
+        "id": 1731168000010,
+        "description": "Créer moodboards",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      },
+      {
+        "id": 1731168000011,
+        "description": "Documenter inspirations",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      }
+    ],
+    "files": []
+  },
+  "devops": {
+    "status": "completed",
+    "tasks": [],
+    "files": [
+      "install-shopify-cli.sh"
+    ]
+  },
+  "analytics": {
+    "status": "pending",
+    "tasks": [
+      {
+        "id": 1731168000012,
+        "description": "Configurer Google Analytics",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      },
+      {
+        "id": 1731168000013,
+        "description": "Configurer Facebook Pixel",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      },
+      {
+        "id": 1731168000014,
+        "description": "Tracking événements custom",
+        "status": "assigned",
+        "assignedAt": "2025-11-09T00:00:00.000Z"
+      }
+    ],
+    "files": []
+  }
+}
+

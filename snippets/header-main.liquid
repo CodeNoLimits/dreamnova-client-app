@@ -1,0 +1,572 @@
+{% comment %}
+  ============================================
+  HEADER PRINCIPAL - BRESLEV BOOKS V2
+  ============================================
+
+  Structure professionnelle inspirée de Tikoun Aolam:
+  - Logo gauche
+  - Navigation centre
+  - Search + Compte + Panier droite
+  - Responsive avec menu mobile
+  - Sticky header au scroll
+
+  Usage: {% render 'header-main' %}
+{% endcomment %}
+
+<header class="header-main" id="header-main">
+  <div class="header-container">
+
+    {%comment%} === PARTIE GAUCHE: LOGO === {%endcomment%}
+    <div class="header-left">
+      <a href="/" class="logo-link">
+        {% if section.settings.logo %}
+          <img
+            src="{{ section.settings.logo | img_url: '200x' }}"
+            alt="{{ shop.name }}"
+            class="logo-img"
+            loading="eager"
+          >
+        {% else %}
+          <span class="logo-text">Breslev Books</span>
+        {% endif %}
+      </a>
+    </div>
+
+    {%comment%} === PARTIE CENTRE: NAVIGATION === {%endcomment%}
+    <nav class="header-nav desktop-only" role="navigation">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a href="/collections/all" class="nav-link">
+            Tous les livres
+          </a>
+        </li>
+        <li class="nav-item has-dropdown">
+          <a href="/collections/categories" class="nav-link">
+            Categories
+            <svg class="dropdown-icon" width="12" height="8" viewBox="0 0 12 8" fill="none">
+              <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </a>
+          {%comment%} Dropdown menu {%endcomment%}
+          <div class="dropdown-menu">
+            <a href="/collections/livres-etude" class="dropdown-item">Livres d'étude</a>
+            <a href="/collections/contes-recits" class="dropdown-item">Contes et Récits</a>
+            <a href="/collections/prieres-tefilot" class="dropdown-item">Prières et Téfilot</a>
+            <a href="/collections/biographies" class="dropdown-item">Biographies</a>
+            <a href="/collections/brochures" class="dropdown-item">Brochures</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="/collections/nouveautes" class="nav-link">
+            Nouveautés
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/pages/abonnement" class="nav-link nav-link-accent">
+            Abonnement
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/pages/contact" class="nav-link">
+            Contact
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    {%comment%} === PARTIE DROITE: SEARCH + COMPTE + PANIER === {%endcomment%}
+    <div class="header-right">
+
+      {%comment%} Recherche {%endcomment%}
+      <button class="header-icon-btn search-toggle desktop-only" aria-label="Rechercher">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
+          <path d="M13 13L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      {%comment%} Compte {%endcomment%}
+      <a href="/account" class="header-icon-btn" aria-label="Mon compte">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <circle cx="10" cy="6" r="4" stroke="currentColor" stroke-width="2"/>
+          <path d="M4 18C4 14.6863 6.68629 12 10 12C13.3137 12 16 14.6863 16 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </a>
+
+      {%comment%} Panier {%endcomment%}
+      <a href="/cart" class="header-icon-btn cart-btn" aria-label="Panier">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M3 1L5 4H18L16 12H6L3 1ZM3 1H1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="7" cy="17" r="2" stroke="currentColor" stroke-width="2"/>
+          <circle cx="15" cy="17" r="2" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <span class="cart-count" id="cart-count">{{ cart.item_count }}</span>
+      </a>
+
+      {%comment%} Menu hamburger mobile {%endcomment%}
+      <button class="header-icon-btn menu-toggle mobile-only" aria-label="Menu" id="mobile-menu-toggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+  {%comment%} === BARRE DE RECHERCHE (cachée par défaut) === {%endcomment%}
+  <div class="search-bar" id="search-bar">
+    <div class="search-container">
+      <form action="/search" method="get" class="search-form">
+        <input
+          type="search"
+          name="q"
+          placeholder="Rechercher un livre, un auteur..."
+          class="search-input"
+          autocomplete="off"
+        >
+        <button type="submit" class="search-submit-btn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
+            <path d="M13 13L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </form>
+      <button class="search-close-btn" aria-label="Fermer la recherche">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M4 4L16 16M16 4L4 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {%comment%} === MENU MOBILE (caché par défaut) === {%endcomment%}
+  <div class="mobile-menu" id="mobile-menu">
+    <nav class="mobile-nav">
+      <ul class="mobile-nav-list">
+        <li><a href="/collections/all" class="mobile-nav-link">Tous les livres</a></li>
+        <li><a href="/collections/livres-etude" class="mobile-nav-link">Livres d'étude</a></li>
+        <li><a href="/collections/contes-recits" class="mobile-nav-link">Contes et Récits</a></li>
+        <li><a href="/collections/prieres-tefilot" class="mobile-nav-link">Prières et Téfilot</a></li>
+        <li><a href="/collections/biographies" class="mobile-nav-link">Biographies</a></li>
+        <li><a href="/collections/brochures" class="mobile-nav-link">Brochures</a></li>
+        <li><a href="/collections/nouveautes" class="mobile-nav-link">Nouveautés</a></li>
+        <li><a href="/pages/abonnement" class="mobile-nav-link mobile-nav-link-accent">Abonnement</a></li>
+        <li><a href="/pages/contact" class="mobile-nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+/* ============================================
+   HEADER MAIN STYLES
+   ============================================ */
+
+.header-main {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky, 100);
+  background-color: var(--color-bg-primary, #ffffff);
+  border-bottom: 1px solid var(--color-border, #e0e0e0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.header-main.is-scrolled {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* === PARTIE GAUCHE: LOGO === */
+.header-left {
+  flex-shrink: 0;
+}
+
+.logo-link {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.logo-img {
+  height: 50px;
+  width: auto;
+  display: block;
+}
+
+.logo-text {
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-primary, #1a1a1a);
+  white-space: nowrap;
+}
+
+/* === PARTIE CENTRE: NAVIGATION === */
+.header-nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: var(--font-body, 'Montserrat', sans-serif);
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-text-primary, #333333);
+  text-decoration: none;
+  padding: 0.5rem 0;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-accent, #ef4a21);
+}
+
+.nav-link-accent {
+  color: var(--color-accent, #ef4a21);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+.dropdown-icon {
+  transition: transform 0.2s ease;
+}
+
+.nav-item.has-dropdown:hover .dropdown-icon {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 200px;
+  background-color: var(--color-bg-primary, #ffffff);
+  border: 1px solid var(--color-border, #e0e0e0);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.2s ease;
+  padding: 0.5rem 0;
+  z-index: 10;
+}
+
+.nav-item.has-dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: block;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9375rem;
+  color: var(--color-text-primary, #333333);
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.dropdown-item:hover {
+  background-color: var(--color-bg-tertiary, #f5f5f5);
+  color: var(--color-accent, #ef4a21);
+}
+
+/* === PARTIE DROITE: ICÔNES === */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.header-icon-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-primary, #333333);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.header-icon-btn:hover {
+  background-color: var(--color-bg-tertiary, #f5f5f5);
+  color: var(--color-accent, #ef4a21);
+}
+
+.cart-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-accent, #ef4a21);
+  color: white;
+  font-size: 0.625rem;
+  font-weight: var(--font-weight-bold, 700);
+  border-radius: 9999px;
+}
+
+/* === BARRE DE RECHERCHE === */
+.search-bar {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--color-bg-primary, #ffffff);
+  border-bottom: 1px solid var(--color-border, #e0e0e0);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 50;
+}
+
+.search-bar.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.search-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-form {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--color-bg-tertiary, #f5f5f5);
+  border-radius: 2rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  color: var(--color-text-primary, #333333);
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--color-text-muted, #999999);
+}
+
+.search-submit-btn,
+.search-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary, #666666);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.search-submit-btn:hover,
+.search-close-btn:hover {
+  background-color: var(--color-bg-secondary, #f8f8f8);
+  color: var(--color-accent, #ef4a21);
+}
+
+/* === MENU MOBILE === */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color-bg-primary, #ffffff);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 200;
+  overflow-y: auto;
+  padding: 5rem 2rem 2rem;
+}
+
+.mobile-menu.is-open {
+  transform: translateX(0);
+}
+
+.mobile-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile-nav-list li {
+  border-bottom: 1px solid var(--color-border-light, #f0f0f0);
+}
+
+.mobile-nav-link {
+  display: block;
+  padding: 1rem 0;
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-text-primary, #333333);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mobile-nav-link:hover {
+  color: var(--color-accent, #ef4a21);
+}
+
+.mobile-nav-link-accent {
+  color: var(--color-accent, #ef4a21);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+/* === RESPONSIVE === */
+.desktop-only {
+  display: flex;
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .header-container {
+    padding: 1rem 1.5rem;
+  }
+
+  .nav-list {
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: flex;
+  }
+
+  .header-container {
+    padding: 1rem;
+  }
+
+  .header-right {
+    gap: 0.5rem;
+  }
+
+  .logo-text {
+    font-size: 1.25rem;
+  }
+}
+</style>
+
+<script>
+// ============================================
+// HEADER INTERACTIONS
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+
+  // Search toggle
+  const searchToggle = document.querySelector('.search-toggle');
+  const searchBar = document.getElementById('search-bar');
+  const searchClose = document.querySelector('.search-close-btn');
+
+  if (searchToggle && searchBar) {
+    searchToggle.addEventListener('click', function() {
+      searchBar.classList.toggle('is-open');
+      document.querySelector('.search-input')?.focus();
+    });
+  }
+
+  if (searchClose && searchBar) {
+    searchClose.addEventListener('click', function() {
+      searchBar.classList.remove('is-open');
+    });
+  }
+
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('mobile-menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', function() {
+      mobileMenu.classList.toggle('is-open');
+      document.body.style.overflow = mobileMenu.classList.contains('is-open') ? 'hidden' : '';
+    });
+  }
+
+  // Sticky header on scroll
+  const header = document.getElementById('header-main');
+  let lastScroll = 0;
+
+  window.addEventListener('scroll', function() {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll > 50) {
+      header?.classList.add('is-scrolled');
+    } else {
+      header?.classList.remove('is-scrolled');
+    }
+
+    lastScroll = currentScroll;
+  });
+
+  // Close dropdowns on click outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.nav-item.has-dropdown')) {
+      document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        menu.style.opacity = '0';
+        menu.style.visibility = 'hidden';
+      });
+    }
+  });
+});
+</script>

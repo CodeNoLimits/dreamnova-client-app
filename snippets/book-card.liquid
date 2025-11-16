@@ -1,0 +1,226 @@
+{% comment %}
+  Carte produit livre - Design optimisé
+  Usage: {% include 'book-card', product: product %}
+{% endcomment %}
+
+<div class="book-card" data-product-id="{{ product.id }}">
+  <div class="book-cover">
+    <img src="{{ product.featured_image | img_url: '400x600' }}"
+         alt="{{ product.title }}"
+         loading="lazy">
+
+    {% if product.tags contains 'nouveau' %}
+      <span class="badge-new">Nouveau</span>
+    {% endif %}
+
+    {% if product.metafields.book.has_digital %}
+      <span class="badge-digital">📱 Version numérique</span>
+    {% endif %}
+
+    {% if product.compare_at_price > product.price %}
+      {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+      <span class="badge-sale">-{{ discount }}%</span>
+    {% endif %}
+  </div>
+
+  <div class="book-info">
+    <h3 class="book-title">{{ product.title }}</h3>
+    <p class="book-author">{{ product.vendor }}</p>
+
+    <div class="book-price">
+      {% if product.compare_at_price > product.price %}
+        <span class="price-old">{{ product.compare_at_price | money }}</span>
+      {% endif %}
+      <span class="price-current">{{ product.price | money }}</span>
+    </div>
+
+    <div class="book-actions">
+      <button class="btn-quick-view" data-product="{{ product.id }}">
+        👁️ Aperçu
+      </button>
+      <form action="/cart/add" method="post">
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <button type="submit" class="btn-add-cart">
+          🛒 Ajouter au panier
+        </button>
+      </form>
+    </div>
+
+    {% if product.metafields.book.bundle_price %}
+      <div class="bundle-offer">
+        💎 Pack physique + numérique:
+        <strong>{{ product.metafields.book.bundle_price | money }}</strong>
+        <span class="savings">Économisez 15%</span>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+.book-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(26, 35, 126, 0.2);
+}
+
+.book-cover {
+  position: relative;
+  padding-top: 150%; /* Ratio 2:3 pour livres */
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.book-cover img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.badge-new,
+.badge-digital,
+.badge-sale {
+  position: absolute;
+  top: 10px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.badge-new {
+  right: 10px;
+  background: #ffd700;
+  color: #1a1a1a;
+}
+
+.badge-digital {
+  left: 10px;
+  background: #6B46C1;
+  color: white;
+}
+
+.badge-sale {
+  right: 10px;
+  top: 50px;
+  background: #e91e63;
+  color: white;
+}
+
+.book-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.book-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: #1a237e;
+  margin: 0;
+  line-height: 1.4;
+  min-height: 2.8em;
+}
+
+.book-author {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+
+.book-price {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.price-old {
+  font-size: 0.9rem;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.price-current {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #1a237e;
+}
+
+.book-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.book-actions form {
+  flex: 1;
+}
+
+.btn-quick-view,
+.btn-add-cart {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 100%;
+}
+
+.btn-quick-view {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.btn-quick-view:hover {
+  background: #e0e0e0;
+}
+
+.btn-add-cart {
+  background: #1a237e;
+  color: white;
+}
+
+.btn-add-cart:hover {
+  background: #0d47a1;
+  transform: translateY(-2px);
+}
+
+.bundle-offer {
+  background: #fff3cd;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.bundle-offer .savings {
+  display: block;
+  color: #856404;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+  .book-actions {
+    flex-direction: column;
+  }
+}
+</style>

@@ -1,0 +1,355 @@
+{% comment %} 
+  Espace membre avec bibliothèque numérique
+{% endcomment %}
+
+<div class="account-dashboard">
+  <div class="welcome-header">
+    <h1>Shalom {{ customer.first_name }}!</h1>
+    <p>Bienvenue dans votre espace personnel - Esther Ifrah</p>
+  </div>
+  
+  <div class="account-tabs">
+    <button class="tab-btn active" data-tab="library">📚 Ma Bibliothèque</button>
+    <button class="tab-btn" data-tab="subscription">💳 Mon Abonnement</button>
+    <button class="tab-btn" data-tab="orders">📦 Mes Commandes</button>
+    <button class="tab-btn" data-tab="downloads">⬇️ Téléchargements</button>
+    <button class="tab-btn" data-tab="profile">👤 Mon Profil</button>
+  </div>
+  
+  <!-- Bibliothèque numérique -->
+  <div class="tab-content active" id="library">
+    <h2>Ma Bibliothèque Numérique</h2>
+    
+    {% if customer.metafields.subscription.status == 'active' %}
+      <div class="subscription-banner success">
+        ✅ Abonnement actif - Accès illimité jusqu'au {{ customer.metafields.subscription.expires_at | date: '%d/%m/%Y' }}
+      </div>
+      
+      <!-- Tous les livres disponibles -->
+      <div class="digital-library">
+        {% assign digital_books = collections['livres-numeriques'].products %}
+        {% for book in digital_books %}
+          <div class="digital-book-card">
+            <img src="{{ book.featured_image | img_url: '200x300' }}" alt="{{ book.title }}">
+            <h4>{{ book.title }}</h4>
+            <div class="book-actions">
+              <a href="/pages/reader?book={{ book.handle }}" class="btn-read">
+                📖 Lire en ligne
+              </a>
+              <button class="btn-download" data-book="{{ book.id }}">
+                ⬇️ Télécharger
+              </button>
+            </div>
+            <!-- Progression de lecture -->
+            {% assign progress = customer.metafields.reading[book.id].progress | default: 0 %}
+            {% if progress > 0 %}
+              <div class="reading-progress">
+                <div class="progress-bar" style="width: {{ progress }}%"></div>
+                <span>{{ progress }}% lu</span>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      
+    {% else %}
+      <!-- Livres achetés individuellement -->
+      <div class="purchased-books">
+        <h3>Vos livres achetés</h3>
+        {% assign has_books = false %}
+        {% for order in customer.orders %}
+          {% for line_item in order.line_items %}
+            {% if line_item.product.type contains 'digital' %}
+              {% assign has_books = true %}
+              <div class="purchased-book">
+                <img src="{{ line_item.product.image | img_url: '100x150' }}" alt="{{ line_item.title }}">
+                <div class="book-details">
+                  <h4>{{ line_item.title }}</h4>
+                  <p>Acheté le {{ order.created_at | date: '%d/%m/%Y' }}</p>
+                  <a href="/pages/reader?book={{ line_item.product.handle }}" class="btn-read-small">
+                    Lire
+                  </a>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+        
+        {% unless has_books %}
+          <p>Vous n'avez pas encore de livres numériques.</p>
+          <a href="/collections/livres-numeriques" class="btn-browse">
+            Découvrir le catalogue
+          </a>
+        {% endunless %}
+      </div>
+      
+      <!-- Promotion abonnement -->
+      <div class="subscription-promo">
+        <h3>🎁 Accédez à tous les livres!</h3>
+        <p>Avec l'abonnement, lisez les 30 titres en illimité</p>
+        <a href="/pages/abonnement" class="btn-subscribe-now">
+          S'abonner à partir de 29€/mois
+        </a>
+      </div>
+    {% endif %}
+  </div>
+  
+  <!-- Gestion abonnement -->
+  <div class="tab-content" id="subscription">
+    {% if customer.metafields.subscription.status %}
+      <div class="subscription-details">
+        <h2>Mon Abonnement</h2>
+        <div class="sub-info">
+          <p><strong>Type:</strong> {{ customer.metafields.subscription.plan }}</p>
+          <p><strong>Statut:</strong> {{ customer.metafields.subscription.status }}</p>
+          <p><strong>Prochaine facturation:</strong> {{ customer.metafields.subscription.next_billing | date: '%d/%m/%Y' }}</p>
+          <p><strong>Montant:</strong> {{ customer.metafields.subscription.amount | money }}</p>
+        </div>
+        
+        <div class="sub-actions">
+          <button class="btn-manage" onclick="if(typeof SkyPilot !== 'undefined') SkyPilot.portal(); else alert('Sky Pilot non chargé');">
+            Gérer mon abonnement
+          </button>
+          <button class="btn-cancel" onclick="if(typeof SkyPilot !== 'undefined') SkyPilot.cancel(); else alert('Sky Pilot non chargé');">
+            Annuler l'abonnement
+          </button>
+        </div>
+      </div>
+    {% else %}
+      <!-- Pas d'abonnement -->
+      <div class="no-subscription">
+        <h2>Vous n'avez pas d'abonnement actif</h2>
+        <p>Débloquez l'accès illimité à toute notre bibliothèque!</p>
+        {% section 'subscription-plans' %}
+      </div>
+    {% endif %}
+  </div>
+  
+  <!-- Mes commandes -->
+  <div class="tab-content" id="orders">
+    <h2>Mes Commandes</h2>
+    {% if customer.orders.size > 0 %}
+      <div class="orders-list">
+        {% for order in customer.orders %}
+          <div class="order-card">
+            <div class="order-header">
+              <span class="order-number">Commande #{{ order.order_number }}</span>
+              <span class="order-date">{{ order.created_at | date: '%d/%m/%Y' }}</span>
+            </div>
+            <div class="order-total">{{ order.total_price | money }}</div>
+            <a href="{{ order.customer_url }}" class="btn-view-order">Voir la commande</a>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>Aucune commande pour le moment.</p>
+    {% endif %}
+  </div>
+  
+  <!-- Téléchargements -->
+  <div class="tab-content" id="downloads">
+    <h2>Mes Téléchargements</h2>
+    <p>Livres numériques disponibles au téléchargement</p>
+    <!-- Liste des téléchargements -->
+  </div>
+  
+  <!-- Profil -->
+  <div class="tab-content" id="profile">
+    <h2>Mon Profil</h2>
+    <form action="/account" method="post">
+      <div class="form-group">
+        <label>Prénom</label>
+        <input type="text" name="customer[first_name]" value="{{ customer.first_name }}">
+      </div>
+      <div class="form-group">
+        <label>Nom</label>
+        <input type="text" name="customer[last_name]" value="{{ customer.last_name }}">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="customer[email]" value="{{ customer.email }}">
+      </div>
+      <button type="submit" class="btn-save">Enregistrer</button>
+    </form>
+  </div>
+</div>
+
+<script>
+// Gestion des tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const tabId = this.dataset.tab;
+    
+    // Désactiver tous les tabs
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    
+    // Activer le tab sélectionné
+    this.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  });
+});
+</script>
+
+<style>
+.account-dashboard {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.welcome-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.welcome-header h1 {
+  font-family: 'Playfair Display', serif;
+  color: #1a237e;
+  font-size: 2.5rem;
+}
+
+.account-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.tab-btn {
+  padding: 12px 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s;
+}
+
+.tab-btn.active {
+  border-bottom-color: #1a237e;
+  color: #1a237e;
+  font-weight: bold;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.subscription-banner {
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.subscription-banner.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.digital-library {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.digital-book-card {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.digital-book-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.digital-book-card h4 {
+  font-size: 0.9rem;
+  margin: 10px 0;
+  color: #1a237e;
+}
+
+.book-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.btn-read, .btn-download {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-read {
+  background: #1a237e;
+  color: white;
+}
+
+.btn-download {
+  background: #f5f5f5;
+  color: #1a237e;
+}
+
+.reading-progress {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.progress-bar {
+  height: 4px;
+  background: #1a237e;
+  border-radius: 2px;
+  margin-bottom: 5px;
+}
+
+.subscription-promo {
+  background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+  color: white;
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.btn-subscribe-now {
+  display: inline-block;
+  padding: 15px 30px;
+  background: #ffd700;
+  color: #1a237e;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .account-tabs {
+    flex-direction: column;
+  }
+  
+  .digital-library {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+</style>
+
