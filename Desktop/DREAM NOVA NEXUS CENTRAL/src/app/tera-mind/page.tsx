@@ -18,6 +18,8 @@ import {
     Info
 } from 'lucide-react';
 import Link from 'next/link';
+import { useLanguage } from '@/context/LanguageContext';
+import { translations } from '@/lib/translations';
 
 const GlassCard = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
     <div className={`backdrop-blur-2xl bg-white/5 border border-white/10 rounded-3xl p-8 shadow-2xl hover:bg-white/10 transition-all duration-500 ${className}`}>
@@ -28,6 +30,11 @@ const GlassCard = ({ children, className = "" }: { children: React.ReactNode, cl
 export default function TeraMindPage() {
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState({ title: '', message: '' });
+    const { lang } = useLanguage();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const t = (translations[lang] as any).tera;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const common = (translations[lang] as any).common;
 
     const handleAction = (title: string, message: string) => {
         setModalContent({ title, message });
@@ -35,7 +42,7 @@ export default function TeraMindPage() {
     };
 
     return (
-        <div className="h-screen overflow-y-auto bg-[#05050A] text-gray-100 font-sans selection:bg-pink-500/30 pb-40">
+        <div className={`h-screen overflow-y-auto bg-[#05050A] text-gray-100 font-sans selection:bg-pink-500/30 pb-40 ${lang === 'he' ? 'rtl' : 'ltr'}`}>
 
             {/* BACKGROUND AMBIENCE (Calm & Tech) */}
             <div className="fixed inset-0 z-0 pointer-events-none">
@@ -56,9 +63,9 @@ export default function TeraMindPage() {
                 <div className="flex items-center space-x-4">
                     <div className="hidden md:flex items-center space-x-2 text-xs font-mono text-gray-500 border border-white/10 px-3 py-1 rounded-full">
                         <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                        <span>SYSTEM: OPERATIONAL</span>
+                        <span>{common.allSystemsOperational}</span>
                     </div>
-                    <Link href="/" className="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors">Retour au Hub</Link>
+                    <Link href="/" className="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors">{common.backToHub}</Link>
                 </div>
             </nav>
 
@@ -69,19 +76,18 @@ export default function TeraMindPage() {
                     <div className="lg:w-1/2 space-y-8">
                         <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-pink-500/30 bg-pink-500/5 backdrop-blur-md">
                             <Heart className="w-4 h-4 text-pink-400 fill-current" />
-                            <span className="text-pink-300 text-xs font-bold tracking-widest uppercase">Spirit-Tech Initiative</span>
+                            <span className="text-pink-300 text-xs font-bold tracking-widest uppercase">{t.tagline}</span>
                         </div>
 
                         <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight leading-tight">
-                            L&apos;IA pour la <br />
+                            {t.heroTitle} <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-indigo-400">
-                                Résilience Mentale.
+                                {t.heroSubtitle}
                             </span>
                         </h1>
 
                         <p className="text-xl text-gray-400 font-light leading-relaxed max-w-xl">
-                            Face à la pénurie mondiale de thérapeutes, Tera Mind déploie une première ligne de défense.
-                            Une présence éthique, sécurisée et disponible 24/7 pour le soutien émotionnel.
+                            {t.heroDesc}
                         </p>
 
                         <div className="flex flex-wrap gap-4">
@@ -89,13 +95,13 @@ export default function TeraMindPage() {
                                 onClick={() => handleAction("Demo Sandy", "Lancement de l'environnement de démo sécurisé. Connexion à l'avatar...")}
                                 className="px-8 py-4 bg-white text-black font-bold rounded-2xl hover:bg-gray-200 transition-all shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] flex items-center"
                             >
-                                Rencontrer Sandy (Demo) <ArrowRight className="ml-2 w-5 h-5" />
+                                {t.cta} <ArrowRight className={`w-5 h-5 ${lang === 'he' ? 'mr-2' : 'ml-2'}`} />
                             </button>
                             <button
                                 onClick={() => handleAction("Sécurité", "Téléchargement du Whitepaper sur les protocoles de sécurité et l'éthique IA.")}
                                 className="px-8 py-4 border border-white/10 hover:bg-white/5 text-white font-medium rounded-2xl transition-all backdrop-blur-md flex items-center"
                             >
-                                <ShieldCheck className="mr-2 w-5 h-5 text-gray-400" /> Protocoles de Sécurité
+                                <ShieldCheck className={`w-5 h-5 text-gray-400 ${lang === 'he' ? 'ml-2' : 'mr-2'}`} /> {t.safetyTitle}
                             </button>
                         </div>
                     </div>
@@ -198,8 +204,8 @@ export default function TeraMindPage() {
 
                         <GlassCard className="hover:border-green-500/50">
                             <ShieldCheck className="w-8 h-8 text-green-400 mb-4" />
-                            <h3 className="font-bold text-white mb-2">Safety Bridge</h3>
-                            <p className="text-sm text-gray-400">Détection d&apos;intention suicidaire = Redirection immédiate vers humain (Kill Switch).</p>
+                            <h3 className="font-bold text-white mb-2">{t.safetyTitle}</h3>
+                            <p className="text-sm text-gray-400">{t.safetyDesc}</p>
                         </GlassCard>
 
                         <GlassCard className="hover:border-amber-500/50">
@@ -280,7 +286,7 @@ export default function TeraMindPage() {
                             onClick={() => setShowModal(false)}
                             className="w-full py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-colors"
                         >
-                            Fermer
+                            {common.close}
                         </button>
                     </div>
                 </div>

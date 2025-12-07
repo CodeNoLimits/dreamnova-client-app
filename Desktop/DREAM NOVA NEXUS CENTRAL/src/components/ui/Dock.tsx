@@ -13,14 +13,28 @@ const DockItem = ({ icon, label, href, active, onClick }: any) => {
                 {icon}
             </div>
             {active && <div className="absolute -bottom-2 w-1 h-1 bg-cyan-400 rounded-full"></div>}
+            <span className="sr-only">{label}</span>
         </div>
     );
 
     if (onClick) {
-        return <div onClick={onClick}>{content}</div>;
+        return (
+            <button
+                onClick={onClick}
+                className="focus:outline-none"
+                aria-label={label}
+                type="button"
+            >
+                {content}
+            </button>
+        );
     }
 
-    return <Link href={href}>{content}</Link>;
+    return (
+        <Link href={href} aria-label={label} className="focus:outline-none">
+            {content}
+        </Link>
+    );
 };
 
 export const Dock = () => {
@@ -51,46 +65,53 @@ export const Dock = () => {
 
     return (
         <>
-            <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-[100] w-auto max-w-[95vw]">
+            <nav className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-[100] w-auto max-w-[95vw]" aria-label="Main Navigation">
                 <div className="flex items-center gap-1 px-4 py-3 bg-black/60 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl overflow-x-auto scrollbar-hide">
                     <DockItem icon={<Home size={20} className="text-cyan-400" />} label="Hub" href="/" active={pathname === '/'} />
-                    <div className="w-px h-6 bg-white/10 mx-1"></div>
+                    <div className="w-px h-6 bg-white/10 mx-1" role="presentation"></div>
                     <DockItem icon={<Briefcase size={20} className="text-purple-400" />} label="Consult" href="/dreamnova-consult" active={pathname === '/dreamnova-consult'} />
                     <DockItem icon={<Globe size={20} className="text-blue-400" />} label="Global" href="/dreamnova-global" active={pathname === '/dreamnova-global'} />
                     <DockItem icon={<ShoppingCart size={20} className="text-orange-400" />} label="Ha-Mazon" href="/ha-mazon" active={pathname === '/ha-mazon'} />
                     <DockItem icon={<Brain size={20} className="text-pink-400" />} label="Tera" href="/tera-mind" active={pathname === '/tera-mind'} />
-                    <div className="w-px h-6 bg-white/10 mx-1"></div>
+                    <div className="w-px h-6 bg-white/10 mx-1" role="presentation"></div>
                     <DockItem icon={<BookOpen size={20} className="text-amber-400" />} label="Breslev" href="/breslev-books" active={pathname === '/breslev-books'} />
                     <DockItem icon={<Music size={20} className="text-rose-400" />} label="Music" href="/tetrabrame" active={pathname === '/tetrabrame'} />
                     <DockItem icon={<GraduationCap size={20} className="text-emerald-400" />} label="Academy" href="/academy" active={pathname === '/academy'} />
-                    <div className="w-px h-6 bg-white/10 mx-1"></div>
+                    <div className="w-px h-6 bg-white/10 mx-1" role="presentation"></div>
                     <DockItem icon={<TrendingUp size={20} className="text-yellow-400" />} label="Pitch" href="/pitch-deck" active={pathname === '/pitch-deck'} />
                     <DockItem icon={<Heart size={20} className="text-red-500" />} label="Foundation" href="/nova-foundation" active={pathname === '/nova-foundation'} />
-                    <div className="w-px h-6 bg-white/10 mx-1"></div>
+                    <div className="w-px h-6 bg-white/10 mx-1" role="presentation"></div>
                     <DockItem
                         icon={isAdmin ? <Unlock size={20} className="text-green-400" /> : <Lock size={20} className="text-gray-400" />}
-                        label="Admin"
+                        label={isAdmin ? "Lock Admin" : "Unlock Admin"}
                         href="#"
                         active={isAdmin}
                         onClick={handleLockClick}
                     />
                 </div>
-            </div>
+            </nav>
 
             {/* Login Modal */}
             {showLoginModal && (
-                <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+                <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title">
                     <div className="bg-[#0a0a0f] border border-white/10 rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl relative">
-                        <button onClick={() => setShowLoginModal(false)} className="absolute top-4 right-4 text-gray-500 hover:text-white">
+                        <button
+                            onClick={() => setShowLoginModal(false)}
+                            className="absolute top-4 right-4 text-gray-500 hover:text-white"
+                            aria-label="Close Modal"
+                            type="button"
+                        >
                             <X className="w-6 h-6" />
                         </button>
                         <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
                             <Lock className="w-8 h-8 text-cyan-400" />
                         </div>
-                        <h3 className="text-2xl font-bold text-white mb-2">Admin Access</h3>
+                        <h3 id="modal-title" className="text-2xl font-bold text-white mb-2">Admin Access</h3>
                         <p className="text-gray-400 mb-6">Enter security code to access the Venture OS Back-Office.</p>
                         <form onSubmit={handleLogin} className="space-y-4">
+                            <label htmlFor="admin-code" className="sr-only">Security Code</label>
                             <input
+                                id="admin-code"
                                 type="password"
                                 value={code}
                                 onChange={(e) => setCode(e.target.value)}
@@ -98,7 +119,7 @@ export const Dock = () => {
                                 placeholder="••••"
                                 autoFocus
                             />
-                            {error && <p className="text-red-500 text-sm">Access Denied</p>}
+                            {error && <p className="text-red-500 text-sm" role="alert">Access Denied</p>}
                             <button type="submit" className="w-full py-3 bg-cyan-500 text-black font-bold rounded-xl hover:bg-cyan-400 transition-colors">
                                 Unlock System
                             </button>

@@ -11,19 +11,26 @@ import {
     Palette
 } from 'lucide-react';
 import Link from 'next/link';
-import { AdminToolbar } from '@/components/admin/AdminToolbar';
+import AdminToolbar from '@/components/admin/AdminToolbar';
 import { useAdminStore } from '@/lib/store';
+import { useLanguage } from '@/context/LanguageContext';
+import { translations } from '@/lib/translations';
 
 export default function AcademyPage() {
     const { isAdmin } = useAdminStore();
+    const { lang } = useLanguage();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const t = (translations[lang] as any).academy;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const common = (translations[lang] as any).common;
 
     return (
-        <div className="h-screen overflow-y-auto bg-[#05050A] text-white font-sans pb-40">
+        <div className={`h-screen overflow-y-auto bg-[#05050A] text-white font-sans pb-40 ${lang === 'he' ? 'rtl' : 'ltr'}`}>
             {isAdmin && (
                 <div className="sticky top-0 z-[60]">
                     <AdminToolbar actions={[
-                        { label: 'LMS Dashboard', href: '#' },
-                        { label: 'Students', href: '#' }
+                        { label: t.admin.students, href: '#' },
+                        { label: t.admin.course, href: '#' }
                     ]} />
                 </div>
             )}
@@ -37,7 +44,7 @@ export default function AcademyPage() {
                     <span className="font-bold text-lg tracking-tight">DreamNova Academy</span>
                 </div>
                 <Link href="/" className="text-sm text-gray-400 hover:text-white transition-colors">
-                    Back to Hub
+                    {common.backToHub}
                 </Link>
             </nav>
 
@@ -48,15 +55,14 @@ export default function AcademyPage() {
                 <div className="max-w-4xl mx-auto text-center">
                     <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-bold uppercase tracking-widest mb-6">
                         <Shield className="w-4 h-4" />
-                        <span>Protection & Éducation</span>
+                        <span>{t.tagline}</span>
                     </div>
                     <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
-                        Former & Protéger la <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-600">Prochaine Génération</span>
+                        {t.heroTitle} <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-600">{t.heroSubtitle}</span>
                     </h1>
                     <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
-                        Ne laissez pas vos enfants être des consommateurs passifs d&apos;algorithmes addictifs.
-                        Faites-en des Créateurs d&apos;Élite armés pour le futur.
+                        {t.heroDesc}
                     </p>
                 </div>
 
@@ -72,7 +78,7 @@ export default function AcademyPage() {
                             <li className="flex items-center"><CheckCircle2 className="w-4 h-4 mr-2 text-green-500" /> Community Access</li>
                         </ul>
                         <button className="w-full py-3 bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors">
-                            Start Learning
+                            {t.cta}
                         </button>
                     </div>
 
@@ -88,7 +94,7 @@ export default function AcademyPage() {
                             <li className="flex items-center"><CheckCircle2 className="w-4 h-4 mr-2 text-green-500" /> 1-on-1 Mentorship</li>
                         </ul>
                         <button className="w-full py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-colors">
-                            Apply Now
+                            {t.cta}
                         </button>
                     </div>
                 </div>

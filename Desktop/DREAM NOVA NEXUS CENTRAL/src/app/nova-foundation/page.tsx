@@ -9,7 +9,7 @@ import {
     Gift
 } from 'lucide-react';
 import Link from 'next/link';
-import { AdminToolbar } from '@/components/admin/AdminToolbar';
+import AdminToolbar from '@/components/admin/AdminToolbar';
 import { useAdminStore } from '@/lib/store';
 
 export default function NovaFoundationPage() {

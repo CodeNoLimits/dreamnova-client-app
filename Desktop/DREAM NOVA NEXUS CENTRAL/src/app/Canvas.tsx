@@ -523,8 +523,8 @@ export default function VentureOS_Canvas({ forceList = false }: { forceList?: bo
 }
 
 const ListView = ({ lang, handleNavigation, setShowComingSoon }: { lang: 'en' | 'fr' | 'he', handleNavigation: (href: string) => void, setShowComingSoon: (show: boolean) => void }) => (
-    <div className={`min-h-screen bg-[#05050A] pb-32 ${lang === 'he' ? 'rtl' : 'ltr'}`}>
-        <div className="sticky top-0 z-20 bg-[#05050A]/80 backdrop-blur-xl p-6 border-b border-white/5">
+    <div className={`min-h-screen bg-[#05050A] pb-40 ${lang === 'he' ? 'rtl' : 'ltr'}`}>
+        <div className="sticky top-0 z-20 bg-[#05050A]/90 backdrop-blur-xl p-6 border-b border-white/5 shadow-2xl">
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -536,7 +536,7 @@ const ListView = ({ lang, handleNavigation, setShowComingSoon }: { lang: 'en' | 
                     </h1>
                     <p className="text-xs text-gray-400 uppercase tracking-widest mt-1">{translations[lang].mobileTitle}</p>
                 </div>
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 animate-pulse">
                     <Hexagon className="w-5 h-5 text-white" />
                 </div>
             </motion.div>
@@ -554,18 +554,18 @@ const ListView = ({ lang, handleNavigation, setShowComingSoon }: { lang: 'en' | 
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.05 }}
                         onClick={() => node.data.href ? handleNavigation(node.data.href) : setShowComingSoon(true)}
-                        className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center space-x-4 active:scale-95 transition-transform cursor-pointer hover:bg-white/10 relative overflow-hidden group"
+                        className="bg-white/5 border border-white/10 rounded-3xl p-5 flex items-center space-x-5 active:scale-95 transition-all cursor-pointer hover:bg-white/10 relative overflow-hidden group shadow-lg"
                     >
                         <div className={`absolute inset-0 bg-gradient-to-r ${node.data.gradient} opacity-0 group-hover:opacity-10 transition-opacity`} />
 
-                        <div className={`w-14 h-14 rounded-2xl flex-shrink-0 flex items-center justify-center bg-gradient-to-br ${node.data.gradient} shadow-lg z-10`}>
-                            {React.cloneElement(node.data.icon as React.ReactElement<{ className?: string }>, { className: "w-7 h-7 text-white" })}
+                        <div className={`w-12 h-12 rounded-2xl flex-shrink-0 flex items-center justify-center bg-gradient-to-br ${node.data.gradient} shadow-lg z-10`}>
+                            {React.cloneElement(node.data.icon as React.ReactElement<{ className?: string }>, { className: "w-6 h-6 text-white" })}
                         </div>
                         <div className="flex-1 min-w-0 z-10">
-                            <h3 className="font-bold text-white text-lg truncate">{t.label}</h3>
-                            <p className="text-xs text-gray-400 truncate">{t.description}</p>
+                            <h3 className="font-bold text-white text-lg truncate tracking-tight">{t.label}</h3>
+                            <p className="text-xs text-gray-400 truncate font-medium">{t.description}</p>
                         </div>
-                        <div className="text-gray-500 z-10">
+                        <div className="text-gray-600 group-hover:text-white transition-colors z-10">
                             <ArrowRight className="w-5 h-5" />
                         </div>
                     </motion.div>

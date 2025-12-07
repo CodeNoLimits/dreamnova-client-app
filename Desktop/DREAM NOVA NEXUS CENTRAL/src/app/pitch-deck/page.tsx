@@ -14,8 +14,10 @@ import {
     Lock
 } from 'lucide-react';
 import Link from 'next/link';
-import { AdminToolbar } from '@/components/admin/AdminToolbar';
+import AdminToolbar from '@/components/admin/AdminToolbar';
 import { useAdminStore } from '@/lib/store';
+import { useLanguage } from '@/context/LanguageContext';
+import { translations } from '@/lib/translations';
 
 // Composant Slide pour les transitions fluides
 const Slide = ({ children, active }: { children: React.ReactNode, active: boolean }) => (
@@ -30,6 +32,11 @@ export default function PitchDeckPage() {
     const [currentSlide, setCurrentSlide] = useState(0);
     const totalSlides = 4;
     const { isAdmin } = useAdminStore();
+    const { lang } = useLanguage();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const t = (translations[lang] as any).pitch;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const common = (translations[lang] as any).common;
 
     const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % totalSlides);
     const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
@@ -40,7 +47,7 @@ export default function PitchDeckPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#05050A] text-white overflow-hidden relative font-sans">
+        <div className={`min-h-screen bg-[#05050A] text-white overflow-hidden relative font-sans ${lang === 'he' ? 'rtl' : 'ltr'}`}>
             {isAdmin && (
                 <div className="absolute top-0 left-0 right-0 z-[60]">
                     <AdminToolbar actions={[
@@ -60,8 +67,8 @@ export default function PitchDeckPage() {
             {/* Navigation */}
             <div className="absolute top-8 left-8 z-50">
                 <Link href="/" className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors">
-                    <ChevronLeft className="w-5 h-5" />
-                    <span className="text-sm font-medium tracking-widest uppercase">Back to Hub</span>
+                    <ChevronLeft className={`w-5 h-5 ${lang === 'he' ? 'rotate-180' : ''}`} />
+                    <span className="text-sm font-medium tracking-widest uppercase">{common.backToHub}</span>
                 </Link>
             </div>
 
@@ -73,14 +80,14 @@ export default function PitchDeckPage() {
                     <div className="max-w-4xl w-full text-center">
                         <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-bold uppercase tracking-widest mb-8">
                             <Target className="w-4 h-4" />
-                            <span>Mission: Hafatsa 2.0</span>
+                            <span>{t.slide1.tagline}</span>
                         </div>
                         <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
-                            The <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">$63M</span> Vision
+                            {t.slide1.title} <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">$63M</span> {t.slide1.vision}
                         </h1>
                         <p className="text-xl md:text-2xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-                            L&apos;Alliance Sacrée : La Sagesse de Saba Israel + La Technologie de David.
-                            <br /><span className="text-white font-bold">Objectif : Inonder le monde de lumière.</span>
+                            {t.slide1.subtitle}
+                            <br /><span className="text-white font-bold">{t.slide1.goal}</span>
                         </p>
 
                         {/* Video Placeholder */}
@@ -90,7 +97,7 @@ export default function PitchDeckPage() {
                                 <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-md border border-white/20 group-hover:scale-110 transition-transform">
                                     <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-white border-b-[10px] border-b-transparent ml-1" />
                                 </div>
-                                <p className="text-sm text-gray-400 font-mono uppercase tracking-widest">Watch The Vision</p>
+                                <p className="text-sm text-gray-400 font-mono uppercase tracking-widest">{t.slide1.watchVideo}</p>
                             </div>
                         </div>
                     </div>
@@ -100,31 +107,30 @@ export default function PitchDeckPage() {
                 <Slide active={currentSlide === 1}>
                     <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                         <div>
-                            <h2 className="text-4xl font-bold mb-6">Structure Financière (DAF)</h2>
+                            <h2 className="text-4xl font-bold mb-6">{t.slide2.title}</h2>
                             <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-                                Une architecture financière conçue pour la pérennité et la protection des actifs.
-                                Séparation stricte entre les opérations commerciales et la mission philanthropique.
+                                {t.slide2.desc}
                             </p>
                             <ul className="space-y-6">
                                 <li className="flex items-start space-x-4">
                                     <div className="p-2 bg-blue-500/20 rounded-lg"><Briefcase className="w-6 h-6 text-blue-400" /></div>
                                     <div>
-                                        <h4 className="font-bold text-white">Holding Commerciale (US/IL)</h4>
-                                        <p className="text-sm text-gray-400">Détient les IPs (DreamNova, TeraMind). Génère les profits.</p>
+                                        <h4 className="font-bold text-white">{t.slide2.holding}</h4>
+                                        <p className="text-sm text-gray-400">{t.slide2.holdingDesc}</p>
                                     </div>
                                 </li>
                                 <li className="flex items-start space-x-4">
                                     <div className="p-2 bg-green-500/20 rounded-lg"><Globe className="w-6 h-6 text-green-400" /></div>
                                     <div>
-                                        <h4 className="font-bold text-white">Fondation (Non-Profit)</h4>
-                                        <p className="text-sm text-gray-400">Reçoit 51% des dividendes. Finance la distribution des livres.</p>
+                                        <h4 className="font-bold text-white">{t.slide2.foundation}</h4>
+                                        <p className="text-sm text-gray-400">{t.slide2.foundationDesc}</p>
                                     </div>
                                 </li>
                                 <li className="flex items-start space-x-4">
                                     <div className="p-2 bg-red-500/20 rounded-lg"><Lock className="w-6 h-6 text-red-400" /></div>
                                     <div>
-                                        <h4 className="font-bold text-white">Trust Familial</h4>
-                                        <p className="text-sm text-gray-400">Protection du patrimoine et gouvernance long-terme.</p>
+                                        <h4 className="font-bold text-white">{t.slide2.trust}</h4>
+                                        <p className="text-sm text-gray-400">{t.slide2.trustDesc}</p>
                                     </div>
                                 </li>
                             </ul>
@@ -157,17 +163,17 @@ export default function PitchDeckPage() {
                 <Slide active={currentSlide === 2}>
                     <div className="max-w-6xl w-full">
                         <div className="text-center mb-12">
-                            <h2 className="text-4xl font-bold mb-4">The Philanthropic Venture Studio</h2>
-                            <p className="text-gray-400">Un moteur économique perpétuel pour la Hafatsa.</p>
+                            <h2 className="text-4xl font-bold mb-4">{t.slide3.title}</h2>
+                            <p className="text-gray-400">{t.slide3.subtitle}</p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {/* ENGINE */}
                             <div className="bg-[#0f0f13] border border-purple-500/30 rounded-3xl p-8 relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-4 opacity-20"><TrendingUp className="w-24 h-24 text-purple-500" /></div>
-                                <h3 className="text-2xl font-bold text-purple-400 mb-2">The Engine</h3>
+                                <h3 className="text-2xl font-bold text-purple-400 mb-2">{t.slide3.engine}</h3>
                                 <p className="text-white font-bold text-lg mb-4">DreamNova Consult</p>
-                                <p className="text-gray-400 text-sm mb-6">High-Velocity AI Agency generating massive cashflow through elite services.</p>
+                                <p className="text-gray-400 text-sm mb-6">{t.slide3.engineDesc}</p>
                                 <div className="text-3xl font-black text-white">70% <span className="text-sm font-normal text-gray-500">Profits</span></div>
                             </div>
 
@@ -175,7 +181,7 @@ export default function PitchDeckPage() {
                             <div className="flex items-center justify-center">
                                 <div className="w-full h-2 bg-gradient-to-r from-purple-500 to-green-500 rounded-full relative">
                                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#05050A] p-2 rounded-full border border-white/20">
-                                        <ChevronRight className="w-6 h-6 text-white" />
+                                        <ChevronRight className={`w-6 h-6 text-white ${lang === 'he' ? 'rotate-180' : ''}`} />
                                     </div>
                                 </div>
                             </div>
@@ -183,9 +189,9 @@ export default function PitchDeckPage() {
                             {/* IMPACT */}
                             <div className="bg-[#0f0f13] border border-green-500/30 rounded-3xl p-8 relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-4 opacity-20"><Globe className="w-24 h-24 text-green-500" /></div>
-                                <h3 className="text-2xl font-bold text-green-400 mb-2">The Impact</h3>
+                                <h3 className="text-2xl font-bold text-green-400 mb-2">{t.slide3.impact}</h3>
                                 <p className="text-white font-bold text-lg mb-4">The Nova Foundation</p>
-                                <p className="text-gray-400 text-sm mb-6">Funding the printing and distribution of millions of books worldwide.</p>
+                                <p className="text-gray-400 text-sm mb-6">{t.slide3.impactDesc}</p>
                                 <div className="text-3xl font-black text-white">$63M <span className="text-sm font-normal text-gray-500">Target</span></div>
                             </div>
                         </div>
@@ -195,16 +201,16 @@ export default function PitchDeckPage() {
                 {/* SLIDE 4: CALL TO ACTION */}
                 <Slide active={currentSlide === 3}>
                     <div className="max-w-3xl w-full text-center">
-                        <h2 className="text-5xl font-black mb-8">Join the Legacy</h2>
+                        <h2 className="text-5xl font-black mb-8">{t.slide4.title}</h2>
                         <p className="text-xl text-gray-400 mb-12">
-                            Nous ne cherchons pas seulement des investisseurs. Nous cherchons des partenaires qui veulent changer le monde spirituel.
+                            {t.slide4.subtitle}
                         </p>
                         <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                             <button className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors w-full md:w-auto">
-                                Schedule Meeting
+                                {t.slide4.cta1}
                             </button>
                             <button className="px-8 py-4 bg-transparent border border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-colors w-full md:w-auto">
-                                Download Full Deck
+                                {t.slide4.cta2}
                             </button>
                         </div>
                     </div>
@@ -223,14 +229,14 @@ export default function PitchDeckPage() {
                         disabled={currentSlide === 0}
                         className="p-4 rounded-full bg-white/5 hover:bg-white/10 disabled:opacity-30 border border-white/10 transition-all"
                     >
-                        <ChevronLeft className="w-6 h-6" />
+                        <ChevronLeft className={`w-6 h-6 ${lang === 'he' ? 'rotate-180' : ''}`} />
                     </button>
                     <button
                         onClick={nextSlide}
                         disabled={currentSlide === totalSlides - 1}
                         className="p-4 rounded-full bg-cyan-500 hover:bg-cyan-400 disabled:opacity-30 disabled:bg-gray-800 text-black transition-all"
                     >
-                        <ChevronRight className="w-6 h-6" />
+                        <ChevronRight className={`w-6 h-6 ${lang === 'he' ? 'rotate-180' : ''}`} />
                     </button>
                 </div>
             </div>
