@@ -8,9 +8,16 @@ import {
     BarChart3,
     GraduationCap,
     Briefcase,
-    Layers
+    Layers,
+    ArrowRight // Added
 } from 'lucide-react';
 import Link from 'next/link';
+
+const GlassCard = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
+    <div className={`backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-8 shadow-2xl hover:bg-white/10 transition-all duration-300 ${className}`}>
+        {children}
+    </div>
+);
 
 const FeatureCard = ({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) => (
     <div className="p-6 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-colors">
@@ -49,6 +56,57 @@ export default function EcommerceModulePage() {
                     <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10 relative z-10">
                         Fini le travail manuel. Nous appliquons notre méthodologie &quot;DreamNova&quot; (Agents IA + Automatisation) pour créer des boutiques qui vendent 24/7 sans intervention humaine.
                     </p>
+                </div>
+
+                {/* VISUALIZATION: N8N PIPELINE */}
+                <div className="mb-24">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl font-bold text-white mb-4">Le Pipeline Invisible</h2>
+                        <p className="text-gray-400">Une infrastructure n8n qui tourne pendant que vous dormez.</p>
+                    </div>
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-emerald-500/10 blur-3xl rounded-full"></div>
+                        <GlassCard className="relative overflow-hidden border-emerald-500/30">
+                            <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+                                {/* STEP 1 */}
+                                <div className="text-center group">
+                                    <div className="w-20 h-20 bg-emerald-900/40 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-emerald-500/30 group-hover:scale-110 transition-transform shadow-[0_0_30px_-5px_rgba(16,185,129,0.3)]">
+                                        <BarChart3 className="w-10 h-10 text-emerald-400" />
+                                    </div>
+                                    <div className="font-mono text-emerald-300 text-sm mb-1">DETECTION</div>
+                                    <div className="font-bold text-white">TrendHunter AI</div>
+                                </div>
+
+                                {/* ARROW */}
+                                <div className="hidden md:block">
+                                    <ArrowRight className="w-8 h-8 text-gray-600 animate-pulse" />
+                                </div>
+
+                                {/* STEP 2 */}
+                                <div className="text-center group">
+                                    <div className="w-20 h-20 bg-emerald-900/40 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-emerald-500/30 group-hover:scale-110 transition-transform shadow-[0_0_30px_-5px_rgba(16,185,129,0.3)]">
+                                        <ShoppingBag className="w-10 h-10 text-emerald-400" />
+                                    </div>
+                                    <div className="font-mono text-emerald-300 text-sm mb-1">CREATION</div>
+                                    <div className="font-bold text-white">Shopify Auto</div>
+                                </div>
+
+                                {/* ARROW */}
+                                <div className="hidden md:block">
+                                    <ArrowRight className="w-8 h-8 text-gray-600 animate-pulse" />
+                                </div>
+
+                                {/* STEP 3 */}
+                                <div className="text-center group">
+                                    <div className="w-20 h-20 bg-emerald-900/40 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-emerald-500/30 group-hover:scale-110 transition-transform shadow-[0_0_30px_-5px_rgba(16,185,129,0.3)]">
+                                        <Zap className="w-10 h-10 text-emerald-400" />
+                                    </div>
+                                    <div className="font-mono text-emerald-300 text-sm mb-1">SCALING</div>
+                                    <div className="font-bold text-white">Meta Ads AI</div>
+                                </div>
+                            </div>
+                        </GlassCard>
+                    </div>
                 </div>
 
                 {/* THE METHODOLOGY (Common to Course & Agency) */}

@@ -1,12 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Flag,
     Users,
     Target,
     Calendar,
+    Trophy,
     Briefcase,
+    Globe,
     Cpu,
     ArrowRight,
     CheckCircle2,
@@ -15,7 +17,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-const Section = ({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) => (
+const Section = ({ title, icon, children }: any) => (
     <div className="mb-16">
         <h2 className="text-3xl font-bold text-white mb-8 flex items-center border-b border-white/10 pb-4">
             <div className="p-2 bg-white/5 rounded-lg mr-4 text-cyan-400">
@@ -27,7 +29,7 @@ const Section = ({ title, icon, children }: { title: string, icon: React.ReactNo
     </div>
 );
 
-const StrategyCard = ({ title, subtitle, points, color = "blue" }: { title: string, subtitle: string, points: string[], color?: string }) => (
+const StrategyCard = ({ title, subtitle, points, color = "blue" }: any) => (
     <div className={`p-6 rounded-2xl bg-gradient-to-b from-white/5 to-black border border-white/10 hover:border-${color}-500/50 transition-all`}>
         <h3 className={`text-xl font-bold text-${color}-400 mb-1`}>{title}</h3>
         <p className="text-sm text-gray-400 mb-6 font-mono uppercase tracking-wider">{subtitle}</p>
@@ -42,7 +44,7 @@ const StrategyCard = ({ title, subtitle, points, color = "blue" }: { title: stri
     </div>
 );
 
-const TimelinePhase = ({ phase, title, date, goals, projects }: { phase: string, title: string, date: string, goals: string[], projects: string[] }) => (
+const TimelinePhase = ({ phase, title, date, goals, projects }: any) => (
     <div className="relative pl-8 pb-12 border-l-2 border-white/10 last:border-0 group">
         <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)] group-hover:scale-125 transition-transform"></div>
         <span className="inline-block px-3 py-1 rounded bg-white/5 text-xs text-cyan-400 font-mono mb-2">{phase} • {date}</span>
@@ -71,7 +73,7 @@ const TimelinePhase = ({ phase, title, date, goals, projects }: { phase: string,
 
 export default function MasterplanPage() {
     return (
-        <div className="h-screen overflow-y-auto bg-[#05050A] text-gray-100 font-sans pb-40">
+        <div className="min-h-screen bg-[#05050A] text-gray-100 font-sans pb-40">
 
             {/* HEADER */}
             <nav className="p-6 flex justify-between items-center max-w-7xl mx-auto border-b border-white/5">
@@ -85,9 +87,9 @@ export default function MasterplanPage() {
             <main className="max-w-6xl mx-auto px-4 mt-12">
 
                 <div className="text-center mb-20">
-                    <h1 className="text-5xl font-black text-white mb-6">L&apos;ORDRE DE BATAILLE 2025-2026</h1>
+                    <h1 className="text-5xl font-black text-white mb-6">L'ORDRE DE BATAILLE 2025-2026</h1>
                     <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                        Feuille de route opérationnelle, stratégie de recrutement &quot;Win-Win&quot; et déploiement des 12 projets.
+                        Feuille de route opérationnelle, stratégie de recrutement "Win-Win" et déploiement des 12 projets.
                         <br />Ce document est la boussole interne du Venture Studio.
                     </p>
                 </div>
@@ -139,10 +141,10 @@ export default function MasterplanPage() {
                     <div className="mt-8 p-6 bg-green-900/10 border border-green-500/30 rounded-2xl flex items-center">
                         <DollarSign className="w-8 h-8 text-green-400 mr-4" />
                         <div>
-                            <h4 className="font-bold text-white">La Règle d&apos;Or du Recrutement Win-Win</h4>
+                            <h4 className="font-bold text-white">La Règle d'Or du Recrutement Win-Win</h4>
                             <p className="text-sm text-gray-400">
-                                &quot;Nous ne payons pas pour du temps. Nous partageons la valeur créée.
-                                Apportez un client, prenez 30%. Construisez un module critique, prenez de l&apos;equity.&quot;
+                                "Nous ne payons pas pour du temps. Nous partageons la valeur créée.
+                                Apportez un client, prenez 30%. Construisez un module critique, prenez de l'equity."
                             </p>
                         </div>
                     </div>
@@ -239,7 +241,7 @@ export default function MasterplanPage() {
                 <Section title="La Matrice de Synergie" icon={<Cpu className="w-6 h-6" />}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="bg-white/5 p-8 rounded-3xl border border-white/10">
-                            <h3 className="text-xl font-bold text-white mb-4">Comment l&apos;argent circule ?</h3>
+                            <h3 className="text-xl font-bold text-white mb-4">Comment l'argent circule ?</h3>
                             <ul className="space-y-4 text-sm text-gray-300">
                                 <li className="flex items-center"><ArrowRight className="w-4 h-4 mr-2 text-green-500" /> Consult & Academy génèrent le Cashflow court terme.</li>
                                 <li className="flex items-center"><ArrowRight className="w-4 h-4 mr-2 text-green-500" /> Ce cash finance le stock Ha-Mazon et les serveurs Tera Mind.</li>
@@ -249,9 +251,9 @@ export default function MasterplanPage() {
                         <div className="bg-white/5 p-8 rounded-3xl border border-white/10">
                             <h3 className="text-xl font-bold text-white mb-4">Comment la Data circule ?</h3>
                             <ul className="space-y-4 text-sm text-gray-300">
-                                <li className="flex items-center"><ArrowRight className="w-4 h-4 mr-2 text-blue-500" /> Les utilisateurs de l&apos;Academy deviennent les beta-testeurs de Consult.</li>
+                                <li className="flex items-center"><ArrowRight className="w-4 h-4 mr-2 text-blue-500" /> Les utilisateurs de l'Academy deviennent les beta-testeurs de Consult.</li>
                                 <li className="flex items-center"><ArrowRight className="w-4 h-4 mr-2 text-blue-500" /> Le DCS (Score) de Global est utilisé pour filtrer les candidats RH.</li>
-                                <li className="flex items-center"><ArrowRight className="w-4 h-4 mr-2 text-blue-500" /> Le RAG de Breslev entraîne l&apos;éthique de Tera Mind.</li>
+                                <li className="flex items-center"><ArrowRight className="w-4 h-4 mr-2 text-blue-500" /> Le RAG de Breslev entraîne l'éthique de Tera Mind.</li>
                             </ul>
                         </div>
                     </div>

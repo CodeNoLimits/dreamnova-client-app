@@ -1,434 +1,521 @@
 export const translations = {
     en: {
         common: {
-            backToHub: 'Back to Hub',
+            backToHub: 'Back to Nexus',
+            launchApp: 'Launch App',
+            quickTry: 'Quick Try',
+            features: 'Key Features',
+            liveSession: 'Live Session',
             loading: 'Loading...',
-            close: 'Close',
-            admin: 'Admin',
-            systemStatus: 'System Status',
-            deployments: 'Deployments',
-            allSystemsOperational: 'All Systems Operational'
+            error: 'Error',
+            send: 'Send',
+            placeholder: 'Type a message...',
+        },
+        hub: {
+            navTitle: 'Infinite Canvas Navigation',
+            mobileTitle: 'Mobile Command Center',
+            investorMode: 'Investor View (Confidential)',
+            nodes: {
+                hub: { label: 'Nexus Hub', description: 'Central Command' },
+                roadmap: { label: 'Roadmap & Targets', description: 'Strategic Agenda' },
+                masterplan: { label: 'The Masterplan', description: 'Recruitment & Strategy' },
+                pitch: { label: 'Pitch Deck', description: 'For Investors Only' },
+                global: { label: 'DreamNova Global', description: 'The Anti-Facebook' },
+                consult: { label: 'DreamNova Consult', description: 'AI Agency & Velocity' },
+                leads: { label: 'DreamNova Leads', description: 'War Room & Data' },
+                tera: { label: 'Tera Mind', description: 'Spirit-Tech & AI Therapy' },
+                academy: { label: 'DreamNova Academy', description: 'Learn the Method' },
+                ecom: { label: 'E-Com Velocity', description: 'Autonomous Retail' },
+                amazon: { label: 'Ha-Mazon', description: 'Distributed Logistics' },
+                breslev: { label: 'Breslev Books', description: 'AI RAG & Wisdom' },
+                music: { label: 'TetraBrame', description: 'AI Music & Hafatsa' },
+                media: { label: 'TetraMedia', description: 'Content Factory' },
+                roi: { label: 'ROI Dashboard', description: 'Investment Thesis' },
+                kolel: { label: 'Kolel AI', description: 'Torah Study & RAG' },
+                soulbond: { label: 'SoulBond', description: 'Chesed Network' },
+                bezalel: { label: 'Project Bezalel', description: 'Generative Art' },
+                foundation: { label: 'The Nova Foundation', description: 'Philanthropy' },
+                kotel: { label: 'Kotel Connection', description: 'Daily Alignment' },
+                hok: { label: 'Hok Breslev', description: 'Spiritual R&D' },
+                sport: { label: 'Performance', description: 'Body Maintenance' },
+            }
+        },
+        teraMind: {
+            title: 'THERAPY REINVENTED',
+            subtitle: 'An empathetic AI available 24/7. No judgment. No appointments. Just listening.',
+            tagline: 'You are no longer alone. Sandy watches over you.',
+            features: {
+                cognitive: { title: 'Cognitive Analysis', desc: 'Detection of negative thought patterns (CBT) and immediate reframing.' },
+                emotional: { title: 'Emotional Support', desc: 'A benevolent presence that validates your emotions and helps you through crises.' },
+                exercises: { title: 'Guided Exercises', desc: 'Meditation, breathing, and guided journaling adapted to your current emotional state.' }
+            },
+            buttons: {
+                reputation: 'Our Reputation',
+                launch: 'Launch Full App'
+            }
         },
         consult: {
-            title: 'DreamNova Consult',
-            tagline: 'AI Agency & Automation',
-            heroTitle: 'STOP BUYING DEV.',
-            heroSubtitle: 'BUY VELOCITY.',
-            heroDesc: 'We transform your business with a proprietary AI stack. Automation. Instant Development. Social Domination.',
-            cta: 'Start Transformation',
-            agentsTitle: 'The Strike Force: 15 Matat OS Agents',
-            agentsDesc: 'A digital army working 24/7 for your growth.',
-            offer1Title: 'Social Domination',
-            offer1Price: '3k€ / month',
-            offer1Desc: 'Flood the market. Omnichannel content managed by AI.',
-            offer2Title: 'Hyper-Development',
-            offer2Price: '15k€ / sprint',
-            offer2Desc: 'Your SaaS or Mobile App in 1 week. Not 6 months.',
-            offer3Title: 'Invisible Ops',
-            offer3Price: '5k€ / month',
-            offer3Desc: 'Automate 80% of your internal processes.',
-            admin: {
-                scout: 'Launch Scout Agent',
-                stripe: 'View Stripe Revenue',
-                deploy: 'Deploy MVP'
+            tagline: 'The Agency of the Instant',
+            heroTitle: 'SCALE YOUR BUSINESS AT LIGHT SPEED.',
+            heroSubtitle: 'We don\'t sell time. We sell velocity. AI Automation, Growth Hacking, and Domination Strategy.',
+            buttons: {
+                launch: 'Launch AI Audit App',
+                book: 'Book Strategy Call',
+                explore: 'Explore Full Concept',
+                france: 'Dream Nova for France',
+                clientExamples: 'Client App Examples'
+            },
+            cards: {
+                automation: { title: 'AI Automation', desc: 'Replace repetitive tasks with autonomous agents. Save 20h/week from month one.' },
+                growth: { title: 'Growth Hacking', desc: 'Aggressive client acquisition via LinkedIn, Emailing, and Social Selling. Zero ad budget, 100% organic.' },
+                strategy: { title: 'Global Strategy', desc: 'Position your brand as the leader of your niche. Branding, Storytelling, and Authority.' }
+            },
+            metrics: {
+                revenue: 'Revenue Generated',
+                agents: 'AI Agents Deployed',
+                roi: 'Avg. ROI',
+                support: 'Support'
+            },
+            offers: {
+                title: 'Our "No-Brainer" Offers',
+                starter: { title: 'Audit & Roadmap', price: '€2,500', unit: '/ one-shot', features: ['Complete process analysis', 'Bottleneck identification', 'Tailored AI Action Plan'], button: 'Select' },
+                growth: { title: 'Full Automation', price: '€5,000', unit: '/ month', features: ['AI Agents Implementation', 'Growth Campaign Management', 'Priority Support & Maintenance'], button: 'Start' }
             }
+        },
+        global: {
+            tagline: 'Next-Gen Social Network',
+            heroTitle: 'THE DREAM ECONOMY.',
+            heroSubtitle: 'No more faking. Welcome to the era of Verified Competence. Post your dreams, prove your worth, get recruited for who you really are.',
+            buttons: {
+                beta: 'Join Beta',
+                demo: 'View DCS Demo',
+                b2b: 'B2B Version',
+                b2c: 'Dream Nova Social - B2C Global Platform',
+                noTech: 'No Technologies, Proprietary'
+            },
+            problem: {
+                title: 'The Old World is Broken.',
+                ego: { title: 'Ego & Vanity', desc: 'Facebook and Instagram optimize for narcissism, not self-realization.' },
+                hiring: { title: 'Obsolete Hiring', desc: 'Resumes lie. Degrees expire. Recruiters fly blind.' }
+            },
+            solution: {
+                title: 'The DreamNova Solution',
+                points: ['We post Dreams (Projects), not photos.', 'Collaboration in real Dream Teams.', 'Reverse Recruiting based on pure Data.']
+            },
+            dcs: {
+                title: 'The Core Reactor: DCS',
+                desc: 'Dream Consistency Score. The algorithm that turns behavior into a predictability index for investors.',
+                metrics: {
+                    conscientiousness: { title: 'Conscientiousness', desc: 'Measure of micro-action consistency. Analyzes delta between stated intention and actual activity logs.' },
+                    alignment: { title: 'Alignment Quotient', desc: 'Action-Value Consistency. Proves founder resilience and ability not to pivot at the first obstacle.' },
+                    social: { title: 'Social Dynamic (VELA)', desc: 'Analysis of leadership quality and empathy in Dream Teams. Ignores popularity (vanity metrics).' }
+                }
+            }
+        },
+        music: {
+            tagline: 'Wisdom in Frequency',
+            heroTitle: 'DECENTRALIZED MUSIC INDUSTRY.',
+            heroSubtitle: 'A complete infrastructure for Faith artists. AI Production, Global Distribution, Automated Royalties.',
+            buttons: {
+                studio: 'Enter Studio',
+                explore: 'Explore Concept'
+            },
+            heroImage: { title: 'The Sound of Deliverance.', subtitle: 'Powered by Artificial Intelligence.' },
+            studio: {
+                title: 'AI Studio',
+                generator: { title: 'Hit Generator', desc: 'Create instrumentals, mix vocals, and master your tracks in clicks using our AI models trained on sacred music.' },
+                player: 'Now Playing: Nanach Frequency (AI Gen)'
+            },
+            distribution: {
+                title: 'Distribution & Hafatsa',
+                stats: { tracks: 'Tracks Produced', streams: 'Cumulative Streams' },
+                channels: 'Broadcast Channels'
+            }
+        },
+        foundation: {
+            tagline: 'Global Mission',
+            heroTitle: 'A Capital for Eternity.\nTarget: $63,000,000.',
+            heroSubtitle: 'The fuel needed for Global Hafatsa: flooding the world with the light of Rabbi Nachman.',
+            buttons: {
+                partner: 'Become a Hafatsa Partner'
+            },
+            legacy: {
+                name: 'Rabbi Israel Dov Odesser',
+                title: 'The Pioneer (z"l)',
+                quote: '"If he did it, we have no excuse."',
+                desc1: 'At 94, paralyzed, no internet, no team, he raised $500,000 in 2 years to print books.',
+                desc2: 'Today, we have AI, youth, technology, and a global market. Failure is mathematically impossible.'
+            },
+            financial: {
+                title: 'Donation Optimization',
+                desc: 'We use advanced financial structures (DAF) to maximize every dollar. Your donation is not an expense, it\'s a high-leverage spiritual investment.',
+                flow: { source: 'Consulting LLC', transit: 'DAF (Fidelity)', dest: 'Hafatsa Foundation' }
+            },
+            calculator: {
+                title: 'Impact Calculator',
+                amount: 'Donation Amount ($)',
+                cost: 'Real Cost (After Tax)',
+                savings: 'Tax Savings'
+            },
+            tracker: {
+                title: 'Total Transparency',
+                raised: 'Raised to Date',
+                target: 'Final Target',
+                impact: 'Real Impact'
+            },
+            footer: 'Deductible Donations (Cerfa / 501c3)'
+        },
+        breslev: {
+            testApp: 'Test App in Development'
         },
         amazon: {
-            title: 'Ha-Mazon',
-            tagline: 'Distributed Logistics',
-            heroTitle: 'THE LAST MILE.',
-            heroSubtitle: 'REINVENTED.',
-            heroDesc: 'A decentralized network of micro-hubs. Autonomous delivery. Zero emissions. The future of urban logistics.',
-            cta: 'Join the Network',
-            zfeTitle: 'ZFE Paris 2025',
-            zfeDesc: 'The regulatory moat. Diesel is dead. Electric micro-mobility is the only way.',
-            hubsTitle: 'Micro-Hubs Network',
-            hubsDesc: 'Strategic locations in the heart of the city.',
-            admin: {
-                fleet: 'Fleet View GPS',
-                stock: 'Stock Alert',
-                discount: 'Activate Green Discount'
-            }
-        },
-        tera: {
-            title: 'Tera Mind',
-            tagline: 'Spirit-Tech & AI Therapy',
-            heroTitle: 'HEAL THE MIND.',
-            heroSubtitle: 'ELEVATE THE SOUL.',
-            heroDesc: 'AI-powered therapy. 24/7 support. Bridging ancient wisdom with modern technology.',
-            cta: 'Start Session',
-            safetyTitle: 'Safety Bridge Protocol',
-            safetyDesc: 'Immediate intervention for critical cases. Human escalation.',
-            techTitle: 'The Tech Stack',
-            techDesc: 'DictaLM-2.0 + Simli + ElevenLabs. Hyper-realistic avatars.',
-            admin: {
-                session: 'Open Sandy Session',
-                logs: 'Security Logs',
-                escalation: 'Human Escalation'
-            }
-        },
-        tetrabrame: {
-            title: 'TetraBrame',
-            tagline: 'AI Music & Hafatsa',
-            heroTitle: 'THE SOUND OF.',
-            heroSubtitle: 'REDEMPTION.',
-            heroDesc: 'Generative AI Music. Viral Distribution. Spreading the light through sound.',
-            cta: 'Listen Now',
-            kitTitle: 'Kit V (Viral)',
-            kitDesc: 'The 12-point methodology for guaranteed viral hits.',
-            assetsTitle: '400+ Dormant Assets',
-            assetsDesc: 'A vault of unreleased tracks ready for deployment.',
-            admin: {
-                suno: 'Generate Suno',
-                distrokid: 'Upload DistroKid',
-                royalties: 'Check Royalties'
-            }
-        },
-        academy: {
-            title: 'DreamNova Academy',
-            tagline: 'Learn the Method',
-            heroTitle: 'BUILD THE FUTURE.',
-            heroSubtitle: 'TODAY.',
-            heroDesc: 'Master the tools of the Dream Economy. AI, Automation, Flow.',
-            cta: 'Enroll Now',
-            levels: {
-                ignition: 'Ignition',
-                velocity: 'Velocity',
-                empire: 'Empire'
-            },
-            admin: {
-                students: 'View Students',
-                course: 'Add Course',
-                stats: 'Sales Stats'
-            }
-        },
-        pitch: {
-            title: 'Pitch Deck',
-            slide1: {
-                tagline: 'Mission: Hafatsa 2.0',
-                title: 'The',
-                vision: 'Vision',
-                subtitle: 'The Sacred Alliance: Wisdom of Saba Israel + Technology of David.',
-                goal: 'Goal: Flood the world with light.',
-                watchVideo: 'Watch The Vision'
-            },
-            slide2: {
-                title: 'Financial Structure (DAF)',
-                desc: 'Architecture designed for longevity and asset protection. Strict separation between commercial operations and philanthropic mission.',
-                holding: 'Commercial Holding (US/IL)',
-                holdingDesc: 'Holds IPs (DreamNova, TeraMind). Generates profits.',
-                foundation: 'Foundation (Non-Profit)',
-                foundationDesc: 'Receives 51% of dividends. Funds book distribution.',
-                trust: 'Family Trust',
-                trustDesc: 'Asset protection and long-term governance.'
-            },
-            slide3: {
-                title: 'The Philanthropic Venture Studio',
-                subtitle: 'A perpetual economic engine for Hafatsa.',
-                engine: 'The Engine',
-                engineDesc: 'High-Velocity AI Agency generating massive cashflow through elite services.',
-                impact: 'The Impact',
-                impactDesc: 'Funding the printing and distribution of millions of books worldwide.'
-            },
-            slide4: {
-                title: 'Join the Legacy',
-                subtitle: 'We are not just looking for investors. We are looking for partners who want to change the spiritual world.',
-                cta1: 'Schedule Meeting',
-                cta2: 'Download Full Deck'
-            },
-            admin: {
-                dataroom: 'Data Room',
-                captable: 'Cap Table',
-                contact: 'Contact Berrebi'
-            }
+            testClientApp: 'Test one of our client apps and see the demo.'
         }
     },
     fr: {
         common: {
-            backToHub: 'Retour au Hub',
+            backToHub: 'Retour Nexus',
+            launchApp: 'Lancer l\'App',
+            quickTry: 'Essai Rapide',
+            features: 'Fonctionnalités Clés',
+            liveSession: 'Session Live',
             loading: 'Chargement...',
-            close: 'Fermer',
-            admin: 'Admin',
-            systemStatus: 'État du Système',
-            deployments: 'Déploiements',
-            allSystemsOperational: 'Tous les systèmes opérationnels'
+            error: 'Erreur',
+            send: 'Envoyer',
+            placeholder: 'Écrivez un message...',
+        },
+        hub: {
+            navTitle: 'Navigation Canvas Infini',
+            mobileTitle: 'Centre de Commandement Mobile',
+            investorMode: 'Vue Investisseur (Confidentiel)',
+            nodes: {
+                hub: { label: 'Nexus Hub', description: 'Commandement Central' },
+                roadmap: { label: 'Feuille de Route', description: 'Agenda Stratégique' },
+                masterplan: { label: 'Le Masterplan', description: 'Recrutement & Stratégie' },
+                pitch: { label: 'Pitch Deck', description: 'Pour Investisseurs' },
+                global: { label: 'DreamNova Global', description: "L'Anti-Facebook" },
+                consult: { label: 'DreamNova Consult', description: 'Agence IA & Vélocité' },
+                leads: { label: 'DreamNova Leads', description: 'War Room & Data' },
+                tera: { label: 'Tera Mind', description: 'Spirit-Tech & Thérapie IA' },
+                academy: { label: 'DreamNova Academy', description: 'Apprendre la Méthode' },
+                ecom: { label: 'E-Com Velocity', description: 'Retail Autonome' },
+                amazon: { label: 'Ha-Mazon', description: 'Logistique Distribuée' },
+                breslev: { label: 'Livres Breslev', description: 'IA RAG & Sagesse' },
+                music: { label: 'TetraBrame', description: 'Musique IA & Hafatsa' },
+                media: { label: 'TetraMedia', description: 'Usine de Contenu' },
+                roi: { label: 'Tableau de Bord ROI', description: "Thèse d'Investissement" },
+                kolel: { label: 'Kolel AI', description: 'Étude Torah & RAG' },
+                soulbond: { label: 'SoulBond', description: 'Réseau de Chesed' },
+                bezalel: { label: 'Projet Bezalel', description: 'Art Génératif' },
+                foundation: { label: 'La Fondation Nova', description: 'Philanthropie' },
+                kotel: { label: 'Connexion Kotel', description: 'Alignement Quotidien' },
+                hok: { label: 'Hok Breslev', description: 'R&D Spirituelle' },
+                sport: { label: 'Performance', description: 'Maintenance Physique' },
+            }
+        },
+        teraMind: {
+            title: 'LA THÉRAPIE RÉINVENTÉE',
+            subtitle: 'Une IA empathique disponible 24/7. Pas de jugement. Pas de rendez-vous. Juste de l\'écoute.',
+            tagline: 'Vous n\'êtes plus seul. Sandy veille sur vous.',
+            features: {
+                cognitive: { title: 'Analyse Cognitive', desc: 'Détection des schémas de pensée négatifs (TCC) et proposition de recadrage immédiat.' },
+                emotional: { title: 'Soutien Émotionnel', desc: 'Une présence bienveillante qui valide vos émotions et vous aide à traverser les crises.' },
+                exercises: { title: 'Exercices Guidés', desc: 'Méditations, respiration et journaling guidé adaptés à votre état émotionnel du moment.' }
+            },
+            buttons: {
+                reputation: 'Notre réputation',
+                launch: 'Lancer l\'App Complète'
+            }
         },
         consult: {
-            title: 'DreamNova Consult',
-            tagline: 'Agence IA & Automation',
-            heroTitle: 'N\'ACHETEZ PLUS DE DEV.',
-            heroSubtitle: 'ACHETEZ DE LA VÉLOCITÉ.',
-            heroDesc: 'Nous transformons vos entreprises grâce à une stack IA propriétaire. Automatisation. Développement Instantané. Domination Sociale.',
-            cta: 'Démarrer la Transformation',
-            agentsTitle: 'La Force de Frappe : 15 Agents Matat OS',
-            agentsDesc: 'Une armée digitale qui travaille 24/7 pour votre croissance.',
-            offer1Title: 'Domination Sociale',
-            offer1Price: '3k€ / mois',
-            offer1Desc: 'Inondez le marché. Contenu omnicanal géré par IA.',
-            offer2Title: 'Hyper-Développement',
-            offer2Price: '15k€ / sprint',
-            offer2Desc: 'Votre SaaS ou App Mobile en 1 semaine. Pas 6 mois.',
-            offer3Title: 'Opérations Invisibles',
-            offer3Price: '5k€ / mois',
-            offer3Desc: 'Automatisez 80% de vos processus internes.',
-            admin: {
-                scout: 'Lancer Agent Scout',
-                stripe: 'Voir Revenus Stripe',
-                deploy: 'Déployer MVP'
+            tagline: 'L\'Agence de l\'Instant',
+            heroTitle: 'SCALE YOUR BUSINESS AT LIGHT SPEED.',
+            heroSubtitle: 'Nous ne vendons pas du temps. Nous vendons de la vélocité. Automatisation IA, Growth Hacking et Stratégie de Domination.',
+            buttons: {
+                launch: 'Lancer l\'App d\'Audit IA',
+                book: 'Réserver un Appel Stratégique',
+                explore: 'Explorez le concept en entier',
+                france: 'Dream Nova pour la France',
+                clientExamples: 'Exemples d\'applications clients'
+            },
+            cards: {
+                automation: { title: 'Automatisation IA', desc: 'Remplacez vos tâches répétitives par des agents autonomes. Gagnez 20h/semaine dès le premier mois.' },
+                growth: { title: 'Growth Hacking', desc: 'Acquisition client agressive via LinkedIn, Emailing et Social Selling. Zéro budget pub, 100% organique.' },
+                strategy: { title: 'Stratégie Globale', desc: 'Positionnez votre marque comme leader de votre niche. Branding, Storytelling et Autorité.' }
+            },
+            metrics: {
+                revenue: 'Revenus Générés',
+                agents: 'Agents IA Déployés',
+                roi: 'ROI Moyen',
+                support: 'Support'
+            },
+            offers: {
+                title: 'Nos Offres "No-Brainer"',
+                starter: { title: 'Audit & Roadmap', price: '€2,500', unit: '/ one-shot', features: ['Analyse complète des processus', 'Identification des goulots d\'étranglement', 'Plan d\'action IA sur mesure'], button: 'Sélectionner' },
+                growth: { title: 'Automatisation Totale', price: '€5,000', unit: '/ mois', features: ['Implémentation des Agents IA', 'Gestion des campagnes Growth', 'Support prioritaire & Maintenance'], button: 'Démarrer' }
             }
+        },
+        global: {
+            tagline: 'Réseau Social Nouvelle Génération',
+            heroTitle: 'THE DREAM ECONOMY.',
+            heroSubtitle: 'Fini le paraître. Bienvenue dans l\'ère de la Compétence Vérifiée. Postez vos rêves, prouvez votre valeur, soyez recruté pour ce que vous êtes vraiment.',
+            buttons: {
+                beta: 'Rejoindre la Beta',
+                demo: 'Voir la Démo DCS',
+                b2b: 'Version B2B',
+                b2c: 'Dream Nova Social - Plateforme Globale B2C',
+                noTech: 'No Technologies, propriétaire'
+            },
+            problem: {
+                title: 'L\'Ancien Monde est Cassé.',
+                ego: { title: 'Ego & Vanité', desc: 'Facebook et Instagram optimisent pour le narcissisme, pas pour la réalisation de soi.' },
+                hiring: { title: 'Recrutement Obsolète', desc: 'Le CV ment. Les diplômes expirent. Les recruteurs naviguent à l\'aveugle.' }
+            },
+            solution: {
+                title: 'La Solution DreamNova',
+                points: ['On poste des Rêves (Projets), pas des photos.', 'Collaboration en Dream Teams réelles.', 'Recrutement Inversé basé sur la Data pure.']
+            },
+            dcs: {
+                title: 'Le Cœur du Réacteur : DCS',
+                desc: 'Dream Consistency Score. L\'algorithme qui transforme le comportement en indice de prédictibilité pour les investisseurs.',
+                metrics: {
+                    conscientiousness: { title: 'Conscience Professionnelle', desc: 'Mesure de la régularité des micro-actions. Analyse le delta entre l\'intention déclarée et les logs d\'activité réels.' },
+                    alignment: { title: 'Quotient d\'Alignement', desc: 'Cohérence Action-Valeur. Prouve la résilience du fondateur et sa capacité à ne pas pivoter au premier obstacle.' },
+                    social: { title: 'Dynamique Sociale (VELA)', desc: 'Analyse de la qualité du leadership et de l\'empathie dans les \'Dream Teams\'. Ignore la popularité (vanity metrics).' }
+                }
+            }
+        },
+        music: {
+            tagline: 'Sagesse en Fréquence',
+            heroTitle: 'L\'INDUSTRIE MUSICALE DÉCENTRALISÉE.',
+            heroSubtitle: 'Une infrastructure complète pour les artistes de la Foi. Production IA, Distribution Mondiale, Royalties Automatisées.',
+            buttons: {
+                studio: 'Entrer dans le Studio',
+                explore: 'Explorer le concept'
+            },
+            heroImage: { title: 'Le Son de la Délivrance.', subtitle: 'Propulsé par l\'Intelligence Artificielle.' },
+            studio: {
+                title: 'Studio IA',
+                generator: { title: 'Générateur de Hits', desc: 'Créez des instrumentales, mixez des voix et masterisez vos titres en quelques clics grâce à nos modèles IA entraînés sur la musique sacrée.' },
+                player: 'Lecture en cours : Fréquence Nanach (Gén. IA)'
+            },
+            distribution: {
+                title: 'Distribution & Hafatsa',
+                stats: { tracks: 'Titres Produits', streams: 'Streams Cumulés' },
+                channels: 'Canaux de Diffusion'
+            }
+        },
+        foundation: {
+            tagline: 'Mission Globale',
+            heroTitle: 'Un Capital pour l\'Éternité.\nObjectif : $63,000,000.',
+            heroSubtitle: 'Le carburant nécessaire pour la Hafatsa Mondiale : inonder le monde de la lumière de Rabbi Nachman.',
+            buttons: {
+                partner: 'Devenir Partenaire de la Hafatsa'
+            },
+            legacy: {
+                name: 'Rabbi Israël Dov Odesser',
+                title: 'Le Pionnier (z"l)',
+                quote: '"Si lui l\'a fait, nous n\'avons aucune excuse."',
+                desc1: 'À 94 ans, paralysé, sans internet, sans équipe, il a levé $500,000 en 2 ans pour imprimer des livres.',
+                desc2: 'Aujourd\'hui, nous avons l\'IA, la jeunesse, la technologie et un marché mondial. L\'échec est mathématiquement impossible.'
+            },
+            financial: {
+                title: 'L\'Optimisation du Don',
+                desc: 'Nous utilisons des structures financières avancées (DAF) pour maximiser chaque dollar. Votre don n\'est pas une dépense, c\'est un investissement spirituel à fort effet de levier.',
+                flow: { source: 'Consulting LLC', transit: 'DAF (Fidelity)', dest: 'Fondation Hafatsa' }
+            },
+            calculator: {
+                title: 'Calculateur d\'Impact',
+                amount: 'Montant du Don ($)',
+                cost: 'Coût Réel (Après Impôt)',
+                savings: 'Économie Fiscale'
+            },
+            tracker: {
+                title: 'Transparence Totale',
+                raised: 'Levés à ce jour',
+                target: 'Cible Finale',
+                impact: 'Impact Réel'
+            },
+            footer: 'Dons déductibles (Cerfa / 501c3)'
+        },
+        breslev: {
+            testApp: 'Tester l\'application en développement'
         },
         amazon: {
-            title: 'Ha-Mazon',
-            tagline: 'Logistique Distribuée',
-            heroTitle: 'LE DERNIER KILOMÈTRE.',
-            heroSubtitle: 'RÉINVENTÉ.',
-            heroDesc: 'Un réseau décentralisé de micro-hubs. Livraison autonome. Zéro émission. L\'avenir de la logistique urbaine.',
-            cta: 'Rejoindre le Réseau',
-            zfeTitle: 'ZFE Paris 2025',
-            zfeDesc: 'La douve réglementaire. Le diesel est mort. La micro-mobilité électrique est la seule voie.',
-            hubsTitle: 'Réseau de Micro-Hubs',
-            hubsDesc: 'Emplacements stratégiques au cœur de la ville.',
-            admin: {
-                fleet: 'Vue Flotte GPS',
-                stock: 'Alerte Stock',
-                discount: 'Activer Remise Verte'
-            }
-        },
-        tera: {
-            title: 'Tera Mind',
-            tagline: 'Spirit-Tech & Thérapie IA',
-            heroTitle: 'GUÉRIR L\'ESPRIT.',
-            heroSubtitle: 'ÉLEVER L\'ÂME.',
-            heroDesc: 'Thérapie propulsée par l\'IA. Support 24/7. Le pont entre la sagesse ancienne et la technologie moderne.',
-            cta: 'Démarrer Séance',
-            safetyTitle: 'Protocole Safety Bridge',
-            safetyDesc: 'Intervention immédiate pour les cas critiques. Escalade humaine.',
-            techTitle: 'La Stack Technique',
-            techDesc: 'DictaLM-2.0 + Simli + ElevenLabs. Avatars hyper-réalistes.',
-            admin: {
-                session: 'Ouvrir Session Sandy',
-                logs: 'Logs Sécurité',
-                escalation: 'Escalade Humaine'
-            }
-        },
-        tetrabrame: {
-            title: 'TetraBrame',
-            tagline: 'Musique IA & Hafatsa',
-            heroTitle: 'LE SON DE LA.',
-            heroSubtitle: 'RÉDEMPTION.',
-            heroDesc: 'Musique Générative IA. Distribution Virale. Répandre la lumière par le son.',
-            cta: 'Écouter Maintenant',
-            kitTitle: 'Kit V (Viral)',
-            kitDesc: 'La méthodologie en 12 points pour des hits viraux garantis.',
-            assetsTitle: '400+ Assets Dormants',
-            assetsDesc: 'Un coffre-fort de morceaux inédits prêts à être déployés.',
-            admin: {
-                suno: 'Générer Suno',
-                distrokid: 'Upload DistroKid',
-                royalties: 'Check Royalties'
-            }
-        },
-        academy: {
-            title: 'DreamNova Academy',
-            tagline: 'Apprendre la Méthode',
-            heroTitle: 'CONSTRUIRE LE FUTUR.',
-            heroSubtitle: 'AUJOURD\'HUI.',
-            heroDesc: 'Maîtrisez les outils de la Dream Economy. IA, Automatisation, Flow.',
-            cta: 'S\'inscrire',
-            levels: {
-                ignition: 'Ignition',
-                velocity: 'Vélocité',
-                empire: 'Empire'
-            },
-            admin: {
-                students: 'Voir Étudiants',
-                course: 'Ajouter Cours',
-                stats: 'Stats Ventes'
-            }
-        },
-        pitch: {
-            title: 'Pitch Deck',
-            slide1: {
-                tagline: 'Mission : Hafatsa 2.0',
-                title: 'La Vision à',
-                vision: '',
-                subtitle: 'L\'Alliance Sacrée : La Sagesse de Saba Israel + La Technologie de David.',
-                goal: 'Objectif : Inonder le monde de lumière.',
-                watchVideo: 'Voir la Vision'
-            },
-            slide2: {
-                title: 'Structure Financière (DAF)',
-                desc: 'Architecture conçue pour la pérennité et la protection des actifs. Séparation stricte entre les opérations commerciales et la mission philanthropique.',
-                holding: 'Holding Commerciale (US/IL)',
-                holdingDesc: 'Détient les IPs (DreamNova, TeraMind). Génère les profits.',
-                foundation: 'Fondation (Non-Profit)',
-                foundationDesc: 'Reçoit 51% des dividendes. Finance la distribution des livres.',
-                trust: 'Trust Familial',
-                trustDesc: 'Protection du patrimoine et gouvernance long-terme.'
-            },
-            slide3: {
-                title: 'Le Philanthropic Venture Studio',
-                subtitle: 'Un moteur économique perpétuel pour la Hafatsa.',
-                engine: 'Le Moteur',
-                engineDesc: 'Agence IA Haute Vélocité générant un cashflow massif via des services d\'élite.',
-                impact: 'L\'Impact',
-                impactDesc: 'Financer l\'impression et la distribution de millions de livres dans le monde.'
-            },
-            slide4: {
-                title: 'Rejoindre l\'Héritage',
-                subtitle: 'Nous ne cherchons pas seulement des investisseurs. Nous cherchons des partenaires qui veulent changer le monde spirituel.',
-                cta1: 'Planifier Réunion',
-                cta2: 'Télécharger Deck Complet'
-            },
-            admin: {
-                dataroom: 'Data Room',
-                captable: 'Cap Table',
-                contact: 'Contacter Berrebi'
-            }
+            testClientApp: 'Tu peux tester une application de nos clients, et voyez la démo.'
         }
     },
     he: {
         common: {
-            backToHub: 'חזרה למרכז',
+            backToHub: 'חזרה לנקסוס',
+            launchApp: 'הפעל אפליקציה',
+            quickTry: 'ניסיון מהיר',
+            features: 'תכונות עיקריות',
+            liveSession: 'סשן חי',
             loading: 'טוען...',
-            close: 'סגור',
-            admin: 'מנהל',
-            systemStatus: 'סטטוס מערכת',
-            deployments: 'פריסות',
-            allSystemsOperational: 'כל המערכות תקינות'
+            error: 'שגיאה',
+            send: 'שלח',
+            placeholder: 'הקלד הודעה...',
+        },
+        hub: {
+            navTitle: 'ניווט קנבס אינסופי',
+            mobileTitle: 'מרכז פיקוד נייד',
+            investorMode: 'מבט משקיעים (חסוי)',
+            nodes: {
+                hub: { label: 'מרכז נקסוס', description: 'פיקוד מרכזי' },
+                roadmap: { label: 'מפת דרכים ויעדים', description: 'אג׳נדה אסטרטגית' },
+                masterplan: { label: 'תוכנית העל', description: 'גיוס ואסטרטגיה' },
+                pitch: { label: 'מצגת למשקיעים', description: 'למשקיעים בלבד' },
+                global: { label: 'דרים-נובה גלובל', description: 'האנטי-פייסבוק' },
+                consult: { label: 'דרים-נובה ייעוץ', description: 'סוכנות AI ומהירות' },
+                leads: { label: 'דרים-נובה לידים', description: 'חדר מלחמה ונתונים' },
+                tera: { label: 'תרה מיינד', description: 'טכנולוגיה רוחנית וטיפול AI' },
+                academy: { label: 'אקדמיית דרים-נובה', description: 'למד את השיטה' },
+                ecom: { label: 'אי-קום ולוסיטי', description: 'קמעונאות אוטונומית' },
+                amazon: { label: 'ה-מזון', description: 'לוגיסטיקה מבוזרת' },
+                breslev: { label: 'ברסלב ספרים', description: 'AI RAG וחוכמה' },
+                music: { label: 'טטרה-בראם', description: 'מוזיקת AI והפצה' },
+                media: { label: 'טטרה-מדיה', description: 'מפעל תוכן' },
+                roi: { label: 'לוח בקרה ROI', description: 'תזה השקעה' },
+                kolel: { label: 'כולל AI', description: 'לימוד תורה ו-RAG' },
+                soulbond: { label: 'סול-בונד', description: 'רשת חסד' },
+                bezalel: { label: 'פרויקט בצלאל', description: 'אומנות יוצרת' },
+                foundation: { label: 'קרן נובה', description: 'פילנתרופיה' },
+                kotel: { label: 'חיבור לכותל', description: 'התבודדות יומית' },
+                hok: { label: 'חוק ברסלב', description: 'מו״פ רוחני' },
+                sport: { label: 'ביצועים', description: 'תחזוקת הגוף' },
+            }
+        },
+        teraMind: {
+            title: 'הטיפול מומצא מחדש',
+            subtitle: 'בינה מלאכותית אמפתית זמינה 24/7. ללא שיפוט. ללא פגישות. רק הקשבה.',
+            tagline: 'אתה לא לבד יותר. סנדי שומרת עליך.',
+            features: {
+                cognitive: { title: 'ניתוח קוגניטיבי', desc: 'זיהוי דפוסי חשיבה שליליים (CBT) והצעה למסגור מחדש מיידי.' },
+                emotional: { title: 'תמיכה רגשית', desc: 'נוכחות מיטיבה שנותנת תוקף לרגשות שלך ועוזרת לך לעבור משברים.' },
+                exercises: { title: 'תרגילים מודרכים', desc: 'מדיטציות, נשימות ויומן מודרך המותאמים למצב הרגשי הנוכחי שלך.' }
+            },
+            buttons: {
+                reputation: 'המוניטין שלנו',
+                launch: 'הפעל אפליקציה מלאה'
+            }
         },
         consult: {
-            title: 'דרים-נובה ייעוץ',
-            tagline: 'סוכנות AI ואוטומציה',
-            heroTitle: 'אל תקנו פיתוח.',
-            heroSubtitle: 'תקנו מהירות.',
-            heroDesc: 'אנו משנים את העסק שלך באמצעות טכנולוגיית AI ייחודית. אוטומציה. פיתוח מיידי. שליטה חברתית.',
-            cta: 'התחל טרנספורמציה',
-            agentsTitle: 'כוח המחץ: 15 סוכני Matat OS',
-            agentsDesc: 'צבא דיגיטלי שעובד 24/7 לצמיחה שלך.',
-            offer1Title: 'שליטה חברתית',
-            offer1Price: '3k€ / חודש',
-            offer1Desc: 'הצף את השוק. תוכן רב-ערוצי מנוהל על ידי AI.',
-            offer2Title: 'פיתוח-על',
-            offer2Price: '15k€ / ספרינט',
-            offer2Desc: 'ה-SaaS או האפליקציה שלך בשבוע אחד. לא 6 חודשים.',
-            offer3Title: 'תפעול בלתי נראה',
-            offer3Price: '5k€ / חודש',
-            offer3Desc: 'אוטומציה של 80% מהתהליכים הפנימיים שלך.',
-            admin: {
-                scout: 'הפעל סוכן סייר',
-                stripe: 'צפה בהכנסות Stripe',
-                deploy: 'פרוס MVP'
+            tagline: 'סוכנות הרגע',
+            heroTitle: 'הגדל את העסק שלך במהירות האור.',
+            heroSubtitle: 'אנחנו לא מוכרים זמן. אנחנו מוכרים מהירות. אוטומציה AI, צמיחה מהירה ואסטרטגיית שליטה.',
+            buttons: {
+                launch: 'הפעל אפליקציית ביקורת AI',
+                book: 'קבע שיחת אסטרטגיה',
+                explore: 'חקור את הקונספט המלא',
+                france: 'דרים-נובה לצרפת',
+                clientExamples: 'דוגמאות לאפליקציות לקוחות'
+            },
+            cards: {
+                automation: { title: 'אוטומציה AI', desc: 'החלף משימות חוזרות בסוכנים אוטונומיים. חסוך 20 שעות בשבוע מהחודש הראשון.' },
+                growth: { title: 'פריצת צמיחה', desc: 'רכישת לקוחות אגרסיבית דרך לינקדאין, אימייל ומכירה חברתית. אפס תקציב פרסום, 100% אורגני.' },
+                strategy: { title: 'אסטרטגיה גלובלית', desc: 'מצב את המותג שלך כמוביל בנישה. מיתוג, סיפור וסמכות.' }
+            },
+            metrics: {
+                revenue: 'הכנסות שנוצרו',
+                agents: 'סוכני AI נפרסו',
+                roi: 'החזר השקעה ממוצע',
+                support: 'תמיכה'
+            },
+            offers: {
+                title: 'הצעות "ללא מחשבה"',
+                starter: { title: 'ביקורת ומפת דרכים', price: '€2,500', unit: '/ חד פעמי', features: ['ניתוח תהליכים מלא', 'זיהוי צווארי בקבוק', 'תוכנית פעולה AI מותאמת אישית'], button: 'בחר' },
+                growth: { title: 'אוטומציה מלאה', price: '€5,000', unit: '/ חודש', features: ['הטמעת סוכני AI', 'ניהול קמפיינים לצמיחה', 'תמיכה בעדיפות ותחזוקה'], button: 'התחל' }
             }
+        },
+        global: {
+            tagline: 'רשת חברתית מהדור הבא',
+            heroTitle: 'כלכלת החלום.',
+            heroSubtitle: 'אין יותר זיופים. ברוכים הבאים לעידן הכשירות המאומתת. פרסם את החלומות שלך, הוכח את ערכך, גויס עבור מי שאתה באמת.',
+            buttons: {
+                beta: 'הצטרף לבטא',
+                demo: 'צפה בדמו DCS',
+                b2b: 'גרסת B2B',
+                b2c: 'דרים-נובה סושיאל - פלטפורמת B2C גלובלית',
+                noTech: 'ללא טכנולוגיות, קנייני'
+            },
+            problem: {
+                title: 'העולם הישן שבור.',
+                ego: { title: 'אגו ויהירות', desc: 'פייסבוק ואינסטגרם מייעלים לנרקיסיזם, לא למימוש עצמי.' },
+                hiring: { title: 'גיוס מיושן', desc: 'קורות חיים משקרים. תארים פגים. מגייסים טסים עיוורים.' }
+            },
+            solution: {
+                title: 'פתרון דרים-נובה',
+                points: ['אנחנו מפרסמים חלומות (פרויקטים), לא תמונות.', 'שיתוף פעולה בצוותי חלום אמיתיים.', 'גיוס הפוך המבוסס על נתונים טהורים.']
+            },
+            dcs: {
+                title: 'ליבת הכור: DCS',
+                desc: 'ציון עקביות חלום. האלגוריתם שהופך התנהגות למדד חיזוי למשקיעים.',
+                metrics: {
+                    conscientiousness: { title: 'מצפוניות', desc: 'מדד לעקביות מיקרו-פעולות. מנתח את הפער בין כוונה מוצהרת ליומני פעילות בפועל.' },
+                    alignment: { title: 'מנת הלימה', desc: 'עקביות פעולה-ערך. מוכיח את חוסן המייסד ויכולתו לא לסטות במכשול הראשון.' },
+                    social: { title: 'דינמיקה חברתית (VELA)', desc: 'ניתוח איכות המנהיגות והאמפתיה בצוותי חלום. מתעלם מפופולריות (מדדי יהירות).' }
+                }
+            }
+        },
+        music: {
+            tagline: 'חוכמה בתדר',
+            heroTitle: 'תעשיית המוזיקה המבוזרת.',
+            heroSubtitle: 'תשתית מלאה לאומני האמונה. הפקת AI, הפצה גלובלית, תמלוגים אוטומטיים.',
+            buttons: {
+                studio: 'הכנס לאולפן',
+                explore: 'חקור את הקונספט'
+            },
+            heroImage: { title: 'צליל הגאולה.', subtitle: 'מופעל על ידי בינה מלאכותית.' },
+            studio: {
+                title: 'אולפן AI',
+                generator: { title: 'מחולל להיטים', desc: 'צור אינסטרומנטלים, ערבב קולות ומאסטר את הרצועות שלך בקליקים באמצעות דגמי ה-AI שלנו שאומנו על מוזיקה מקודשת.' },
+                player: 'מתנגן כעת: תדר נ-נח (AI Gen)'
+            },
+            distribution: {
+                title: 'הפצה והפצה',
+                stats: { tracks: 'רצועות שהופקו', streams: 'הזרמות מצטברות' },
+                channels: 'ערוצי שידור'
+            }
+        },
+        foundation: {
+            tagline: 'משימה גלובלית',
+            heroTitle: 'הון לנצח.\nיעד: $63,000,000.',
+            heroSubtitle: 'הדלק הדרוש להפצה העולמית: להציף את העולם באורו של רבי נחמן.',
+            buttons: {
+                partner: 'הפוך לשותף הפצה'
+            },
+            legacy: {
+                name: 'רבי ישראל דב אודסר',
+                title: 'החלוץ (זצ"ל)',
+                quote: '"אם הוא עשה את זה, אין לנו תירוץ."',
+                desc1: 'בגיל 94, משותק, בלי אינטרנט, בלי צוות, הוא גייס $500,000 ב-2 שנים להדפסת ספרים.',
+                desc2: 'היום, יש לנו AI, נוער, טכנולוגיה ושוק גלובלי. כישלון הוא בלתי אפשרי מתמטית.'
+            },
+            financial: {
+                title: 'אופטימיזציית תרומות',
+                desc: 'אנו משתמשים במבנים פיננסיים מתקדמים (DAF) כדי למקסם כל דולר. התרומה שלך אינה הוצאה, היא השקעה רוחנית בעלת מנוף גבוה.',
+                flow: { source: 'חברת ייעוץ', transit: 'DAF (פידליטי)', dest: 'קרן הפצה' }
+            },
+            calculator: {
+                title: 'מחשבון השפעה',
+                amount: 'סכום התרומה ($)',
+                cost: 'עלות ריאלית (אחרי מס)',
+                savings: 'חיסכון במס'
+            },
+            tracker: {
+                title: 'שקיפות מלאה',
+                raised: 'גויס עד כה',
+                target: 'יעד סופי',
+                impact: 'השפעה ריאלית'
+            },
+            footer: 'תרומות מוכרות למס (Cerfa / 501c3)'
+        },
+        breslev: {
+            testApp: 'בדוק אפליקציה בפיתוח'
         },
         amazon: {
-            title: 'ה-מזון',
-            tagline: 'לוגיסטיקה מבוזרת',
-            heroTitle: 'הקילומטר האחרון.',
-            heroSubtitle: 'מומצא מחדש.',
-            heroDesc: 'רשת מבוזרת של מיקרו-האבים. משלוח אוטונומי. אפס פליטות. עתיד הלוגיסטיקה העירונית.',
-            cta: 'הצטרף לרשת',
-            zfeTitle: 'ZFE פריז 2025',
-            zfeDesc: 'החומרה הרגולטורית. הדיזל מת. מיקרו-ניידות חשמלית היא הדרך היחידה.',
-            hubsTitle: 'רשת מיקרו-האבים',
-            hubsDesc: 'מיקומים אסטרטגיים בלב העיר.',
-            admin: {
-                fleet: 'צפה בצי GPS',
-                stock: 'התראת מלאי',
-                discount: 'הפעל הנחה ירוקה'
-            }
-        },
-        tera: {
-            title: 'תרה מיינד',
-            tagline: 'טכנולוגיה רוחנית וטיפול AI',
-            heroTitle: 'לרפא את הנפש.',
-            heroSubtitle: 'לרומם את הנשמה.',
-            heroDesc: 'טיפול מבוסס AI. תמיכה 24/7. גישור בין חוכמה עתיקה לטכנולוגיה מודרנית.',
-            cta: 'התחל סשן',
-            safetyTitle: 'פרוטוקול גשר בטיחות',
-            safetyDesc: 'התערבות מיידית למקרים קריטיים. אסקלציה אנושית.',
-            techTitle: 'הסטאק הטכנולוגי',
-            techDesc: 'DictaLM-2.0 + Simli + ElevenLabs. אווטארים היפר-ריאליסטיים.',
-            admin: {
-                session: 'פתח סשן סנדי',
-                logs: 'יומני אבטחה',
-                escalation: 'אסקלציה אנושית'
-            }
-        },
-        tetrabrame: {
-            title: 'טטרה-בראם',
-            tagline: 'מוזיקת AI והפצה',
-            heroTitle: 'הצליל של.',
-            heroSubtitle: 'הגאולה.',
-            heroDesc: 'מוזיקת AI גנרטיבית. הפצה ויראלית. הפצת האור דרך הצליל.',
-            cta: 'האזן עכשיו',
-            kitTitle: 'ערכת V (ויראלי)',
-            kitDesc: 'המתודולוגיה ב-12 נקודות ללהיטים ויראליים מובטחים.',
-            assetsTitle: '400+ נכסים רדומים',
-            assetsDesc: 'כספת של שירים שלא פורסמו מוכנים לפריסה.',
-            admin: {
-                suno: 'צור Suno',
-                distrokid: 'העלה ל-DistroKid',
-                royalties: 'בדוק תמלוגים'
-            }
-        },
-        academy: {
-            title: 'אקדמיית דרים-נובה',
-            tagline: 'למד את השיטה',
-            heroTitle: 'בנה את העתיד.',
-            heroSubtitle: 'היום.',
-            heroDesc: 'שלוט בכלים של כלכלת החלום. AI, אוטומציה, זרימה.',
-            cta: 'הירשם עכשיו',
-            levels: {
-                ignition: 'התנעה',
-                velocity: 'מהירות',
-                empire: 'אימפריה'
-            },
-            admin: {
-                students: 'צפה בסטודנטים',
-                course: 'הוסף קורס',
-                stats: 'סטטיסטיקת מכירות'
-            }
-        },
-        pitch: {
-            title: 'מצגת למשקיעים',
-            slide1: {
-                tagline: 'משימה: הפצה 2.0',
-                title: 'החזון של',
-                vision: '',
-                subtitle: 'הברית הקדושה: חוכמת סבא ישראל + הטכנולוגיה של דוד.',
-                goal: 'מטרה: להציף את העולם באור.',
-                watchVideo: 'צפה בחזון'
-            },
-            slide2: {
-                title: 'מבנה פיננסי (DAF)',
-                desc: 'ארכיטקטורה שתוכננה לאריכות ימים והגנה על נכסים. הפרדה מוחלטת בין הפעילות העסקית למשימה הפילנתרופית.',
-                holding: 'החזקה מסחרית (US/IL)',
-                holdingDesc: 'מחזיקה ב-IPs (DreamNova, TeraMind). מייצרת רווחים.',
-                foundation: 'קרן (מלכ"ר)',
-                foundationDesc: 'מקבלת 51% מהדיבידנדים. מממנת את הפצת הספרים.',
-                trust: 'נאמנות משפחתית',
-                trustDesc: 'הגנה על נכסים וממשל לטווח ארוך.'
-            },
-            slide3: {
-                title: 'סטודיו המיזמים הפילנתרופי',
-                subtitle: 'מנוע כלכלי נצחי להפצה.',
-                engine: 'המנוע',
-                engineDesc: 'סוכנות AI במהירות גבוהה המייצרת תזרים מזומנים מסיבי באמצעות שירותי עילית.',
-                impact: 'ההשפעה',
-                impactDesc: 'מימון הדפסה והפצה של מיליוני ספרים ברחבי העולם.'
-            },
-            slide4: {
-                title: 'הצטרף למורשת',
-                subtitle: 'אנחנו לא מחפשים רק משקיעים. אנחנו מחפשים שותפים שרוצים לשנות את העולם הרוחני.',
-                cta1: 'קבע פגישה',
-                cta2: 'הורד מצגת מלאה'
-            },
-            admin: {
-                dataroom: 'חדר מידע',
-                captable: 'טבלת הון',
-                contact: 'צור קשר עם ברבי'
-            }
+            testClientApp: 'תוכל לבדוק אפליקציה של לקוחותינו ולראות את הדמו.'
         }
     }
 };

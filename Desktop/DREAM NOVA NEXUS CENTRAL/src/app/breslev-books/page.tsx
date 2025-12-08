@@ -4,206 +4,250 @@ import React, { useState } from 'react';
 import {
     BookOpen,
     Search,
-    Sparkles,
     Library,
-    Globe,
-    MessageCircle,
-    X,
-    Info
+    Sparkles,
+    ChevronDown,
+    Brain,
+    Scroll,
+    ArrowRight
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useChat } from '@ai-sdk/react';
 import Link from 'next/link';
 
+// --- COMPONENTS ---
 const GlassCard = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
-    <div className={`backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6 shadow-xl hover:bg-white/10 transition-all duration-300 ${className}`}>
+    <div className={`backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-8 shadow-2xl ${className}`}>
         {children}
     </div>
 );
 
+const NeonButton = ({ children, onClick, variant = 'amber', className = "" }: { children: React.ReactNode, onClick?: () => void, variant?: 'amber' | 'gold', className?: string }) => {
+    const gradients = {
+        amber: 'from-amber-600 to-orange-600 shadow-amber-500/30',
+        gold: 'from-yellow-500 to-amber-600 shadow-yellow-500/30'
+    };
+    return (
+        <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={onClick}
+            className={`px-8 py-4 bg-gradient-to-r ${gradients[variant]} text-white font-bold rounded-xl shadow-lg flex items-center justify-center transition-all ${className}`}
+        >
+            {children}
+        </motion.button>
+    );
+};
+
+// --- RAG SEARCH COMPONENT ---
+const RagSearch = () => {
+    const chatHelpers = useChat({
+        api: '/api/breslev-rag',
+    } as any);
+    const { messages, input, handleInputChange, handleSubmit, isLoading } = chatHelpers as any;
+
+    return (
+        <div className="h-[600px] flex flex-col bg-black/40 border border-white/10 rounded-2xl overflow-hidden">
+            {/* Header */}
+            <div className="p-4 border-b border-white/10 bg-white/5 flex items-center justify-between">
+                <div className="flex items-center">
+                    <Brain className="w-5 h-5 text-amber-500 mr-2" />
+                    <span className="font-bold text-white">Breslev AI Librarian</span>
+                </div>
+                <div className="text-xs text-gray-400">Index: 400+ Livres</div>
+            </div>
+
+            {/* Messages Area */}
+            <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                {messages.length === 0 && (
+                    <div className="text-center text-gray-500 mt-20">
+                        <Library className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                        <p>Posez une question existentielle.</p>
+                        <p className="text-xs mt-2">Ex: "Comment trouver la joie dans l'épreuve ?"</p>
+                    </div>
+                )}
+                {messages.map((m: any) => (
+                    <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`max-w-[80%] p-4 rounded-2xl ${m.role === 'user' ? 'bg-amber-600 text-white' : 'bg-white/10 text-gray-200'}`}>
+                            <p className="text-sm leading-relaxed whitespace-pre-wrap">{m.content}</p>
+                        </div>
+                    </div>
+                ))}
+                {isLoading && (
+                    <div className="flex justify-start">
+                        <div className="bg-white/10 p-4 rounded-2xl">
+                            <Sparkles className="w-5 h-5 text-amber-500 animate-spin" />
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Input Area */}
+            <form onSubmit={handleSubmit} className="p-4 border-t border-white/10 bg-white/5">
+                <div className="relative">
+                    <input
+                        value={input}
+                        onChange={handleInputChange}
+                        placeholder="Interrogez la Sagesse..."
+                        className="w-full bg-black/50 border border-white/10 rounded-xl pl-4 pr-12 py-4 text-white focus:outline-none focus:border-amber-500 transition-colors"
+                    />
+                    <button type="submit" className="absolute right-2 top-2 p-2 bg-amber-500 rounded-lg hover:bg-amber-400 transition-colors">
+                        <ArrowRight className="w-5 h-5 text-black" />
+                    </button>
+                </div>
+            </form>
+        </div>
+    );
+};
+
+import { useLanguage } from '@/context/LanguageContext';
+import { translations } from '@/lib/translations';
+import { LanguageSelector } from '@/components/ui/LanguageSelector';
+
+// ... (keep existing imports)
+
 export default function BreslevBooksPage() {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [isSearching, setIsSearching] = useState(false);
-    const [showModal, setShowModal] = useState(false);
-    const [modalContent, setModalContent] = useState({ title: '', message: '' });
-
-    const handleAction = (title: string, message: string) => {
-        setModalContent({ title, message });
-        setShowModal(true);
-    };
-
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsSearching(true);
-        // Simulate RAG search delay
-        setTimeout(() => {
-            setIsSearching(false);
-            handleAction("Résultats de Recherche", `Recherche sémantique pour "${searchQuery}" simulée. Le moteur RAG est en cours d'indexation.`);
-        }, 1500);
-    };
+    const [showAppLayer, setShowAppLayer] = useState(false);
+    const { lang } = useLanguage();
+    const t = translations[lang].breslev;
+    const common = translations[lang].common;
 
     return (
         <div className="h-screen overflow-y-auto bg-[#05050A] text-gray-100 font-sans selection:bg-amber-500/30 pb-40">
 
-            {/* BACKGROUND FX */}
-            <div className="fixed inset-0 z-0 pointer-events-none">
-                <div className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-amber-600/10 rounded-full blur-[150px] opacity-20"></div>
-                <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-yellow-600/10 rounded-full blur-[120px] opacity-20"></div>
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diamond-upholstery.png')] opacity-5"></div>
-            </div>
-
             {/* HEADER */}
-            <nav className="relative z-50 px-6 py-6 flex justify-between items-center max-w-7xl mx-auto">
+            <nav className="relative z-50 px-6 py-6 flex justify-between items-center max-w-7xl mx-auto border-b border-white/5 bg-[#05050A]/90 backdrop-blur-md sticky top-0">
                 <div className="flex items-center space-x-2">
-                    <BookOpen className="w-6 h-6 text-amber-400" />
-                    <span className="text-xl font-bold tracking-tight">Breslev <span className="font-light text-amber-200">Books AI</span></span>
+                    <BookOpen className="w-6 h-6 text-amber-500" />
+                    <span className="text-xl font-bold tracking-tight">Breslev <span className="text-amber-500">Books</span></span>
                 </div>
-                <Link href="/" className="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors">Retour au Hub</Link>
+                <div className="flex items-center space-x-4">
+                    <LanguageSelector />
+                    <Link href="/" className="px-4 py-2 text-sm font-bold text-gray-500 hover:text-white transition-colors uppercase tracking-widest">{common.backToHub}</Link>
+                </div>
             </nav>
 
             <main className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-10">
 
-                {/* HERO SECTION */}
-                <div className="text-center mb-20">
-                    <div className="inline-flex items-center px-3 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs font-bold tracking-widest uppercase mb-6">
-                        <Sparkles className="w-3 h-3 mr-2 fill-current" />
-                        Sagesse Ancienne × Intelligence Artificielle
+                {/* --- LEVEL 1: THE PITCH --- */}
+                <section className="mb-32">
+                    <div className="text-center mb-16 relative">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <div className="inline-flex items-center px-3 py-1 border border-amber-500/30 bg-amber-900/10 text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-8">
+                                <Scroll className="w-3 h-3 mr-2" />
+                                Universal Wisdom
+                            </div>
+                            <h1 className="text-5xl md:text-8xl font-black text-white mb-8 tracking-tight leading-tight">
+                                L'INTELLIGENCE <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-500 to-orange-500 animate-pulse">DE LA FOI</span>.
+                            </h1>
+                            <p className="text-xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed mb-12">
+                                Une bibliothèque vivante. 400 ans de sagesse accessibles en une seconde.
+                                <br />Le "Google de l'Âme" pour la génération en quête de sens.
+                            </p>
+
+                            <div className="flex flex-col items-center gap-4">
+                                <NeonButton onClick={() => setShowAppLayer(true)}>
+                                    Ouvrir la Bibliothèque <ChevronDown className="ml-2 w-5 h-5 animate-bounce" />
+                                </NeonButton>
+
+                                <a href="https://chayei-moharan-ai-640844031185.us-west1.run.app" target="_blank" rel="noopener noreferrer">
+                                    <button className="px-6 py-2 bg-white/5 hover:bg-white/10 text-amber-400 text-xs font-bold rounded-full transition-colors border border-amber-500/20 uppercase tracking-widest">
+                                        {t.testApp}
+                                    </button>
+                                </a>
+                            </div>
+                        </motion.div>
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight leading-tight">
-                        LA SAGESSE UNIVERSELLE <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-200">ACCESSIBLE À TOUS.</span>
-                    </h1>
-                    <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed mb-10">
-                        Une plateforme RAG (Retrieval-Augmented Generation) qui rend les enseignements de Rabbi Nachman instantanément accessibles, traduits et contextualisés.
-                    </p>
 
-                    {/* SEARCH DEMO */}
-                    <div className="max-w-2xl mx-auto relative group">
-                        <div className="absolute -inset-1 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-                        <form onSubmit={handleSearch} className="relative flex items-center bg-black/80 backdrop-blur-xl border border-white/10 rounded-xl p-2 shadow-2xl">
-                            <Search className="w-6 h-6 text-gray-400 ml-3" />
-                            <input
-                                type="text"
-                                placeholder="Posez une question (ex: Comment trouver la joie ?)"
-                                className="w-full bg-transparent border-none text-white placeholder-gray-500 focus:ring-0 px-4 py-3 text-lg"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                            <button
-                                type="submit"
-                                disabled={isSearching}
-                                className="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-lg transition-colors flex items-center"
-                            >
-                                {isSearching ? (
-                                    <span className="animate-spin mr-2">⏳</span>
-                                ) : (
-                                    <Sparkles className="w-5 h-5" />
-                                )}
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
-                {/* FEATURES / KNOWLEDGE GRAPH */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-32 items-center">
-                    <div className="space-y-6">
-                        <h2 className="text-3xl font-bold text-white">Le &quot;Knowledge Graph&quot; <span className="text-amber-400">Vivant</span>.</h2>
-                        <p className="text-gray-400 leading-relaxed">
-                            Nous ne faisons pas que numériser des livres. Nous créons un graphe de connaissances interconnecté. Chaque concept (Joie, Foi, Simplicité) est lié à ses sources, ses paraboles et ses applications pratiques.
-                        </p>
-
-                        <div className="space-y-4">
-                            <GlassCard className="flex items-start space-x-4">
-                                <div className="p-2 bg-amber-500/20 rounded-lg"><Globe className="w-6 h-6 text-amber-400" /></div>
-                                <div>
-                                    <h3 className="font-bold text-white">Diffusion Virale</h3>
-                                    <p className="text-sm text-gray-400">Génération automatique de shorts/reels à partir des meilleurs enseignements pour inonder les réseaux sociaux.</p>
-                                </div>
-                            </GlassCard>
-
-                            <GlassCard className="flex items-start space-x-4">
-                                <div className="p-2 bg-amber-500/20 rounded-lg"><MessageCircle className="w-6 h-6 text-amber-400" /></div>
-                                <div>
-                                    <h3 className="font-bold text-white">Avatar &quot;Sabba Yisroel&quot;</h3>
-                                    <p className="text-sm text-gray-400">Un guide interactif bienveillant pour explorer les textes sans barrière de langue.</p>
-                                </div>
-                            </GlassCard>
+                    {/* HERO IMAGE PLACEHOLDER */}
+                    <div className="relative w-full h-[400px] rounded-3xl overflow-hidden border border-white/10 group">
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#05050A] z-10"></div>
+                        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1507842217121-ad663db1a9a2?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-1000"></div>
+                        <div className="absolute bottom-10 left-10 z-20">
+                            <h3 className="text-2xl font-bold text-white mb-2">Likoutey Moharan 2.0</h3>
+                            <p className="text-gray-400">La technologie au service de la révélation.</p>
                         </div>
                     </div>
+                </section>
 
-                    {/* GRAPH VISUALIZATION (Abstract) */}
-                    <div className="relative h-[400px] w-full">
-                        <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/10 to-yellow-500/10 rounded-3xl blur-3xl"></div>
-                        <GlassCard className="h-full flex items-center justify-center relative overflow-hidden border-amber-500/20">
-                            <div className="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                {/* --- LEVEL 2: THE APP (REVEAL) --- */}
+                <AnimatePresence>
+                    {showAppLayer && (
+                        <motion.section
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="border-t border-white/10 pt-20"
+                        >
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
 
-                            {/* Central Node */}
-                            <div className="relative z-10 flex flex-col items-center animate-pulse">
-                                <div className="w-20 h-20 rounded-full bg-amber-500/20 border border-amber-500 flex items-center justify-center shadow-[0_0_30px_rgba(245,158,11,0.3)]">
-                                    <BookOpen className="w-10 h-10 text-amber-400" />
+                                {/* RAG SEARCH */}
+                                <div>
+                                    <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
+                                        <Search className="w-8 h-8 mr-4 text-amber-500" />
+                                        Moteur de Recherche Sémantique
+                                    </h2>
+                                    <RagSearch />
                                 </div>
-                                <div className="mt-4 px-4 py-2 bg-black/60 rounded-full border border-amber-500/30 text-amber-200 text-sm font-mono">
-                                    Likoutey Moharan
+
+                                {/* LIBRARY & SHOP */}
+                                <div>
+                                    <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
+                                        <Library className="w-8 h-8 mr-4 text-amber-500" />
+                                        Librairie Digitale
+                                    </h2>
+                                    <GlassCard>
+                                        <div className="space-y-6">
+                                            <div className="flex items-center p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-colors cursor-pointer group">
+                                                <div className="w-16 h-20 bg-amber-900/50 rounded-lg mr-4 flex items-center justify-center border border-amber-500/30 group-hover:scale-105 transition-transform">
+                                                    <BookOpen className="w-8 h-8 text-amber-500" />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <h3 className="font-bold text-white text-lg">Likoutey Moharan</h3>
+                                                    <p className="text-sm text-gray-400">L'ouvrage fondamental de Rabbi Nahman.</p>
+                                                </div>
+                                                <div className="text-amber-400 font-bold">25€</div>
+                                            </div>
+
+                                            <div className="flex items-center p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-colors cursor-pointer group">
+                                                <div className="w-16 h-20 bg-blue-900/50 rounded-lg mr-4 flex items-center justify-center border border-blue-500/30 group-hover:scale-105 transition-transform">
+                                                    <BookOpen className="w-8 h-8 text-blue-500" />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <h3 className="font-bold text-white text-lg">Sippourey Maassiot</h3>
+                                                    <p className="text-sm text-gray-400">Les contes des temps anciens.</p>
+                                                </div>
+                                                <div className="text-blue-400 font-bold">18€</div>
+                                            </div>
+
+                                            <div className="flex items-center p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-colors cursor-pointer group">
+                                                <div className="w-16 h-20 bg-green-900/50 rounded-lg mr-4 flex items-center justify-center border border-green-500/30 group-hover:scale-105 transition-transform">
+                                                    <BookOpen className="w-8 h-8 text-green-500" />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <h3 className="font-bold text-white text-lg">Conseils (Likutey Etzot)</h3>
+                                                    <p className="text-sm text-gray-400">Guide pratique pour la vie quotidienne.</p>
+                                                </div>
+                                                <div className="text-green-400 font-bold">15€</div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-8 pt-6 border-t border-white/10 text-center">
+                                            <NeonButton className="w-full">Accéder à la Boutique Complète</NeonButton>
+                                        </div>
+                                    </GlassCard>
                                 </div>
-                            </div>
 
-                            {/* Orbiting Nodes */}
-                            <div className="absolute top-10 left-10 animate-bounce duration-[3000ms]">
-                                <div className="px-3 py-1 bg-white/5 rounded-full border border-white/10 text-xs text-gray-300">Simcha (Joie)</div>
                             </div>
-                            <div className="absolute bottom-20 right-10 animate-bounce duration-[4000ms]">
-                                <div className="px-3 py-1 bg-white/5 rounded-full border border-white/10 text-xs text-gray-300">Emouna (Foi)</div>
-                            </div>
-                            <div className="absolute top-1/2 right-10 animate-bounce duration-[5000ms]">
-                                <div className="px-3 py-1 bg-white/5 rounded-full border border-white/10 text-xs text-gray-300">Hitbodedout</div>
-                            </div>
-
-                            {/* Connection Lines */}
-                            <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20">
-                                <line x1="50%" y1="50%" x2="20%" y2="20%" stroke="orange" strokeWidth="1" />
-                                <line x1="50%" y1="50%" x2="80%" y2="80%" stroke="orange" strokeWidth="1" />
-                                <line x1="50%" y1="50%" x2="80%" y2="20%" stroke="orange" strokeWidth="1" />
-                            </svg>
-                        </GlassCard>
-                    </div>
-                </div>
-
-                {/* CTA */}
-                <div className="text-center pb-20">
-                    <button
-                        onClick={() => handleAction("Bibliothèque", "Accès à la bibliothèque numérique complète (Abonnement requis).")}
-                        className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-xl transition-all backdrop-blur-md flex items-center mx-auto"
-                    >
-                        <Library className="mr-2 w-5 h-5" /> Explorer la Bibliothèque
-                    </button>
-                </div>
+                        </motion.section>
+                    )}
+                </AnimatePresence>
 
             </main>
-
-            {/* MODAL SYSTEM */}
-            {showModal && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-                    <div className="bg-[#0a0a0f] border border-white/10 rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl relative animate-in zoom-in-95 duration-200">
-                        <button
-                            onClick={() => setShowModal(false)}
-                            className="absolute top-4 right-4 text-gray-500 hover:text-white"
-                        >
-                            <X className="w-6 h-6" />
-                        </button>
-                        <div className="w-16 h-16 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-amber-500/20">
-                            <Info className="w-8 h-8 text-amber-400" />
-                        </div>
-                        <h3 className="text-xl font-bold text-white mb-2">{modalContent.title}</h3>
-                        <p className="text-gray-400 mb-6 text-sm">
-                            {modalContent.message}
-                        </p>
-                        <button
-                            onClick={() => setShowModal(false)}
-                            className="w-full py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-colors"
-                        >
-                            Fermer
-                        </button>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

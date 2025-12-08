@@ -4,20 +4,14 @@ import React, { useState } from 'react';
 import {
     ChevronRight,
     ChevronLeft,
+    Users,
     TrendingUp,
     Target,
     ShieldCheck,
+    Rocket,
     Globe,
-    Briefcase,
-    FileText,
-    Users,
-    Lock
+    Database
 } from 'lucide-react';
-import Link from 'next/link';
-import AdminToolbar from '@/components/admin/AdminToolbar';
-import { useAdminStore } from '@/lib/store';
-import { useLanguage } from '@/context/LanguageContext';
-import { translations } from '@/lib/translations';
 
 // Composant Slide pour les transitions fluides
 const Slide = ({ children, active }: { children: React.ReactNode, active: boolean }) => (
@@ -30,213 +24,255 @@ const Slide = ({ children, active }: { children: React.ReactNode, active: boolea
 
 export default function PitchDeckPage() {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const totalSlides = 4;
-    const { isAdmin } = useAdminStore();
-    const { lang } = useLanguage();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const t = (translations[lang] as any).pitch;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const common = (translations[lang] as any).common;
 
-    const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % totalSlides);
-    const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+    const slides = [
+        // SLIDE 1: TITLE
+        <div key="1" className="text-center">
+            <div className="inline-block px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 font-mono text-sm mb-8">
+                INVESTOR MEMO 2025
+            </div>
+            <h1 className="text-6xl md:text-8xl font-black text-white mb-6 tracking-tighter">
+                DREAM<span className="text-cyan-400">NOVA</span>
+            </h1>
+            <p className="text-2xl text-gray-400 max-w-2xl mx-auto font-light">
+                Le Premier Venture Studio "Spirit-Tech".<br />
+                <span className="text-white font-medium">Fusionner l'IA, la Logistique et la Sagesse.</span>
+            </p>
+        </div>,
 
-    const handleAction = (title: string, message: string) => {
-        // Simple alert for now, or could use a modal if we added state for it
-        alert(`${title}: ${message}`);
-    };
+        // SLIDE 2: THE PROBLEM
+        <div key="2" className="max-w-4xl w-full">
+            <h2 className="text-4xl font-bold text-white mb-12 flex items-center">
+                <span className="text-red-500 mr-4">01.</span> Le Triple Point de Rupture
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="bg-red-500/5 border border-red-500/20 p-8 rounded-3xl">
+                    <h3 className="text-xl font-bold text-red-400 mb-4">Vide de Sens</h3>
+                    <p className="text-gray-400 text-sm">Le monde est hyper-connecté mais dépressif. Le marché de la santé mentale explose, mais manque d'âme.</p>
+                </div>
+                <div className="bg-red-500/5 border border-red-500/20 p-8 rounded-3xl">
+                    <h3 className="text-xl font-bold text-red-400 mb-4">Logistique Bloquée</h3>
+                    <p className="text-gray-400 text-sm">Les ZFE (Zones Faibles Émissions) tuent les grossistes classiques (Metro). Les restaurateurs parisiens suffoquent.</p>
+                </div>
+                <div className="bg-red-500/5 border border-red-500/20 p-8 rounded-3xl">
+                    <h3 className="text-xl font-bold text-red-400 mb-4">Inefficacité B2B</h3>
+                    <p className="text-gray-400 text-sm">Les entreprises paient des fortunes pour des développements lents. Elles ont besoin de vélocité, pas de consultants.</p>
+                </div>
+            </div>
+        </div>,
+
+        // SLIDE 3: THE SOLUTION (ECOSYSTEM)
+        <div key="3" className="max-w-5xl w-full text-center">
+            <h2 className="text-4xl font-bold text-white mb-12">
+                <span className="text-cyan-500 mr-4">02.</span> La Réponse : Un Écosystème Intégré
+            </h2>
+            <div className="relative">
+                {/* Central Hub */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl"></div>
+                <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="bg-white/5 border border-white/10 p-6 rounded-2xl">
+                        <div className="text-purple-400 font-bold mb-2">MOTEUR (Cash)</div>
+                        <div className="text-2xl font-bold text-white mb-1">Consult</div>
+                        <div className="text-xs text-gray-500">SaaS Factory + AI Sales</div>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 p-6 rounded-2xl">
+                        <div className="text-orange-400 font-bold mb-2">CORPS (Infra)</div>
+                        <div className="text-2xl font-bold text-white mb-1">Ha-Mazon</div>
+                        <div className="text-xs text-gray-500">Logistique ZFE + Micro-Hubs</div>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 p-6 rounded-2xl">
+                        <div className="text-pink-400 font-bold mb-2">ESPRIT (Mission)</div>
+                        <div className="text-2xl font-bold text-white mb-1">Tera & Breslev</div>
+                        <div className="text-xs text-gray-500">IA Thérapeutique + RAG</div>
+                    </div>
+                </div>
+            </div>
+        </div>,
+
+        // SLIDE 4: THE TEAM
+        <div key="4" className="max-w-6xl w-full">
+            <h2 className="text-4xl font-bold text-white mb-12 text-center">
+                <span className="text-green-500 mr-4">03.</span> L'Équipe "Dream Team"
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {/* Founders */}
+                <div className="p-4 bg-white/5 border border-white/10 rounded-2xl text-center">
+                    <div className="w-16 h-16 bg-gray-700 rounded-full mx-auto mb-3 flex items-center justify-center text-xl font-bold text-gray-500">D</div>
+                    <h3 className="font-bold text-white">David</h3>
+                    <p className="text-xs text-cyan-400">Founder & Vision</p>
+                </div>
+                <div className="p-4 bg-white/5 border border-white/10 rounded-2xl text-center">
+                    <div className="w-16 h-16 bg-gray-700 rounded-full mx-auto mb-3 flex items-center justify-center text-xl font-bold text-gray-500">A</div>
+                    <h3 className="font-bold text-white">Ariel</h3>
+                    <p className="text-xs text-purple-400">Co-Executor & Ops</p>
+                </div>
+
+                {/* Key Partners */}
+                <div className="p-4 bg-white/5 border border-white/10 rounded-2xl text-center opacity-80">
+                    <div className="w-16 h-16 bg-gray-800 rounded-full mx-auto mb-3 flex items-center justify-center text-xl font-bold text-gray-600">M</div>
+                    <h3 className="font-bold text-white">Moshe Mayara</h3>
+                    <p className="text-xs text-orange-400">Logistics (Ha-Mazon)</p>
+                </div>
+                <div className="p-4 bg-white/5 border border-white/10 rounded-2xl text-center opacity-80">
+                    <div className="w-16 h-16 bg-gray-800 rounded-full mx-auto mb-3 flex items-center justify-center text-xl font-bold text-gray-600">A</div>
+                    <h3 className="font-bold text-white">Avraham Ghezi</h3>
+                    <p className="text-xs text-amber-400">Content (Breslev)</p>
+                </div>
+
+                {/* Tech & Growth */}
+                <div className="p-4 bg-white/5 border border-white/10 rounded-2xl text-center opacity-80">
+                    <div className="w-16 h-16 bg-gray-800 rounded-full mx-auto mb-3 flex items-center justify-center text-xl font-bold text-gray-600">FG</div>
+                    <h3 className="font-bold text-white">Famille Gozlan</h3>
+                    <p className="text-xs text-blue-400">Backend Team (Houlon)</p>
+                </div>
+                <div className="p-4 bg-white/5 border border-white/10 rounded-2xl text-center opacity-80">
+                    <div className="w-16 h-16 bg-gray-800 rounded-full mx-auto mb-3 flex items-center justify-center text-xl font-bold text-gray-600">R</div>
+                    <h3 className="font-bold text-white">Ran</h3>
+                    <p className="text-xs text-green-400">Sales & Growth</p>
+                </div>
+                <div className="p-4 bg-white/5 border border-white/10 rounded-2xl text-center opacity-80">
+                    <div className="w-16 h-16 bg-pink-900/20 rounded-full mx-auto mb-3 border border-pink-500/50 flex items-center justify-center text-xl font-bold text-pink-500">S</div>
+                    <h3 className="font-bold text-white">Sandy</h3>
+                    <p className="text-xs text-pink-400">AI Persona Lead</p>
+                </div>
+            </div>
+        </div>,
+
+        // SLIDE 5: THE ASK
+        <div key="5" className="text-center max-w-3xl w-full">
+            <h2 className="text-4xl font-bold text-white mb-8">
+                <span className="text-amber-500 mr-4">04.</span> L'Opportunité
+            </h2>
+            <div className="bg-gradient-to-br from-gray-900 to-black p-10 rounded-3xl border border-white/10 shadow-2xl">
+                <div className="mb-8">
+                    <p className="text-gray-400 mb-2">Nous recherchons des partenaires stratégiques.</p>
+                    <h3 className="text-5xl font-black text-white tracking-tight">SEED ROUND</h3>
+                </div>
+                {/* VENTURE STUDIO DATA */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
+                    <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
+                        <h3 className="text-2xl font-bold text-white mb-4">Why Venture Studio?</h3>
+                        <div className="space-y-6">
+                            <div>
+                                <div className="flex justify-between text-sm text-gray-400 mb-1">
+                                    <span>IRR (Internal Rate of Return)</span>
+                                    <span className="text-green-400 font-bold">53%</span>
+                                </div>
+                                <div className="w-full bg-gray-700 h-2 rounded-full overflow-hidden">
+                                    <div className="h-full bg-green-500 w-[53%]"></div>
+                                </div>
+                                <p className="text-xs text-gray-500 mt-1">vs 21% for Traditional Startups</p>
+                            </div>
+                            <div>
+                                <div className="flex justify-between text-sm text-gray-400 mb-1">
+                                    <span>Time to Series A</span>
+                                    <span className="text-cyan-400 font-bold">25 Months</span>
+                                </div>
+                                <div className="w-full bg-gray-700 h-2 rounded-full overflow-hidden">
+                                    <div className="h-full bg-cyan-500 w-[40%]"></div>
+                                </div>
+                                <p className="text-xs text-gray-500 mt-1">vs 56 Months Traditional</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
+                        <h3 className="text-2xl font-bold text-white mb-4">Portfolio ROI Highlights</h3>
+                        <table className="w-full text-sm text-left">
+                            <thead>
+                                <tr className="text-gray-500 border-b border-white/10">
+                                    <th className="pb-2">Venture</th>
+                                    <th className="pb-2">Market</th>
+                                    <th className="pb-2">Advantage</th>
+                                </tr>
+                            </thead>
+                            <tbody className="text-gray-300">
+                                <tr className="border-b border-white/5">
+                                    <td className="py-3 font-bold text-white">Ha-Mazon</td>
+                                    <td className="py-3">€12B</td>
+                                    <td className="py-3 text-green-400">ZFE Paris 2025 Compliant</td>
+                                </tr>
+                                <tr className="border-b border-white/5">
+                                    <td className="py-3 font-bold text-white">Tera Mind</td>
+                                    <td className="py-3">$8.5B</td>
+                                    <td className="py-3 text-purple-400">Spirit-Tech First Mover</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-3 font-bold text-white">Consult</td>
+                                    <td className="py-3">Service</td>
+                                    <td className="py-3 text-cyan-400">Cash Engine (Self-Funding)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {/* TEAM STRUCTURE */}
+                <div className="mb-24 text-center">
+                    <h2 className="text-3xl font-bold text-white mb-8">The Squad</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        <div className="p-6 bg-white/5 rounded-2xl border border-white/10">
+                            <h3 className="text-xl font-bold text-white mb-2">Core Pod (Equity)</h3>
+                            <p className="text-gray-400 text-sm">David, Ariel, Dan, Moshé</p>
+                            <p className="text-xs text-gray-500 mt-2">Vision, Strategy, Tech Lead</p>
+                        </div>
+                        <div className="p-6 bg-white/5 rounded-2xl border border-white/10">
+                            <h3 className="text-xl font-bold text-white mb-2">Flex Pod (Cash)</h3>
+                            <p className="text-gray-400 text-sm">Houlon Experts + Global Network</p>
+                            <p className="text-xs text-gray-500 mt-2">Execution, Scale, Operations</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* CTA */}
+                <div className="text-center">
+                    <button className="px-8 py-4 bg-white text-black font-bold rounded-full text-lg hover:bg-gray-200 transition-colors shadow-[0_0_40px_rgba(255,255,255,0.3)]">
+                        Request Data Room Access
+                    </button>
+                </div>
+            </div>
+        </div>
+    ];
 
     return (
-        <div className={`min-h-screen bg-[#05050A] text-white overflow-hidden relative font-sans ${lang === 'he' ? 'rtl' : 'ltr'}`}>
-            {isAdmin && (
-                <div className="absolute top-0 left-0 right-0 z-[60]">
-                    <AdminToolbar actions={[
-                        { label: 'Data Room', onClick: () => handleAction('Data Room', 'Accès sécurisé ouvert.') },
-                        { label: 'Cap Table', onClick: () => handleAction('Cap Table', 'Saba: 51%, David: 49%') },
-                        { label: 'Contacter Berrebi', onClick: () => handleAction('Contact', 'Appel en cours...') }
-                    ]} />
-                </div>
-            )}
-
-            {/* Background Elements */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-green-500/10 rounded-full blur-[100px]" />
-                <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[100px]" />
-            </div>
-
+        <div className="h-screen w-full bg-[#05050A] text-white overflow-hidden relative">
             {/* Navigation */}
-            <div className="absolute top-8 left-8 z-50">
-                <Link href="/" className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors">
-                    <ChevronLeft className={`w-5 h-5 ${lang === 'he' ? 'rotate-180' : ''}`} />
-                    <span className="text-sm font-medium tracking-widest uppercase">{common.backToHub}</span>
-                </Link>
-            </div>
+            <nav className="absolute top-0 left-0 w-full p-6 z-50 flex justify-between items-center">
+                <div className="flex items-center space-x-2">
+                    <TrendingUp className="w-6 h-6 text-cyan-400" />
+                    <span className="font-bold tracking-widest text-sm">DREAMNOVA IR</span>
+                </div>
+                <a href="/" className="text-sm text-gray-500 hover:text-white transition-colors">Quitter</a>
+            </nav>
 
-            {/* Slides Container */}
-            <div className="relative w-full h-screen">
-
-                {/* SLIDE 1: THE MISSION (SABA VS DAVID) */}
-                <Slide active={currentSlide === 0}>
-                    <div className="max-w-4xl w-full text-center">
-                        <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-bold uppercase tracking-widest mb-8">
-                            <Target className="w-4 h-4" />
-                            <span>{t.slide1.tagline}</span>
-                        </div>
-                        <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
-                            {t.slide1.title} <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">$63M</span> {t.slide1.vision}
-                        </h1>
-                        <p className="text-xl md:text-2xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-                            {t.slide1.subtitle}
-                            <br /><span className="text-white font-bold">{t.slide1.goal}</span>
-                        </p>
-
-                        {/* Video Placeholder */}
-                        <div className="w-full aspect-video bg-black/40 border border-white/10 rounded-3xl flex items-center justify-center relative overflow-hidden group cursor-pointer">
-                            <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <div className="text-center">
-                                <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-md border border-white/20 group-hover:scale-110 transition-transform">
-                                    <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-white border-b-[10px] border-b-transparent ml-1" />
-                                </div>
-                                <p className="text-sm text-gray-400 font-mono uppercase tracking-widest">{t.slide1.watchVideo}</p>
-                            </div>
-                        </div>
+            {/* Slide Content */}
+            <main className="h-full w-full relative">
+                {slides.map((slide, index) => (
+                    <div key={index} className={index === currentSlide ? 'block' : 'hidden'}>
+                        <Slide active={index === currentSlide}>{slide}</Slide>
                     </div>
-                </Slide>
-
-                {/* SLIDE 2: STRUCTURE DAF */}
-                <Slide active={currentSlide === 1}>
-                    <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                        <div>
-                            <h2 className="text-4xl font-bold mb-6">{t.slide2.title}</h2>
-                            <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-                                {t.slide2.desc}
-                            </p>
-                            <ul className="space-y-6">
-                                <li className="flex items-start space-x-4">
-                                    <div className="p-2 bg-blue-500/20 rounded-lg"><Briefcase className="w-6 h-6 text-blue-400" /></div>
-                                    <div>
-                                        <h4 className="font-bold text-white">{t.slide2.holding}</h4>
-                                        <p className="text-sm text-gray-400">{t.slide2.holdingDesc}</p>
-                                    </div>
-                                </li>
-                                <li className="flex items-start space-x-4">
-                                    <div className="p-2 bg-green-500/20 rounded-lg"><Globe className="w-6 h-6 text-green-400" /></div>
-                                    <div>
-                                        <h4 className="font-bold text-white">{t.slide2.foundation}</h4>
-                                        <p className="text-sm text-gray-400">{t.slide2.foundationDesc}</p>
-                                    </div>
-                                </li>
-                                <li className="flex items-start space-x-4">
-                                    <div className="p-2 bg-red-500/20 rounded-lg"><Lock className="w-6 h-6 text-red-400" /></div>
-                                    <div>
-                                        <h4 className="font-bold text-white">{t.slide2.trust}</h4>
-                                        <p className="text-sm text-gray-400">{t.slide2.trustDesc}</p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 relative h-full flex flex-col justify-center">
-                            {/* Visual representation of the flow */}
-                            <div className="flex flex-col items-center space-y-4">
-                                <div className="w-48 p-4 bg-blue-900/40 border border-blue-500/50 rounded-xl text-center font-bold text-blue-300">
-                                    HOLDING (Profits)
-                                </div>
-                                <div className="h-8 w-px bg-white/20"></div>
-                                <div className="flex w-full justify-between px-4">
-                                    <div className="w-px h-8 bg-white/20"></div>
-                                    <div className="w-px h-8 bg-white/20"></div>
-                                </div>
-                                <div className="flex w-full justify-between gap-4">
-                                    <div className="w-1/2 p-4 bg-green-900/40 border border-green-500/50 rounded-xl text-center font-bold text-green-300">
-                                        FONDATION (51%)
-                                    </div>
-                                    <div className="w-1/2 p-4 bg-red-900/40 border border-red-500/50 rounded-xl text-center font-bold text-red-300">
-                                        TRUST (49%)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </Slide>
-
-                {/* SLIDE 3: THE ENGINE (VENTURE STUDIO) */}
-                <Slide active={currentSlide === 2}>
-                    <div className="max-w-6xl w-full">
-                        <div className="text-center mb-12">
-                            <h2 className="text-4xl font-bold mb-4">{t.slide3.title}</h2>
-                            <p className="text-gray-400">{t.slide3.subtitle}</p>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {/* ENGINE */}
-                            <div className="bg-[#0f0f13] border border-purple-500/30 rounded-3xl p-8 relative overflow-hidden">
-                                <div className="absolute top-0 right-0 p-4 opacity-20"><TrendingUp className="w-24 h-24 text-purple-500" /></div>
-                                <h3 className="text-2xl font-bold text-purple-400 mb-2">{t.slide3.engine}</h3>
-                                <p className="text-white font-bold text-lg mb-4">DreamNova Consult</p>
-                                <p className="text-gray-400 text-sm mb-6">{t.slide3.engineDesc}</p>
-                                <div className="text-3xl font-black text-white">70% <span className="text-sm font-normal text-gray-500">Profits</span></div>
-                            </div>
-
-                            {/* FLOW */}
-                            <div className="flex items-center justify-center">
-                                <div className="w-full h-2 bg-gradient-to-r from-purple-500 to-green-500 rounded-full relative">
-                                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#05050A] p-2 rounded-full border border-white/20">
-                                        <ChevronRight className={`w-6 h-6 text-white ${lang === 'he' ? 'rotate-180' : ''}`} />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* IMPACT */}
-                            <div className="bg-[#0f0f13] border border-green-500/30 rounded-3xl p-8 relative overflow-hidden">
-                                <div className="absolute top-0 right-0 p-4 opacity-20"><Globe className="w-24 h-24 text-green-500" /></div>
-                                <h3 className="text-2xl font-bold text-green-400 mb-2">{t.slide3.impact}</h3>
-                                <p className="text-white font-bold text-lg mb-4">The Nova Foundation</p>
-                                <p className="text-gray-400 text-sm mb-6">{t.slide3.impactDesc}</p>
-                                <div className="text-3xl font-black text-white">$63M <span className="text-sm font-normal text-gray-500">Target</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </Slide>
-
-                {/* SLIDE 4: CALL TO ACTION */}
-                <Slide active={currentSlide === 3}>
-                    <div className="max-w-3xl w-full text-center">
-                        <h2 className="text-5xl font-black mb-8">{t.slide4.title}</h2>
-                        <p className="text-xl text-gray-400 mb-12">
-                            {t.slide4.subtitle}
-                        </p>
-                        <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                            <button className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-colors w-full md:w-auto">
-                                {t.slide4.cta1}
-                            </button>
-                            <button className="px-8 py-4 bg-transparent border border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-colors w-full md:w-auto">
-                                {t.slide4.cta2}
-                            </button>
-                        </div>
-                    </div>
-                </Slide>
-
-            </div>
+                ))}
+            </main>
 
             {/* Controls */}
-            <div className="absolute bottom-24 left-0 w-full p-8 flex justify-between items-end z-50">
+            <div className="absolute bottom-0 left-0 w-full p-8 flex justify-between items-end z-50">
                 <div className="text-gray-600 font-mono text-xs">
-                    {currentSlide + 1} / {totalSlides}
+                    {currentSlide + 1} / {slides.length}
                 </div>
                 <div className="flex space-x-4">
                     <button
-                        onClick={prevSlide}
+                        onClick={() => setCurrentSlide(Math.max(0, currentSlide - 1))}
                         disabled={currentSlide === 0}
                         className="p-4 rounded-full bg-white/5 hover:bg-white/10 disabled:opacity-30 border border-white/10 transition-all"
                     >
-                        <ChevronLeft className={`w-6 h-6 ${lang === 'he' ? 'rotate-180' : ''}`} />
+                        <ChevronLeft className="w-6 h-6" />
                     </button>
                     <button
-                        onClick={nextSlide}
-                        disabled={currentSlide === totalSlides - 1}
+                        onClick={() => setCurrentSlide(Math.min(slides.length - 1, currentSlide + 1))}
+                        disabled={currentSlide === slides.length - 1}
                         className="p-4 rounded-full bg-cyan-500 hover:bg-cyan-400 disabled:opacity-30 disabled:bg-gray-800 text-black transition-all"
                     >
-                        <ChevronRight className={`w-6 h-6 ${lang === 'he' ? 'rotate-180' : ''}`} />
+                        <ChevronRight className="w-6 h-6" />
                     </button>
                 </div>
             </div>

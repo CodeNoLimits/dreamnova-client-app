@@ -1,0 +1,190 @@
+
+> dream-nova-nexus@0.1.0 lint
+> eslint
+
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/Canvas.tsx
+   87:46  warning  'useCallback' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   88:18  warning  'AnimatePresence' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-unused-vars
+  296:14  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-explicit-any
+  392:9   error    Error: This value cannot be modified
+
+Modifying a variable defined outside a component or hook is not allowed. Consider using an effect.
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/Canvas.tsx:392:9
+  390 |     // Navigation Helper
+  391 |     const handleNavigation = (href: string) => {
+> 392 |         window.location.href = href;
+      |         ^^^^^^^^^^^^^^^ value cannot be modified
+  393 |     };
+  394 |
+  395 |     useEffect(() => {  react-hooks/immutability
+  453:30  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-explicit-any
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/academy/page.tsx
+   6:5   warning  'BookOpen' is defined but never used                                                                                                                   @typescript-eslint/no-unused-vars
+   7:5   warning  'Users' is defined but never used                                                                                                                      @typescript-eslint/no-unused-vars
+   9:5   warning  'TrendingUp' is defined but never used                                                                                                                 @typescript-eslint/no-unused-vars
+  10:5   warning  'Award' is defined but never used                                                                                                                      @typescript-eslint/no-unused-vars
+  11:5   warning  'PlayCircle' is defined but never used                                                                                                                 @typescript-eslint/no-unused-vars
+  12:5   warning  'Lock' is defined but never used                                                                                                                       @typescript-eslint/no-unused-vars
+  15:5   warning  'Star' is defined but never used                                                                                                                       @typescript-eslint/no-unused-vars
+  19:7   warning  'PriceCard' is assigned a value but never used                                                                                                         @typescript-eslint/no-unused-vars
+  19:85  error    Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+  55:17  error    Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/breslev-books/page.tsx
+    7:5   warning  'Share2' is defined but never used                               @typescript-eslint/no-unused-vars
+   12:5   warning  'PlayCircle' is defined but never used                           @typescript-eslint/no-unused-vars
+  110:74  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  110:90  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  127:81  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  127:95  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/dreamnova-consult/page.tsx
+   12:5    warning  'ArrowRight' is defined but never used                           @typescript-eslint/no-unused-vars
+   72:26   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  166:81   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  168:125  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  215:105  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/dreamnova-global/page.tsx
+   93:17   error  Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+  107:59   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                        react/no-unescaped-entities
+  130:72   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                        react/no-unescaped-entities
+  143:137  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                        react/no-unescaped-entities
+  178:55   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                        react/no-unescaped-entities
+  241:36   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                        react/no-unescaped-entities
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/ecommerce-accelerator/page.tsx
+    9:5    warning  'ArrowRight' is defined but never used                                                                                                                 @typescript-eslint/no-unused-vars
+   15:45   error    Unexpected any. Specify a different type                                                                                                               @typescript-eslint/no-explicit-any
+   35:17   error    Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+   45:26   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                        react/no-unescaped-entities
+   50:84   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                        react/no-unescaped-entities
+   50:94   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                        react/no-unescaped-entities
+   84:77   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                        react/no-unescaped-entities
+   89:125  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                        react/no-unescaped-entities
+   89:134  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                        react/no-unescaped-entities
+   91:126  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                        react/no-unescaped-entities
+   91:142  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                        react/no-unescaped-entities
+   94:40   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                        react/no-unescaped-entities
+  116:40   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                        react/no-unescaped-entities
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/ha-mazon/page.tsx
+  10:5   warning  'Clock' is defined but never used                                @typescript-eslint/no-unused-vars
+  12:5   warning  'BarChart' is defined but never used                             @typescript-eslint/no-unused-vars
+  13:5   warning  'Search' is defined but never used                               @typescript-eslint/no-unused-vars
+  14:5   warning  'Menu' is defined but never used                                 @typescript-eslint/no-unused-vars
+  76:37  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  78:40  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/masterplan/page.tsx
+    3:17   warning  'useState' is defined but never used                             @typescript-eslint/no-unused-vars
+    9:5    warning  'Trophy' is defined but never used                               @typescript-eslint/no-unused-vars
+   11:5    warning  'Globe' is defined but never used                                @typescript-eslint/no-unused-vars
+   20:45   error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   32:68   error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   47:65   error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   90:74   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   92:83   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   92:91   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  144:76   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  146:33   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  147:108  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  147:116  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  244:88   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  254:142  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  256:149  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/pitch-deck/page.tsx
+    7:5   warning  'Users' is defined but never used                                                                                                                      @typescript-eslint/no-unused-vars
+    9:5   warning  'Target' is defined but never used                                                                                                                     @typescript-eslint/no-unused-vars
+   10:5   warning  'ShieldCheck' is defined but never used                                                                                                                @typescript-eslint/no-unused-vars
+   11:5   warning  'Rocket' is defined but never used                                                                                                                     @typescript-eslint/no-unused-vars
+   12:5   warning  'Globe' is defined but never used                                                                                                                      @typescript-eslint/no-unused-vars
+   13:5   warning  'Database' is defined but never used                                                                                                                   @typescript-eslint/no-unused-vars
+  245:17  error    Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/roadmap/page.tsx
+    6:5    warning  'Flag' is defined but never used                                 @typescript-eslint/no-unused-vars
+    7:5    warning  'Calendar' is defined but never used                             @typescript-eslint/no-unused-vars
+    8:5    warning  'DollarSign' is defined but never used                           @typescript-eslint/no-unused-vars
+   11:5    warning  'ArrowUpRight' is defined but never used                         @typescript-eslint/no-unused-vars
+   16:54   error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   25:56   error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   54:82   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   90:60   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   90:74   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   90:77   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   90:86   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   90:91   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   90:101  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  137:44   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  137:59   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  138:80   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  138:90   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/roi/page.tsx
+  73:70  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  94:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/tera-mind/page.tsx
+   15:5    warning  'AlertTriangle' is defined but never used                                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+   29:7    warning  'Badge' is assigned a value but never used                                                                                                                                                                                                                                               @typescript-eslint/no-unused-vars
+   36:12   warning  'activeMode' is assigned a value but never used                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+   36:24   warning  'setActiveMode' is assigned a value but never used                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   84:30   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  120:41   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  141:104  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  147:42   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  147:81   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  186:77   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  188:59   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  188:63   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  188:138  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  196:94   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  202:118  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  202:125  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  202:140  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  208:77   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  232:82   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  232:102  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  242:85   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  243:113  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  243:125  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  243:163  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  251:140  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/tetrabrame/media/page.tsx
+  19:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/app/tetrabrame/page.tsx
+  15:53  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/components/ui/Dock.tsx
+  20:5  warning  'Video' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/context/LanguageContext.tsx
+  21:20  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/context/LanguageContext.tsx:21:20
+  19 |         // Try to get from localStorage
+  20 |         const saved = localStorage.getItem('dreamnova-lang') as Language;
+> 21 |         if (saved) setLang(saved);
+     |                    ^^^^^^^ Avoid calling setState() directly within an effect
+  22 |     }, []);
+  23 |
+  24 |     useEffect(() => {  react-hooks/set-state-in-effect
+
+/Users/codenolimits-dreamai-nanach/Desktop/DREAM NOVA NEXUS CENTRAL/src/middleware.ts
+  4:28  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 123 problems (85 errors, 38 warnings)
+

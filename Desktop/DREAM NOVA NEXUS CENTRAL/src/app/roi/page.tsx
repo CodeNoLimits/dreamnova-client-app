@@ -1,224 +1,192 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
-    TrendingUp,
     PieChart,
+    TrendingUp,
     DollarSign,
-    ArrowUpRight,
     Activity,
-    Briefcase,
-    ShoppingCart,
-    Brain,
-    Globe,
-    Music,
-    ShieldCheck
+    BarChart3,
+    ArrowUpRight,
+    ArrowDownRight,
+    Wallet,
+    Target
 } from 'lucide-react';
 import Link from 'next/link';
 
-// --- TRANSLATIONS ---
-const translations = {
-    en: {
-        title: "THE INVESTMENT THESIS",
-        subtitle: "A diversified portfolio (Venture Studio) designed to balance immediate cashflow and exponential valuation.",
-        successRate: "Studio Success Rate: 84% (vs 42% Classic VC)",
-        risk: "Risk",
-        exitMultiple: "Exit Multiple",
-        horizon: "Horizon",
-        viewPL: "View P&L",
-        whyWins: "Why the Venture Studio model wins?",
-        riskDiluted: "Risk Diluted",
-        riskDilutedDesc: "If a project fails, resources and tech are recycled into others. 0% IP loss.",
-        velocity: "Velocity",
-        velocityDesc: "We go from idea to market in 3 months thanks to our common stack (Antigravity).",
-        capitalEfficiency: "Capital Efficiency",
-        capitalEfficiencyDesc: "We spend 40% less than a classic startup to reach the same maturity stage.",
-        nav: "Investor Intelligence",
-        back: "Back to Hub",
-        cards: {
-            consult: { title: "DreamNova Consult", timeline: "Dividends (Immediate)", data: [{ l: "Net Margin", v: "35% - 45%" }, { l: "Model", v: "Productized Service" }, { l: "Role", v: "R&D Self-Funding" }, { l: "Valuation", v: "1x-2x Revenue" }] },
-            amazon: { title: "Ha-Mazon Logistics", timeline: "5 Years (Acquisition)", data: [{ l: "Target Market", v: "Urban Logistics" }, { l: "Advantage", v: "ZFE Paris Monopoly" }, { l: "Unit Eco", v: "Positive from Hub #2" }, { l: "Exit", v: "Buyout by Metro/Uber" }] },
-            tera: { title: "Tera Mind AI", timeline: "7 Years (IPO/Exit)", data: [{ l: "Market", v: "Digital Health ($400B)" }, { l: "SaaS Margin", v: "85%+" }, { l: "Barrier", v: "DTx Certification" }, { l: "Valuation", v: "15x-20x ARR" }] },
-            global: { title: "DreamNova Global", timeline: "7-10 Years", data: [{ l: "Model", v: "HR Tech / Social" }, { l: "Virality", v: "K-Factor > 1.5" }, { l: "Data Asset", v: "DCS (Scoring)" }, { l: "Exit", v: "LinkedIn / Microsoft" }] },
-            tetra: { title: "TetraBrame", timeline: "Perpetual", data: [{ l: "Type", v: "Music Royalties (IP)" }, { l: "Margin", v: "95% (Digital)" }, { l: "Volume", v: "140 Songs/Month" }, { l: "Yield", v: "12-15% Annual" }] }
-        }
-    },
-    he: {
-        title: "תזה ההשקעה",
-        subtitle: "תיק מגוון (סטודיו להון סיכון) שנועד לאזן תזרים מזומנים מיידי ושווי אקספוננציאלי.",
-        successRate: "שיעור הצלחה של הסטודיו: 84% (לעומת 42% ב-VC קלאסי)",
-        risk: "סיכון",
-        exitMultiple: "מכפיל אקזיט",
-        horizon: "אופק",
-        viewPL: "צפה ב-P&L",
-        whyWins: "למה מודל הסטודיו להון סיכון מנצח?",
-        riskDiluted: "סיכון מדולל",
-        riskDilutedDesc: "אם פרויקט נכשל, המשאבים והטכנולוגיה ממוחזרים לאחרים. 0% אובדן IP.",
-        velocity: "מהירות",
-        velocityDesc: "אנו עוברים מרעיון לשוק תוך 3 חודשים הודות לסטאק המשותף שלנו (Antigravity).",
-        capitalEfficiency: "יעילות הון",
-        capitalEfficiencyDesc: "אנו מוציאים 40% פחות מסטארט-אפ קלאסי כדי להגיע לאותו שלב בגרות.",
-        nav: "מודיעין משקיעים",
-        back: "חזרה להאב",
-        cards: {
-            consult: { title: "דרים-נובה ייעוץ", timeline: "דיבידנדים (מיידי)", data: [{ l: "מרווח נקי", v: "35% - 45%" }, { l: "מודל", v: "שירות ממוצר" }, { l: "תפקיד", v: "מימון עצמי למו״פ" }, { l: "שווי", v: "1x-2x הכנסות" }] },
-            amazon: { title: "ה-מזון לוגיסטיקה", timeline: "5 שנים (רכישה)", data: [{ l: "שוק יעד", v: "לוגיסטיקה עירונית" }, { l: "יתרון", v: "מונופול ZFE פריז" }, { l: "כלכלה יחידתית", v: "חיובי מהאב #2" }, { l: "אקזיט", v: "רכישה ע״י מטרו/אובר" }] },
-            tera: { title: "תרה מיינד AI", timeline: "7 שנים (הנפקה/אקזיט)", data: [{ l: "שוק", v: "בריאות דיגיטלית ($400B)" }, { l: "מרווח SaaS", v: "85%+" }, { l: "חסם", v: "הסמכת DTx" }, { l: "שווי", v: "15x-20x ARR" }] },
-            global: { title: "דרים-נובה גלובל", timeline: "7-10 שנים", data: [{ l: "מודל", v: "HR טק / חברתי" }, { l: "ויראליות", v: "K-Factor > 1.5" }, { l: "נכס דאטה", v: "DCS (ניקוד)" }, { l: "אקזיט", v: "לינקדאין / מיקרוסופט" }] },
-            tetra: { title: "טטרה-בראם", timeline: "נצחי", data: [{ l: "סוג", v: "תמלוגי מוזיקה (IP)" }, { l: "מרווח", v: "95% (דיגיטלי)" }, { l: "נפח", v: "140 שירים/חודש" }, { l: "תשואה", v: "12-15% שנתי" }] }
-        }
-    }
-};
-
-type Translation = typeof translations.en;
-
-const ROICard = ({ icon, title, multiple, timeline, risk, data, t }: { icon: React.ReactNode, title: string, multiple: string, timeline: string, risk: string, data: { l: string, v: string }[], t: Translation }) => (
-    <div className="bg-[#0f0f13] border border-white/10 rounded-2xl p-6 hover:border-cyan-500/30 transition-all group">
-        <div className="flex justify-between items-start mb-6">
-            <div className="flex items-center space-x-3">
-                <div className="p-3 bg-white/5 rounded-xl text-cyan-400 group-hover:scale-110 transition-transform">
-                    {icon}
-                </div>
-                <div>
-                    <h3 className="font-bold text-white text-lg">{title}</h3>
-                    <span className={`text-xs px-2 py-0.5 rounded ${risk === 'Low' ? 'bg-green-500/20 text-green-400' : risk === 'Medium' ? 'bg-yellow-500/20 text-yellow-400' : 'bg-red-500/20 text-red-400'}`}>
-                        {t.risk} : {risk}
-                    </span>
-                </div>
+const MetricCard = ({ title, value, change, trend, icon, color }: any) => (
+    <div className="bg-white/5 p-6 rounded-2xl border border-white/10 hover:border-white/20 transition-all">
+        <div className="flex justify-between items-start mb-4">
+            <div className={`p-3 rounded-xl bg-${color}-500/10 text-${color}-400`}>
+                {icon}
             </div>
-            <div className="text-right">
-                <div className="text-2xl font-black text-white">{multiple}x</div>
-                <div className="text-[10px] text-gray-500 uppercase tracking-widest">{t.exitMultiple}</div>
+            <div className={`flex items-center text-sm font-bold ${trend === 'up' ? 'text-green-400' : 'text-red-400'}`}>
+                {trend === 'up' ? <ArrowUpRight className="w-4 h-4 mr-1" /> : <ArrowDownRight className="w-4 h-4 mr-1" />}
+                {change}
             </div>
         </div>
-
-        <div className="space-y-3 mb-6">
-            {data.map((item: { l: string, v: string }, i: number) => (
-                <div key={i} className="flex justify-between text-sm border-b border-white/5 pb-2 last:border-0">
-                    <span className="text-gray-400">{item.l}</span>
-                    <span className="text-white font-mono">{item.v}</span>
-                </div>
-            ))}
-        </div>
-
-        <div className="flex items-center justify-between text-xs text-gray-500 mt-auto pt-4 border-t border-white/10">
-            <span className="flex items-center"><Activity className="w-3 h-3 mr-1" /> {t.horizon}: {timeline}</span>
-            <span className="text-cyan-500 font-bold flex items-center">{t.viewPL} <ArrowUpRight className="w-3 h-3 ml-1" /></span>
-        </div>
+        <h3 className="text-gray-400 text-sm font-medium mb-1">{title}</h3>
+        <div className="text-3xl font-bold text-white">{value}</div>
     </div>
 );
 
-export default function ROIDashboard() {
-    const [lang, setLang] = useState<'en' | 'he'>('en');
-    const t = translations[lang as keyof typeof translations];
+const VentureRow = ({ name, revenue, margin, growth, status }: any) => (
+    <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
+        <td className="py-4 px-4 font-bold text-white">{name}</td>
+        <td className="py-4 px-4 text-gray-300">{revenue}</td>
+        <td className="py-4 px-4 text-green-400">{margin}</td>
+        <td className="py-4 px-4 text-cyan-400">{growth}</td>
+        <td className="py-4 px-4">
+            <span className={`px-2 py-1 rounded text-xs font-bold uppercase ${status === 'Live' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
+                {status}
+            </span>
+        </td>
+    </tr>
+);
 
+export default function ROIPage() {
     return (
-        <div className={`h-screen overflow-y-auto bg-[#05050A] text-gray-100 font-sans pb-40 ${lang === 'he' ? 'rtl' : 'ltr'}`}>
+        <div className="min-h-screen bg-[#05050A] text-gray-100 font-sans pb-40">
+
+            {/* HEADER */}
             <nav className="p-6 flex justify-between items-center max-w-7xl mx-auto border-b border-white/5">
                 <div className="flex items-center space-x-2">
                     <PieChart className="w-6 h-6 text-green-500" />
-                    <span className="text-xl font-bold">Investor <span className="font-light text-green-200">Intelligence</span></span>
+                    <span className="text-xl font-bold">Investor <span className="text-green-500">Intelligence</span></span>
                 </div>
-                <div className="flex items-center space-x-4">
-                    <button
-                        onClick={() => setLang(lang === 'en' ? 'he' : 'en')}
-                        className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-xs hover:bg-white/10 transition-colors"
-                    >
-                        {lang === 'en' ? 'HE' : 'EN'}
-                    </button>
-                    <Link href="/" className="text-sm text-gray-400 hover:text-white transition-colors">{t.back}</Link>
-                </div>
+                <Link href="/" className="text-sm text-gray-400 hover:text-white transition-colors">Retour au Hub</Link>
             </nav>
 
             <main className="max-w-7xl mx-auto px-4 mt-12">
+
                 <div className="text-center mb-16">
-                    <h1 className="text-4xl md:text-6xl font-black text-white mb-4">
-                        {t.title}
-                    </h1>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                        {t.subtitle}
-                        <br /><span className="text-green-400 font-bold">{t.successRate}</span>
+                    <h1 className="text-5xl font-black text-white mb-6">REAL-TIME ROI</h1>
+                    <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+                        Tableau de bord financier consolidé du Venture Studio.
+                        <br />Suivi de la performance des actifs et du cashflow.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                    {/* 1. CONSULT (CASH COW) */}
-                    <ROICard
-                        title={t.cards.consult.title}
-                        icon={<Briefcase />}
-                        multiple="3-5"
-                        timeline={t.cards.consult.timeline}
-                        risk="Low"
-                        data={t.cards.consult.data}
-                        t={t}
+                {/* KPI CARDS */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                    <MetricCard
+                        title="Total ARR (Est.)"
+                        value="€2.5M"
+                        change="+12%"
+                        trend="up"
+                        icon={<DollarSign className="w-6 h-6" />}
+                        color="green"
                     />
-
-                    {/* 2. HA-MAZON (ASSET HEAVY) */}
-                    <ROICard
-                        title={t.cards.amazon.title}
-                        icon={<ShoppingCart />}
-                        multiple="8-12"
-                        timeline={t.cards.amazon.timeline}
-                        risk="Medium"
-                        data={t.cards.amazon.data}
-                        t={t}
+                    <MetricCard
+                        title="Active Users"
+                        value="12,450"
+                        change="+8.5%"
+                        trend="up"
+                        icon={<Users className="w-6 h-6" />}
+                        color="blue"
                     />
-
-                    {/* 3. TERA MIND (MOONSHOT) */}
-                    <ROICard
-                        title={t.cards.tera.title}
-                        icon={<Brain />}
-                        multiple="20-50"
-                        timeline={t.cards.tera.timeline}
-                        risk="High"
-                        data={t.cards.tera.data}
-                        t={t}
+                    <MetricCard
+                        title="Burn Rate"
+                        value="€45k/mo"
+                        change="-2%"
+                        trend="up"
+                        icon={<Wallet className="w-6 h-6" />}
+                        color="orange"
                     />
-
-                    {/* 4. GLOBAL (NETWORK EFFECT) */}
-                    <ROICard
-                        title={t.cards.global.title}
-                        icon={<Globe />}
-                        multiple="50+"
-                        timeline={t.cards.global.timeline}
-                        risk="High"
-                        data={t.cards.global.data}
-                        t={t}
+                    <MetricCard
+                        title="Valuation (Seed)"
+                        value="€15M"
+                        change="Flat"
+                        trend="neutral"
+                        icon={<Target className="w-6 h-6" />}
+                        color="purple"
                     />
-
-                    {/* 5. TETRABRAME (PASSIVE IP) */}
-                    <ROICard
-                        title={t.cards.tetra.title}
-                        icon={<Music />}
-                        multiple="10-15"
-                        timeline={t.cards.tetra.timeline}
-                        risk="Low"
-                        data={t.cards.tetra.data}
-                        t={t}
-                    />
-
                 </div>
 
-                <div className="mt-16 p-8 bg-gradient-to-r from-green-900/20 to-black border border-green-500/20 rounded-3xl text-center">
-                    <h2 className="text-2xl font-bold text-white mb-4">{t.whyWins}</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left mt-8">
-                        <div>
-                            <h4 className="font-bold text-green-400 mb-2 flex items-center"><ShieldCheck className="w-4 h-4 mr-2" /> {t.riskDiluted}</h4>
-                            <p className="text-sm text-gray-400">{t.riskDilutedDesc}</p>
+                {/* VENTURE PERFORMANCE TABLE */}
+                <div className="bg-white/5 rounded-3xl border border-white/10 overflow-hidden mb-12">
+                    <div className="p-6 border-b border-white/10 flex justify-between items-center">
+                        <h2 className="text-xl font-bold text-white flex items-center">
+                            <Activity className="w-5 h-5 mr-2 text-cyan-500" /> Venture Performance
+                        </h2>
+                        <button className="text-xs text-cyan-400 hover:text-cyan-300 font-bold uppercase">Download Report</button>
+                    </div>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-left">
+                            <thead className="bg-black/20 text-gray-500 uppercase font-mono">
+                                <tr>
+                                    <th className="py-3 px-4">Venture</th>
+                                    <th className="py-3 px-4">Revenue (MRR)</th>
+                                    <th className="py-3 px-4">Margin</th>
+                                    <th className="py-3 px-4">MoM Growth</th>
+                                    <th className="py-3 px-4">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <VentureRow name="DreamNova Consult" revenue="€50k" margin="85%" growth="+15%" status="Live" />
+                                <VentureRow name="Ha-Mazon" revenue="€12k" margin="30%" growth="+8%" status="Live" />
+                                <VentureRow name="Tera Mind" revenue="€5k" margin="90%" growth="+25%" status="Beta" />
+                                <VentureRow name="DreamNova Global" revenue="€0" margin="N/A" growth="N/A" status="Dev" />
+                                <VentureRow name="TetraBrame" revenue="€2k" margin="95%" growth="+5%" status="Live" />
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {/* WHY WE WIN */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div>
+                        <h2 className="text-3xl font-bold text-white mb-6">Why We Win</h2>
+                        <div className="space-y-6">
+                            <div className="flex items-start">
+                                <div className="p-2 bg-green-500/10 rounded-lg mr-4 text-green-400 mt-1"><CheckCircle2 className="w-5 h-5" /></div>
+                                <div>
+                                    <h3 className="font-bold text-white text-lg">Unfair Advantage: Data</h3>
+                                    <p className="text-gray-400 text-sm">We own the data from Consult (B2B) and Tera (B2C), creating a feedback loop that no competitor can match.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start">
+                                <div className="p-2 bg-green-500/10 rounded-lg mr-4 text-green-400 mt-1"><CheckCircle2 className="w-5 h-5" /></div>
+                                <div>
+                                    <h3 className="font-bold text-white text-lg">Zero CAC Strategy</h3>
+                                    <p className="text-gray-400 text-sm">Our "Content Factory" (TetraMedia) generates organic traffic, reducing Customer Acquisition Cost to near zero.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start">
+                                <div className="p-2 bg-green-500/10 rounded-lg mr-4 text-green-400 mt-1"><CheckCircle2 className="w-5 h-5" /></div>
+                                <div>
+                                    <h3 className="font-bold text-white text-lg">Regulatory Moat</h3>
+                                    <p className="text-gray-400 text-sm">Ha-Mazon is built specifically for ZFE (Low Emission Zones) regulations, locking out traditional logistics players.</p>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <h4 className="font-bold text-green-400 mb-2 flex items-center"><TrendingUp className="w-4 h-4 mr-2" /> {t.velocity}</h4>
-                            <p className="text-sm text-gray-400">{t.velocityDesc}</p>
-                        </div>
-                        <div>
-                            <h4 className="font-bold text-green-400 mb-2 flex items-center"><DollarSign className="w-4 h-4 mr-2" /> {t.capitalEfficiency}</h4>
-                            <p className="text-sm text-gray-400">{t.capitalEfficiencyDesc}</p>
-                        </div>
+                    </div>
+
+                    {/* CHART PLACEHOLDER */}
+                    <div className="bg-gradient-to-br from-gray-900 to-black rounded-3xl border border-white/10 p-8 flex flex-col justify-center items-center text-center">
+                        <BarChart3 className="w-16 h-16 text-gray-700 mb-4" />
+                        <h3 className="text-xl font-bold text-gray-500">Revenue Projection Chart</h3>
+                        <p className="text-sm text-gray-600">Interactive visualization coming in V2</p>
                     </div>
                 </div>
 
             </main>
         </div>
+    );
+}
+
+function CheckCircle2({ className }: { className?: string }) {
+    return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+    );
+}
+
+function Users({ className }: { className?: string }) {
+    return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
     );
 }

@@ -3,137 +3,154 @@
 import React from 'react';
 import {
     Map,
-    Rocket,
-    Target,
-    Briefcase
+    Flag,
+    CheckCircle2,
+    Circle,
+    ArrowRight,
+    Milestone,
+    CalendarClock,
+    Trophy,
+    Users,
+    Globe
 } from 'lucide-react';
 import Link from 'next/link';
 
-const TimelineItem = ({ date, title, desc, status }: { date: string, title: string, desc: string, status: string }) => (
-    <div className="relative pl-8 pb-12 border-l border-white/10 last:border-0">
-        <div className={`absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full ${status === 'done' ? 'bg-green-500' : status === 'current' ? 'bg-cyan-500 animate-pulse' : 'bg-gray-700'}`}></div>
-        <span className="text-xs font-mono text-gray-500 mb-1 block">{date}</span>
-        <h3 className="text-lg font-bold text-white mb-2">{title}</h3>
-        <p className="text-sm text-gray-400">{desc}</p>
-    </div>
-);
+const Phase = ({ number, title, date, status, items, color }: any) => {
+    const isCompleted = status === 'completed';
+    const isActive = status === 'active';
 
-const InvestorCard = ({ name, focus, location, type }: { name: string, focus: string, location: string, type: string }) => (
-    <div className="p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-colors">
-        <div className="flex justify-between items-start mb-2">
-            <h4 className="font-bold text-white">{name}</h4>
-            <span className="text-[10px] uppercase bg-white/10 px-2 py-1 rounded text-gray-300">{type}</span>
+    return (
+        <div className={`relative pl-12 pb-16 border-l-2 ${isCompleted ? 'border-green-500' : isActive ? 'border-cyan-500' : 'border-white/10'} last:border-0`}>
+            {/* Dot */}
+            <div className={`absolute left-[-11px] top-0 w-6 h-6 rounded-full border-4 border-[#05050A] ${isCompleted ? 'bg-green-500' : isActive ? 'bg-cyan-500 animate-pulse' : 'bg-gray-700'}`}></div>
+
+            <div className="mb-6">
+                <span className={`inline-block px-3 py-1 rounded text-xs font-bold uppercase tracking-widest mb-2 ${isCompleted ? 'bg-green-500/20 text-green-400' : isActive ? 'bg-cyan-500/20 text-cyan-400' : 'bg-gray-800 text-gray-500'}`}>
+                    {date} • {status}
+                </span>
+                <h3 className={`text-3xl font-bold ${isCompleted ? 'text-white' : isActive ? 'text-cyan-400' : 'text-gray-500'}`}>
+                    Phase {number}: {title}
+                </h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {items.map((item: any, i: number) => (
+                    <div key={i} className={`p-4 rounded-xl border ${isCompleted ? 'bg-green-900/5 border-green-500/20' : isActive ? 'bg-cyan-900/5 border-cyan-500/20' : 'bg-white/5 border-white/5'}`}>
+                        <div className="flex items-start">
+                            {item.done ? (
+                                <CheckCircle2 className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                            ) : (
+                                <Circle className={`w-5 h-5 mr-3 mt-0.5 flex-shrink-0 ${isActive ? 'text-cyan-500' : 'text-gray-600'}`} />
+                            )}
+                            <div>
+                                <h4 className={`font-bold mb-1 ${item.done ? 'text-gray-300 line-through' : 'text-white'}`}>{item.title}</h4>
+                                <p className="text-xs text-gray-500">{item.desc}</p>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
-        <p className="text-xs text-cyan-400 mb-1">{focus}</p>
-        <p className="text-[10px] text-gray-500">{location}</p>
-    </div>
-);
+    );
+};
 
 export default function RoadmapPage() {
     return (
-        <div className="h-screen overflow-y-auto bg-[#05050A] text-gray-100 font-sans pb-40">
+        <div className="min-h-screen bg-[#05050A] text-gray-100 font-sans pb-40">
 
-            {/* Nav */}
-            <nav className="p-6 flex justify-between items-center max-w-7xl mx-auto">
+            {/* HEADER */}
+            <nav className="p-6 flex justify-between items-center max-w-7xl mx-auto border-b border-white/5 sticky top-0 bg-[#05050A]/90 backdrop-blur z-50">
                 <div className="flex items-center space-x-2">
-                    <Map className="w-6 h-6 text-cyan-400" />
-                    <span className="text-xl font-bold">Strategic <span className="font-light text-cyan-200">Roadmap</span></span>
+                    <Map className="w-6 h-6 text-cyan-500" />
+                    <span className="text-xl font-bold">Strategic <span className="text-cyan-500">Roadmap</span></span>
                 </div>
                 <Link href="/" className="text-sm text-gray-400 hover:text-white transition-colors">Retour au Hub</Link>
             </nav>
 
-            <main className="max-w-7xl mx-auto px-4 mt-10 grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <main className="max-w-5xl mx-auto px-4 mt-12">
 
-                {/* LEFT: EXECUTION ROADMAP */}
-                <div>
-                    <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
-                        <Rocket className="w-6 h-6 mr-3 text-green-400" /> Plan d&apos;Exécution
-                    </h2>
-                    <div className="space-y-2">
-                        <TimelineItem
-                            date="Q1 2025 (Actuel)"
-                            title="Lancement & Cashflow"
-                            desc="Activation de DreamNova Consult (SaaS Factory + KavCom). Objectif: 50k€ MRR pour autofinancer la R&D."
-                            status="current"
-                        />
-                        <TimelineItem
-                            date="Q2 2025"
-                            title="Déploiement Infrastructure"
-                            desc="Ouverture du 1er Micro-Hub Ha-Mazon (Paris 11e). Lancement Beta Tera Mind (Mode Wellness)."
-                            status="pending"
-                        />
-                        <TimelineItem
-                            date="Q3 2025"
-                            title="Scale & Influence"
-                            desc="TetraBrame atteint 1M streams. Lancement de l&apos;Academy B2C. Préparation du Seed Round."
-                            status="pending"
-                        />
-                        <TimelineItem
-                            date="Q4 2025"
-                            title="Seed Round (Investisseurs)"
-                            desc="Levée de fonds ciblée (500k-1M€) pour accélérer la logistique et la certification DTx de Tera Mind."
-                            status="pending"
-                        />
-                    </div>
+                <div className="text-center mb-20">
+                    <h1 className="text-5xl font-black text-white mb-6">PLAN 2025-2027</h1>
+                    <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+                        De l'agence locale à l'empire global.
+                        <br />Chaque étape est financée par la précédente.
+                    </p>
                 </div>
 
-                {/* RIGHT: INVESTOR TARGETS */}
-                <div>
-                    <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
-                        <Target className="w-6 h-6 mr-3 text-red-400" /> Cibles Investisseurs
-                    </h2>
-                    <p className="text-gray-400 text-sm mb-6">
-                        Liste qualifiée basée sur la thèse &quot;Tech for Good&quot;, &quot;PropTech&quot; et &quot;Deep Tech&quot; (France/Israël).
-                    </p>
+                <div className="mt-12">
+                    <Phase
+                        number="1"
+                        title="THE CASH ENGINE"
+                        date="Q4 2024 - Q1 2025"
+                        status="active"
+                        color="cyan"
+                        items={[
+                            { title: "DreamNova Consult Launch", desc: "Agency model to generate initial cashflow.", done: true },
+                            { title: "Academy Pre-Sales", desc: "Validate the 'Speed Protocol' method.", done: true },
+                            { title: "TetraBrame V1", desc: "First 50 tracks on Spotify/Apple Music.", done: true },
+                            { title: "KavCom Integration", desc: "Automated prospecting for Consult.", done: false }
+                        ]}
+                    />
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <InvestorCard
-                            name="Jérémie Berrebi"
-                            type="Super Angel"
-                            focus="SaaS, Marketplaces, Torah-Tech"
-                            location="🇮🇱 Israël / 🇫🇷 France"
-                        />
-                        <InvestorCard
-                            name="Kima Ventures"
-                            type="VC (Xavier Niel)"
-                            focus="High Velocity, Volume, Agnostic"
-                            location="🇫🇷 Paris"
-                        />
-                        <InvestorCard
-                            name="83North"
-                            type="VC Tier 1"
-                            focus="Data, Enterprise Software"
-                            location="🇮🇱 Tel Aviv / 🇬🇧 London"
-                        />
-                        <InvestorCard
-                            name="Aleph"
-                            type="VC"
-                            focus="Impact, Big Ideas"
-                            location="🇮🇱 Tel Aviv"
-                        />
-                        <InvestorCard
-                            name="Elaia Partners"
-                            type="VC Deep Tech"
-                            focus="Digital Health, AI"
-                            location="🇫🇷 Paris"
-                        />
-                        <InvestorCard
-                            name="Gigi Levy-Weiss"
-                            type="Angel / NFX"
-                            focus="Network Effects, Gaming/Consumer"
-                            location="🇮🇱 Israël"
-                        />
+                    <Phase
+                        number="2"
+                        title="THE INFRASTRUCTURE"
+                        date="Q2 2025 - Q3 2025"
+                        status="pending"
+                        color="orange"
+                        items={[
+                            { title: "Ha-Mazon Hub #1", desc: "Opening first logistics hub in Paris 11.", done: false },
+                            { title: "Tera Mind App Store", desc: "Public release of the AI therapy app.", done: false },
+                            { title: "Breslev RAG Complete", desc: "Full indexation of 400+ books.", done: false },
+                            { title: "Core Team Hiring", desc: "Onboarding full-time backend devs.", done: false }
+                        ]}
+                    />
+
+                    <Phase
+                        number="3"
+                        title="THE SCALE"
+                        date="Q4 2025 - Q2 2026"
+                        status="pending"
+                        color="purple"
+                        items={[
+                            { title: "DreamNova Global Beta", desc: "Social network limited release (10k users).", done: false },
+                            { title: "Ha-Mazon Fleet", desc: "10 Cargo Bikes + 3 Hubs in Paris.", done: false },
+                            { title: "TetraMedia Factory", desc: "100 videos/day output capacity.", done: false },
+                            { title: "Series A Funding", desc: "Raising €5M-€10M for global expansion.", done: false }
+                        ]}
+                    />
+
+                    <Phase
+                        number="4"
+                        title="THE EMPIRE"
+                        date="2026 - 2027"
+                        status="pending"
+                        color="gold"
+                        items={[
+                            { title: "US Expansion", desc: "Opening Miami HQ for North American market.", done: false },
+                            { title: "Tera Mind Medical", desc: "FDA/CE Certification as Digital Therapeutic.", done: false },
+                            { title: "Nova Foundation", desc: "Deploying $63M into philanthropic projects.", done: false },
+                            { title: "IPO Preparation", desc: "Structuring for public listing.", done: false }
+                        ]}
+                    />
+                </div>
+
+                {/* TARGETS */}
+                <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="bg-white/5 p-8 rounded-3xl border border-white/10 text-center">
+                        <Trophy className="w-10 h-10 text-yellow-500 mx-auto mb-4" />
+                        <div className="text-4xl font-bold text-white mb-2">€2.5M</div>
+                        <div className="text-sm text-gray-400">ARR Target 2025</div>
                     </div>
-
-                    <div className="mt-8 p-6 bg-cyan-900/20 border border-cyan-500/30 rounded-2xl">
-                        <h4 className="font-bold text-white mb-2 flex items-center">
-                            <Briefcase className="w-4 h-4 mr-2 text-cyan-400" /> Stratégie de Pitch
-                        </h4>
-                        <ul className="text-sm text-gray-300 space-y-2 list-disc list-inside">
-                            <li>Approche : &quot;Venture Studio&quot; (Risque dilué sur 4 verticales).</li>
-                            <li>Preuve : Cashflow existant via Consult (Pas de &quot;Burn rate&quot; infini).</li>
-                            <li>Vision : La convergence Tech/Logistique/Sens.</li>
-                        </ul>
+                    <div className="bg-white/5 p-8 rounded-3xl border border-white/10 text-center">
+                        <Users className="w-10 h-10 text-blue-500 mx-auto mb-4" />
+                        <div className="text-4xl font-bold text-white mb-2">100k</div>
+                        <div className="text-sm text-gray-400">Active Users</div>
+                    </div>
+                    <div className="bg-white/5 p-8 rounded-3xl border border-white/10 text-center">
+                        <Globe className="w-10 h-10 text-green-500 mx-auto mb-4" />
+                        <div className="text-4xl font-bold text-white mb-2">3</div>
+                        <div className="text-sm text-gray-400">Countries</div>
                     </div>
                 </div>
 

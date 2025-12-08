@@ -4,86 +4,8 @@ import { useLanguage } from '@/context/LanguageContext';
 import { useRouter } from 'next/navigation';
 
 // --- TRANSLATIONS ---
-const translations = {
-    en: {
-        hub: { label: 'Nexus Hub', description: 'Central Command' },
-        roadmap: { label: 'Roadmap & Targets', description: 'Strategic Agenda' },
-        masterplan: { label: 'The Masterplan', description: 'Recruitment & Strategy' },
-        pitch: { label: 'Pitch Deck', description: 'For Investors Only' },
-        global: { label: 'DreamNova Global', description: 'The Anti-Facebook' },
-        consult: { label: 'DreamNova Consult', description: 'AI Agency & Velocity' },
-        tera: { label: 'Tera Mind', description: 'Spirit-Tech & AI Therapy' },
-        academy: { label: 'DreamNova Academy', description: 'Learn the Method' },
-        ecom: { label: 'E-Com Velocity', description: 'Autonomous Retail' },
-        amazon: { label: 'Ha-Mazon', description: 'Distributed Logistics' },
-        breslev: { label: 'Breslev Books', description: 'AI RAG & Wisdom' },
-        music: { label: 'TetraBrame', description: 'AI Music & Hafatsa' },
-        media: { label: 'TetraMedia', description: 'Content Factory' },
-        roi: { label: 'ROI Dashboard', description: 'Investment Thesis' },
-        kolel: { label: 'Kolel AI', description: 'Torah Study & RAG' },
-        soulbond: { label: 'SoulBond', description: 'Chesed Network' },
-        bezalel: { label: 'Project Bezalel', description: 'Generative Art' },
-        foundation: { label: 'The Nova Foundation', description: 'Philanthropy' },
-        kotel: { label: 'Kotel Connection', description: 'Daily Alignment' },
-        hok: { label: 'Hok Breslev', description: 'Spiritual R&D' },
-        sport: { label: 'Performance', description: 'Body Maintenance' },
-        mobileTitle: 'Mobile Command Center',
-        investorMode: 'Investor View (Confidential)',
-        navTitle: 'Infinite Canvas Navigation'
-    },
-    fr: {
-        hub: { label: 'Nexus Hub', description: 'Commandement Central' },
-        roadmap: { label: 'Feuille de Route', description: 'Agenda Stratégique' },
-        masterplan: { label: 'Le Masterplan', description: 'Recrutement & Stratégie' },
-        pitch: { label: 'Pitch Deck', description: 'Pour Investisseurs' },
-        global: { label: 'DreamNova Global', description: "L'Anti-Facebook" },
-        consult: { label: 'DreamNova Consult', description: 'Agence IA & Vélocité' },
-        tera: { label: 'Tera Mind', description: 'Spirit-Tech & Thérapie IA' },
-        academy: { label: 'DreamNova Academy', description: 'Apprendre la Méthode' },
-        ecom: { label: 'E-Com Velocity', description: 'Retail Autonome' },
-        amazon: { label: 'Ha-Mazon', description: 'Logistique Distribuée' },
-        breslev: { label: 'Livres Breslev', description: 'IA RAG & Sagesse' },
-        music: { label: 'TetraBrame', description: 'Musique IA & Hafatsa' },
-        media: { label: 'TetraMedia', description: 'Usine de Contenu' },
-        roi: { label: 'Tableau de Bord ROI', description: "Thèse d'Investissement" },
-        kolel: { label: 'Kolel AI', description: 'Étude Torah & RAG' },
-        soulbond: { label: 'SoulBond', description: 'Réseau de Chesed' },
-        bezalel: { label: 'Projet Bezalel', description: 'Art Génératif' },
-        foundation: { label: 'La Fondation Nova', description: 'Philanthropie' },
-        kotel: { label: 'Connexion Kotel', description: 'Alignement Quotidien' },
-        hok: { label: 'Hok Breslev', description: 'R&D Spirituelle' },
-        sport: { label: 'Performance', description: 'Maintenance Physique' },
-        mobileTitle: 'Centre de Commandement Mobile',
-        investorMode: 'Vue Investisseur (Confidentiel)',
-        navTitle: 'Navigation Canvas Infini'
-    },
-    he: {
-        hub: { label: 'מרכז נקסוס', description: 'פיקוד מרכזי' },
-        roadmap: { label: 'מפת דרכים ויעדים', description: 'אג׳נדה אסטרטגית' },
-        masterplan: { label: 'תוכנית העל', description: 'גיוס ואסטרטגיה' },
-        pitch: { label: 'מצגת למשקיעים', description: 'למשקיעים בלבד' },
-        global: { label: 'דרים-נובה גלובל', description: 'האנטי-פייסבוק' },
-        consult: { label: 'דרים-נובה ייעוץ', description: 'סוכנות AI ומהירות' },
-        tera: { label: 'תרה מיינד', description: 'טכנולוגיה רוחנית וטיפול AI' },
-        academy: { label: 'אקדמיית דרים-נובה', description: 'למד את השיטה' },
-        ecom: { label: 'אי-קום ולוסיטי', description: 'קמעונאות אוטונומית' },
-        amazon: { label: 'ה-מזון', description: 'לוגיסטיקה מבוזרת' },
-        breslev: { label: 'ברסלב ספרים', description: 'AI RAG וחוכמה' },
-        music: { label: 'טטרה-בראם', description: 'מוזיקת AI והפצה' },
-        media: { label: 'טטרה-מדיה', description: 'מפעל תוכן' },
-        roi: { label: 'לוח בקרה ROI', description: 'תזה השקעה' },
-        kolel: { label: 'כולל AI', description: 'לימוד תורה ו-RAG' },
-        soulbond: { label: 'סול-בונד', description: 'רשת חסד' },
-        bezalel: { label: 'פרויקט בצלאל', description: 'אומנות יוצרת' },
-        foundation: { label: 'קרן נובה', description: 'פילנתרופיה' },
-        kotel: { label: 'חיבור לכותל', description: 'התבודדות יומית' },
-        hok: { label: 'חוק ברסלב', description: 'מו״פ רוחני' },
-        sport: { label: 'ביצועים', description: 'תחזוקת הגוף' },
-        mobileTitle: 'מרכז פיקוד נייד',
-        investorMode: 'מבט משקיעים (חסוי)',
-        navTitle: 'ניווט קנבס אינסופי'
-    }
-};
+import { translations } from '@/lib/translations';
+import { LanguageSelector } from '@/components/ui/LanguageSelector';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
@@ -114,7 +36,8 @@ import {
     Gift,
     Activity, // Added
     Sun, // Added
-    Anchor // Added
+    Anchor, // Added
+    Target // Added
 } from 'lucide-react';
 
 // --- TYPES ---
@@ -150,19 +73,23 @@ type EdgeType = {
 const initialNodes: NodeType[] = [
     // --- ROW 1: STRATEGY (Y = -220) ---
     {
-        id: 'roadmap', position: { x: -330, y: -220 },
+        id: 'roadmap', position: { x: -440, y: -220 },
         data: { label: 'Roadmap & Targets', description: 'Strategic Agenda', icon: <Map className="w-8 h-8 text-white" />, gradient: 'from-cyan-600 to-blue-700', href: '/roadmap', traction: 'Planning', dcs: 'N/A', size: 'small' },
     },
     {
-        id: 'masterplan', position: { x: -110, y: -220 },
+        id: 'leads', position: { x: -220, y: -220 },
+        data: { label: 'DreamNova Leads', description: 'War Room & Data', icon: <Target className="w-8 h-8 text-white" />, gradient: 'from-red-500 to-orange-500', href: '/dreamnova-leads', traction: 'Live', dcs: '99/100', size: 'small' },
+    },
+    {
+        id: 'masterplan', position: { x: 0, y: -220 },
         data: { label: 'The Masterplan', description: 'Recruitment & Strategy', icon: <Flag className="w-8 h-8 text-white" />, gradient: 'from-gray-600 to-gray-800', href: '/masterplan', traction: 'Internal', dcs: 'N/A', size: 'small' },
     },
     {
-        id: 'pitch', position: { x: 110, y: -220 },
+        id: 'pitch', position: { x: 220, y: -220 },
         data: { label: 'Pitch Deck', description: 'For Investors Only', icon: <Presentation className="w-8 h-8 text-white" />, gradient: 'from-green-500 to-emerald-700', href: '/pitch-deck', traction: 'Seed Open', dcs: 'N/A', size: 'small' },
     },
     {
-        id: 'roi', position: { x: 330, y: -220 },
+        id: 'roi', position: { x: 440, y: -220 },
         data: { label: 'ROI Dashboard', description: 'Investment Thesis', icon: <PieChart className="w-6 h-6 text-white" />, gradient: 'from-green-600 to-emerald-800', href: '/roi', traction: 'Alpha', dcs: 'N/A', size: 'small' },
     },
 
@@ -175,7 +102,6 @@ const initialNodes: NodeType[] = [
         id: 'consult', position: { x: -220, y: 0 },
         data: { label: 'DreamNova Consult', description: 'AI Agency & Velocity', icon: <Briefcase className="w-8 h-8 text-white" />, gradient: 'from-purple-500 to-pink-500', href: '/dreamnova-consult', traction: '$50k MRR', dcs: '98/100', size: 'small' },
     },
-    // CENTER HUB
     {
         id: 'hub', position: { x: 0, y: 0 },
         data: { label: 'Nexus Hub', description: 'Central Command', icon: <Hexagon className="w-10 h-10 text-white" />, gradient: 'from-gray-700 to-black', href: '/', traction: 'N/A', dcs: 'N/A', size: 'medium' },
@@ -192,7 +118,7 @@ const initialNodes: NodeType[] = [
     // --- ROW 3: VENTURES (Y = 220) ---
     {
         id: 'e-com', position: { x: -330, y: 220 },
-        data: { label: 'E-Com Velocity', description: 'Autonomous Retail', icon: <ShoppingBag className="w-6 h-6 text-white" />, gradient: 'from-emerald-500 to-teal-600', href: '/ecommerce-accelerator', traction: 'High Demand', dcs: '96/100', size: 'small' },
+        data: { label: 'E-Com Velocity', description: 'Autonomous Retail', icon: <ShoppingCart className="w-8 h-8 text-white" />, gradient: 'from-blue-500 to-cyan-500', href: '/ecommerce-accelerator', traction: 'Scaling', dcs: '92/100', size: 'small' },
     },
     {
         id: 'amazon', position: { x: -110, y: 220 },
@@ -226,7 +152,7 @@ const initialNodes: NodeType[] = [
     },
     {
         id: 'foundation', position: { x: 440, y: 440 },
-        data: { label: 'The Nova Foundation', description: 'Philanthropy', icon: <Gift className="w-5 h-5 text-white" />, gradient: 'from-teal-500 to-emerald-600', href: '#', traction: 'Planned', dcs: 'N/A', size: 'small' },
+        data: { label: 'The Nova Foundation', description: 'Philanthropy', icon: <Gift className="w-5 h-5 text-white" />, gradient: 'from-teal-500 to-emerald-600', href: '/nova-foundation', traction: 'Planned', dcs: 'N/A', size: 'small' },
     },
 ];
 
@@ -242,6 +168,7 @@ const initialEdges: EdgeType[] = [
     { id: 'e-hub-academy', source: 'hub', target: 'academy', style: { stroke: 'rgba(255, 255, 255, 0.1)' } },
 
     // VERTICAL FLOWS
+    { id: 'e-consult-leads', source: 'consult', target: 'leads', style: { stroke: 'rgba(255, 255, 255, 0.05)' } },
     { id: 'e-consult-ecom', source: 'consult', target: 'e-com', style: { stroke: 'rgba(255, 255, 255, 0.05)' } },
     { id: 'e-ecom-amazon', source: 'e-com', target: 'amazon', style: { stroke: 'rgba(255, 255, 255, 0.05)' } },
     { id: 'e-tera-breslev', source: 'tera', target: 'breslev', style: { stroke: 'rgba(255, 255, 255, 0.05)' } },
@@ -262,7 +189,7 @@ const GlassNode = ({ node, onClick, index, lang }: { node: NodeType; onClick: ()
     // Get translation
     const translationKey = node.id === 'e-com' ? 'ecom' : node.id === 'tetra-music' ? 'music' : node.id === 'tetra-media' ? 'media' : node.id;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const t: any = translations[lang][translationKey as keyof typeof translations['en']] || node.data;
+    const t: any = (translations[lang].hub.nodes as any)[translationKey] || node.data;
 
     return (
         <motion.div
@@ -403,12 +330,7 @@ export default function VentureOS_Canvas({ forceList = false }: { forceList?: bo
             {/* Controls */}
             <div className="absolute top-6 right-6 z-50 flex items-center space-x-3">
                 {/* Language Switcher */}
-                <button
-                    onClick={() => setLang(lang === 'en' ? 'fr' : lang === 'fr' ? 'he' : 'en')}
-                    className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-xs hover:bg-white/10 transition-colors"
-                >
-                    {lang === 'en' ? 'EN' : lang === 'fr' ? 'FR' : 'HE'}
-                </button>
+                <LanguageSelector />
 
                 <button
                     onClick={() => setInvestorMode(!investorMode)}
@@ -496,7 +418,7 @@ export default function VentureOS_Canvas({ forceList = false }: { forceList?: bo
                     Venture Studio <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">OS</span>
                 </h1>
                 <p className="text-gray-400 text-xs md:text-sm uppercase tracking-widest">
-                    {translations[lang][investorMode ? 'investorMode' : 'navTitle']}
+                    {translations[lang].hub[investorMode ? 'investorMode' : 'navTitle']}
                 </p>
             </div>
 
@@ -534,7 +456,7 @@ const ListView = ({ lang, handleNavigation, setShowComingSoon }: { lang: 'en' | 
                     <h1 className="text-2xl font-black text-white tracking-tight">
                         Venture Studio <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">OS</span>
                     </h1>
-                    <p className="text-xs text-gray-400 uppercase tracking-widest mt-1">{translations[lang].mobileTitle}</p>
+                    <p className="text-xs text-gray-400 uppercase tracking-widest mt-1">{translations[lang].hub.mobileTitle}</p>
                 </div>
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 animate-pulse">
                     <Hexagon className="w-5 h-5 text-white" />
@@ -546,7 +468,7 @@ const ListView = ({ lang, handleNavigation, setShowComingSoon }: { lang: 'en' | 
             {initialNodes.filter(n => n.id !== 'hub').map((node, i) => {
                 const translationKey = node.id === 'e-com' ? 'ecom' : node.id === 'tetra-music' ? 'music' : node.id === 'tetra-media' ? 'media' : node.id;
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const t: any = translations[lang][translationKey as keyof typeof translations['en']] || node.data;
+                const t: any = (translations[lang].hub.nodes as any)[translationKey] || node.data;
                 return (
                     <motion.div
                         key={node.id}
