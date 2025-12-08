@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dream Clarifier</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#00BFFF", // Electric Blue
+              "background-light": "#0A0F1A", // Dark theme only for this design
+              "background-dark": "#0A0F1A", // Deep Space Navy/Charcoal
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-dark dark group/design-root overflow-x-hidden">
+<!-- Onboarding Progress -->
+<div class="fixed top-0 left-0 right-0 p-4 z-10">
+<div class="w-full bg-gray-800/50 rounded-full h-1">
+<div class="bg-primary h-1 rounded-full" style="width: 25%"></div>
+</div>
+</div>
+<!-- Initial State Content -->
+<div class="flex flex-col items-center justify-center flex-1 px-4 pt-16 pb-4 text-center">
+<!-- Page Indicators -->
+<div class="flex w-full flex-row items-center justify-center gap-3 py-5">
+<div class="h-2 w-2 rounded-full bg-primary"></div>
+<div class="h-2 w-2 rounded-full bg-[#3b4354]"></div>
+<div class="h-2 w-2 rounded-full bg-[#3b4354]"></div>
+<div class="h-2 w-2 rounded-full bg-[#3b4354]"></div>
+</div>
+<!-- Headline Text -->
+<h1 class="text-white tracking-light text-[32px] font-bold leading-tight px-4 text-center pb-3 pt-6 font-display">Quel est votre rêve ?</h1>
+<!-- Body Text -->
+<p class="text-[#FAFAD2] text-base font-normal leading-normal pb-3 pt-1 px-4 text-center font-display">Soyez audacieux. Notre IA clarifiera le chemin.</p>
+<!-- Text Field -->
+<div class="flex w-full max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+<label class="flex flex-col min-w-40 flex-1">
+<div class="flex w-full flex-1 items-stretch rounded-lg">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary border-none bg-[#1e2433] h-14 placeholder:text-gray-400 p-4 text-base font-normal leading-normal font-display" placeholder="Ex: Je veux être riche" value="Je veux être riche"/>
+</div>
+</label>
+</div>
+</div>
+<!-- Spacer to push button down -->
+<div class="flex-grow"></div>
+<!-- Result Card and Button -->
+<div class="flex flex-col items-center justify-end flex-shrink-0 w-full px-4 pb-8 space-y-4">
+<!-- Result Card -->
+<div class="w-full max-w-md p-6 bg-[#1e2433]/80 border border-primary/30 rounded-xl backdrop-blur-sm text-left space-y-4">
+<div>
+<h2 class="text-primary font-bold text-lg font-display">Objectif:</h2>
+<p class="text-white text-base font-display">Lancer un Side-Business à 1k€/mois.</p>
+</div>
+<div>
+<h3 class="text-[#FAFAD2] font-semibold text-base font-display">Étape 1:</h3>
+<p class="text-white text-base font-display">Lister 3 compétences.</p>
+</div>
+<div>
+<h3 class="text-[#FAFAD2] font-semibold text-base font-display">Deadline:</h3>
+<p class="text-white text-base font-display">48h.</p>
+</div>
+</div>
+<!-- Single Button -->
+<div class="flex px-4 py-3 w-full max-w-md">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 bg-primary text-black text-base font-bold leading-normal tracking-[0.015em] font-display">
+<span class="truncate">Commencer</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

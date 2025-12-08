@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Micro-Hubs Infrastructure</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f97415",
+              "background-light": "#f8f7f5",
+              "background-dark": "#080808",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display">
+<div class="relative flex min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden">
+<!-- Top App Bar -->
+<div class="flex items-center p-4 pb-2 bg-background-light dark:bg-background-dark sticky top-0 z-10">
+<span class="material-symbols-outlined text-white flex size-12 shrink-0 items-center justify-start text-2xl">arrow_back_ios</span>
+<h1 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">L'Immobilier Invisible</h1>
+</div>
+<!-- Header Image -->
+<div class="px-4">
+<div class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden rounded-xl min-h-[200px] border border-white/10" data-alt="Abstract 3D wireframe graphic of a micro-hub structure, glowing with orange lines on a dark background." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB7TVSxUWXVdDuBwryet2N5dXHPgp3Q_BKgY2XuBahuSHlS_MbPv9lmcvE74aZ4xXpU2S3zwbf2W7nD4tVsHCdzl38pNXSNl3jkUb_MsgKD463aK6m0dB8FoPbpThuWJOBDrNN2Zcjhx_tNUF-NhDNQB1UwAu5E3NXLMJ6C2BWasESZ2QsUN9JyfmMAjzA8FoYE0Uw8xA7pNztWDS5LR1_hHPPkSj8a4kveocGEG5TnRTQFsfmyjjwzOs4TxRAonKmjf3wuAJeOYka9");'></div>
+</div>
+<!-- Section 1: Specifications -->
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-6 uppercase">SPÉCIFICATIONS</h2>
+<div class="grid grid-cols-2 gap-3 p-4 pt-2">
+<div class="flex flex-1 gap-3 rounded-lg border border-[#3A3A3C] bg-[#1C1C1E] p-4 flex-col">
+<span class="material-symbols-outlined text-primary text-2xl">straighten</span>
+<div class="flex flex-col gap-1 mt-auto">
+<h3 class="text-white text-base font-bold leading-tight">100-200m²</h3>
+<p class="text-gray-400 text-sm font-normal leading-normal">Parkings Réhabilités R-1/R-2</p>
+</div>
+</div>
+<div class="flex flex-1 gap-3 rounded-lg border border-[#3A3A3C] bg-[#1C1C1E] p-4 flex-col">
+<span class="material-symbols-outlined text-primary text-2xl">pin_drop</span>
+<div class="flex flex-col gap-1 mt-auto">
+<h3 class="text-white text-base font-bold leading-tight">Urban Core</h3>
+<p class="text-gray-400 text-sm font-normal leading-normal">High-Density Zones</p>
+</div>
+</div>
+<div class="flex flex-1 gap-3 rounded-lg border border-[#3A3A3C] bg-[#1C1C1E] p-4 flex-col">
+<span class="material-symbols-outlined text-primary text-2xl">local_shipping</span>
+<div class="flex flex-col gap-1 mt-auto">
+<h3 class="text-white text-base font-bold leading-tight">24/7 Access</h3>
+<p class="text-gray-400 text-sm font-normal leading-normal">Optimized for Cargo Bikes</p>
+</div>
+</div>
+</div>
+<!-- Section 2: Technology -->
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4 uppercase">TECHNOLOGIE</h2>
+<div class="grid grid-cols-2 gap-3 p-4 pt-2">
+<div class="flex flex-1 gap-3 rounded-lg border border-[#3A3A3C] bg-[#1C1C1E] p-4 flex-col">
+<span class="material-symbols-outlined text-primary text-2xl">ac_unit</span>
+<div class="flex flex-col gap-1 mt-auto">
+<h3 class="text-white text-base font-bold leading-tight">Chambres modulaires</h3>
+<p class="text-gray-400 text-sm font-normal leading-normal">Haute performance</p>
+</div>
+</div>
+<div class="flex flex-1 gap-3 rounded-lg border border-[#3A3A3C] bg-[#1C1C1E] p-4 flex-col">
+<span class="material-symbols-outlined text-primary text-2xl">power</span>
+<div class="flex flex-col gap-1 mt-auto">
+<h3 class="text-white text-base font-bold leading-tight">Redundant Power</h3>
+<p class="text-gray-400 text-sm font-normal leading-normal">Low Energy Consumption</p>
+</div>
+</div>
+<div class="flex flex-1 gap-3 rounded-lg border border-[#3A3A3C] bg-[#1C1C1E] p-4 flex-col">
+<span class="material-symbols-outlined text-primary text-2xl">security</span>
+<div class="flex flex-col gap-1 mt-auto">
+<h3 class="text-white text-base font-bold leading-tight">Biometric Access</h3>
+<p class="text-gray-400 text-sm font-normal leading-normal">Real-time Surveillance</p>
+</div>
+</div>
+</div>
+<!-- Section 3: Storage -->
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4 uppercase">STOCKAGE</h2>
+<div class="grid grid-cols-2 gap-3 p-4 pt-2">
+<div class="flex flex-1 gap-3 rounded-lg border border-[#3A3A3C] bg-[#1C1C1E] p-4 flex-col">
+<span class="material-symbols-outlined text-primary text-2xl">inventory_2</span>
+<div class="flex flex-col gap-1 mt-auto">
+<h3 class="text-white text-base font-bold leading-tight">Kits Pré-dosés</h3>
+<p class="text-gray-400 text-sm font-normal leading-normal">Pâtes, Sauce, Huile</p>
+</div>
+</div>
+<div class="flex flex-1 gap-3 rounded-lg border border-[#3A3A3C] bg-[#1C1C1E] p-4 flex-col">
+<span class="material-symbols-outlined text-primary text-2xl">shelves</span>
+<div class="flex flex-col gap-1 mt-auto">
+<h3 class="text-white text-base font-bold leading-tight">High-Density</h3>
+<p class="text-gray-400 text-sm font-normal leading-normal">FIFO System</p>
+</div>
+</div>
+<div class="flex flex-1 gap-3 rounded-lg border border-[#3A3A3C] bg-[#1C1C1E] p-4 flex-col">
+<span class="material-symbols-outlined text-primary text-2xl">speed</span>
+<div class="flex flex-col gap-1 mt-auto">
+<h3 class="text-white text-base font-bold leading-tight">500 Orders/Hour</h3>
+<p class="text-gray-400 text-sm font-normal leading-normal">Optimized Workflow</p>
+</div>
+</div>
+</div>
+<!-- CTA Button -->
+<div class="p-4 pt-6 pb-8 mt-auto">
+<button class="w-full bg-primary text-white font-bold py-4 px-6 rounded-lg text-center text-base">
+                View Operational Map
+            </button>
+</div>
+</div>
+</body></html>

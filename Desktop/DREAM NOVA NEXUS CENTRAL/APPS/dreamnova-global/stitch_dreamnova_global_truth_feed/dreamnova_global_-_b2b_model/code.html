@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DreamNova Global - B2B Model</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#2463eb",
+            "background-light": "#f6f6f8",
+            "background-dark": "#111621",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk", "sans-serif"]
+          },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-[#111621] dark group/design-root overflow-x-hidden font-display" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA2fZYw_iXJx0D-QHjKU4xeVeKcy-7IvVQdfsL0NBFrtOkIL7zBeZiRkNPWR7u3jhZ2eetWTe7xW_apd3kcKDMl-6lgeQyb_KXM9zZi0YuDwr_gofEDAOoRyJMULgQlD8Vl51tI8oe3MPum4l102Yf8AIqOhl-_nIp-vT0KKW2YaZy5szYwAQqzODgx3E-wXkCHadbQ7XyZzWiZEqMNrhUD4KF5sAwLXzuGbifEj-azz5hhNl7vCeefVIX5oqxrm7A91_LRC5RqLAc'); background-size: cover; background-position: center; background-attachment: fixed;">
+<div class="sticky top-0 z-10 backdrop-blur-md bg-[#111621]/80">
+<!-- TopAppBar -->
+<div class="flex items-center p-4 pb-2 justify-between">
+<div class="text-white flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined text-3xl">arrow_back_ios_new</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Reverse Recruiting</h2>
+<div class="flex size-12 shrink-0 items-center"></div>
+</div>
+<!-- SearchBar -->
+<div class="px-4 py-3">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-[#92a4c8] flex border-none bg-[#242f47] items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined">filter_alt</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-[#242f47] focus:border-none h-full placeholder:text-[#92a4c8] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Cherche CTO | DCS &gt; 90 | Alignement &gt; 85" readonly="" value=""/>
+</div>
+</label>
+</div>
+</div>
+<!-- Modified ImageGrid -->
+<main class="flex-1 p-4">
+<div class="grid grid-cols-2 gap-4">
+<!-- Profile Card 1 -->
+<div class="flex flex-col gap-3 rounded-xl border border-white/10 bg-[#1A202C]/60 p-4 backdrop-blur-sm">
+<div class="flex items-center justify-between">
+<p class="text-xs font-medium text-white/70">Profil #A7B3C9</p>
+</div>
+<div class="relative w-full aspect-square">
+<img class="h-full w-full rounded-full object-cover blur-lg" data-alt="blurred avatar of a candidate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3bVVsqBrVW6ZXonsr8Ee8DN23aPrIYH3qVI6mbu3ol0ynEYH8Km3gZATdXJ_fCnl9Q_pCEjxp36TLCTQWLQiaAZhKMnGh2TjVCkwag9BQw6yzXNPTAZirr8gNMNF2LpRrCs297qI_i9-awTYuxETxWMlhKRYXPNY09Kb7d1cgsKo3UdEanoTeHnK-5pHVLvvFEyZ9qru5f8y-ZUKsikZK1Gfh5bQrJabE5XJTdxyIFiUvEe55xqLg0xWyt9ndIUAKQXRYWGnu0X8"/>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between text-sm">
+<span class="text-white/70">DCS</span>
+<span class="font-bold text-[#00BFFF]">93</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-white/70">Alignement</span>
+<span class="font-bold text-[#E0C56E]">88%</span>
+</div>
+</div>
+</div>
+<!-- Profile Card 2 -->
+<div class="flex flex-col gap-3 rounded-xl border border-white/10 bg-[#1A202C]/60 p-4 backdrop-blur-sm">
+<div class="flex items-center justify-between">
+<p class="text-xs font-medium text-white/70">Profil #D4E1F2</p>
+</div>
+<div class="relative w-full aspect-square">
+<img class="h-full w-full rounded-full object-cover blur-lg" data-alt="blurred avatar of a candidate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7oCfXAEVsNqvVDBEJKsX437ZftHbUymEZmUK2SG1YdS5BJww9yvHy7q2srh7tVx-E8C2VFonxUg1oN7o2r9SpzzgTL10DCF0B54FEP1KeuwhNtmYDZ3q_0EBi8t0gN79TEd86ouVF_sUSgCmackOVSZQWA4gKvDa9AJgHnaBcUOsZtJI5-C9woVJw6lqFxWAdgzcrCk0mkXTr7gXPX2G5cylrfeS46y7iomU1MzXHxSY00KUgqpD8_QSAJ7edFXxs25YhjmtZEzs"/>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between text-sm">
+<span class="text-white/70">DCS</span>
+<span class="font-bold text-[#00BFFF]">92</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-white/70">Alignement</span>
+<span class="font-bold text-[#E0C56E]">91%</span>
+</div>
+</div>
+</div>
+<!-- Profile Card 3 -->
+<div class="flex flex-col gap-3 rounded-xl border border-white/10 bg-[#1A202C]/60 p-4 backdrop-blur-sm">
+<div class="flex items-center justify-between">
+<p class="text-xs font-medium text-white/70">Profil #G8H5K1</p>
+</div>
+<div class="relative w-full aspect-square">
+<img class="h-full w-full rounded-full object-cover blur-lg" data-alt="blurred avatar of a candidate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpw2PNGGCwdKeI_Fy7oATiv7rWlfzESdIH_dSuC7bi0t4nThqiKgdia_Ww_tYleLuw9WlU1fe9pX4iqd46p2H6DTOx1tNThj4sG-1c2HQlPV4ddxJz5AEtibaO8yZZULIWRO3VwzgpyXWJxfl8l10JowEJS-ZZNJAC_52Z9F3H6gOJAlLwUWuQb7Q40ge2lfl5USxuUICzVEtI1waH4s2FsSTZRPgEoooG2In_wounAvtjcZqjLvY2MqWL233kDkWSyyrwVvnsxv4"/>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between text-sm">
+<span class="text-white/70">DCS</span>
+<span class="font-bold text-[#00BFFF]">95</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-white/70">Alignement</span>
+<span class="font-bold text-[#E0C56E]">85%</span>
+</div>
+</div>
+</div>
+<!-- Profile Card 4 -->
+<div class="flex flex-col gap-3 rounded-xl border border-white/10 bg-[#1A202C]/60 p-4 backdrop-blur-sm">
+<div class="flex items-center justify-between">
+<p class="text-xs font-medium text-white/70">Profil #L2M9N6</p>
+</div>
+<div class="relative w-full aspect-square">
+<img class="h-full w-full rounded-full object-cover blur-lg" data-alt="blurred avatar of a candidate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvKih5x2xj_RWLX3ApJAv2RcbcG5HGOfYUBmGh1Qo9NcBIh2JJqFBr2FL5ObFlDxIa-xn8NjP8cEM_9Bv-PvlqDvikw1VL0cHtXiGTFhagBOiiGnSzCojo-V5_ylZVgK4XnRxXWcVk_GNdve6tsygH0vfgGaslx5DGy7zhQQA5t0ta6TVtA8ok-w1Md2ukxMVBrGf3yVlxW4aCtKQ89RJRWUk4tQsHsBA_ureHjrpVqGDYd_OWnqT4Zm3F9WFk85JcdZoOygkyjz8"/>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between text-sm">
+<span class="text-white/70">DCS</span>
+<span class="font-bold text-[#00BFFF]">91</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-white/70">Alignement</span>
+<span class="font-bold text-[#E0C56E]">90%</span>
+</div>
+</div>
+</div>
+<!-- Profile Card 5 -->
+<div class="flex flex-col gap-3 rounded-xl border border-white/10 bg-[#1A202C]/60 p-4 backdrop-blur-sm">
+<div class="flex items-center justify-between">
+<p class="text-xs font-medium text-white/70">Profil #P3Q7R4</p>
+</div>
+<div class="relative w-full aspect-square">
+<img class="h-full w-full rounded-full object-cover blur-lg" data-alt="blurred avatar of a candidate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzCacpdzEqE2oUB0N3kQFi3ucsYMEvqQPHWnpco4kDE1aXeMKRTeUvZZY0HGX89Stj_HP47SmAoysb7Si1WZue0jYIJRN1A7Jw-9aCMBRNCTxbw7dfOptWmsqLi7k9Y4D6oj6K5VARNfz7PYV0kLioPJoL0eYuaGJ8XU5NmOYQfEp4nggNDx8pantbeF4MxjGxFbhupV9eRNyDL3IMMyLttQWDh7EcMDY30qWd8krHZUixkEIk-JQX0Ay_f9alzEBTiT13fl-OaFQ"/>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between text-sm">
+<span class="text-white/70">DCS</span>
+<span class="font-bold text-[#00BFFF]">94</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-white/70">Alignement</span>
+<span class="font-bold text-[#E0C56E]">87%</span>
+</div>
+</div>
+</div>
+<!-- Profile Card 6 -->
+<div class="flex flex-col gap-3 rounded-xl border border-white/10 bg-[#1A202C]/60 p-4 backdrop-blur-sm">
+<div class="flex items-center justify-between">
+<p class="text-xs font-medium text-white/70">Profil #S5T2U8</p>
+</div>
+<div class="relative w-full aspect-square">
+<img class="h-full w-full rounded-full object-cover blur-lg" data-alt="blurred avatar of a candidate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1mlOx7YdryYFmgSOCjyZPLshus5mVuZpm0ik09taG9tQpRn3AeyYEBAsX9YEPo4S5AokabEEVdR1VwpXYcrXifaGX70utS_mRtj7ytc0rQb8yiRlQJHtesa1aF6elKmrXKYhs_jS4Gn5SRFTV5dPiJKDgVL8wc_KYnquj3ScSd7-cyx62Epk4kpDCRN0RooN1jGSW4QyUrfOJVfRP18y1qhxxMYKduHlUZxTMtt6cgdO2uPfam6056AisLtB-8HBgADbctgi1gv4"/>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between text-sm">
+<span class="text-white/70">DCS</span>
+<span class="font-bold text-[#00BFFF]">90</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-white/70">Alignement</span>
+<span class="font-bold text-[#E0C56E]">92%</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- SingleButton -->
+<div class="sticky bottom-0 z-10 p-4 pb-6 bg-gradient-to-t from-[#111621] via-[#111621]/90 to-transparent">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 w-full bg-[#2463eb] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em] shadow-[0_0_20px_rgba(36,99,235,0.5)]">
+<span class="material-symbols-outlined">lock_open</span>
+<span class="truncate">Débloquer le contact (500€)</span>
+</button>
+</div>
+</div>
+</body></html>

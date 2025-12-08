@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lead Details &amp; Purchase</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#10bc83", // Using provided green as primary
+              "background-light": "#f6f8f7",
+              "background-dark": "#0A0A0A", // Matching user request
+              "card-dark": "#1C1C1E",
+              "text-secondary-dark": "#8E8E93",
+              "accent-green": "#39FF14",
+              "accent-amber": "#FFBF00",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            backdropBlur: {
+              'xl': '24px',
+            },
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 24px;
+        }
+        .glassmorphism {
+            background: rgba(28, 28, 30, 0.6); /* #1C1C1E with 60% opacity */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(142, 142, 147, 0.2); /* #8E8E93 with 20% opacity */
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark">
+<!-- Top App Bar -->
+<div class="flex items-center bg-transparent p-4 pb-2 justify-between sticky top-0 z-10 dark:bg-background-dark/80 backdrop-blur-xl">
+<div class="flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined text-white">arrow_back_ios</span>
+</div>
+<h1 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Détail du Lead</h1>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-transparent text-white gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0">
+<span class="material-symbols-outlined text-white">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Lead Information Section -->
+<div class="px-4">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pt-5 pb-3">Informations sur le Lead</h2>
+<div class="p-4 rounded-xl bg-card-dark">
+<div class="flex justify-between gap-x-6 py-3 border-b border-white/10">
+<p class="text-text-secondary-dark text-sm font-normal leading-normal">ID Lead</p>
+<p class="text-white text-sm font-medium leading-normal text-right">DN-7843K</p>
+</div>
+<div class="flex justify-between gap-x-6 py-3 border-b border-white/10">
+<p class="text-text-secondary-dark text-sm font-normal leading-normal">Secteur</p>
+<p class="text-white text-sm font-medium leading-normal text-right">Technologie</p>
+</div>
+<div class="flex justify-between gap-x-6 py-3 border-b border-white/10">
+<p class="text-text-secondary-dark text-sm font-normal leading-normal">Code Postal</p>
+<p class="text-white text-sm font-medium leading-normal text-right">75001 Paris</p>
+</div>
+<div class="flex justify-between items-center gap-x-6 py-3 border-b border-white/10">
+<p class="text-text-secondary-dark text-sm font-normal leading-normal">Statut</p>
+<span class="inline-flex items-center rounded-full bg-accent-green/20 px-3 py-1 text-sm font-medium text-accent-green">Qualifié</span>
+</div>
+<div class="flex justify-between gap-x-6 py-3">
+<p class="text-text-secondary-dark text-sm font-normal leading-normal">Prix</p>
+<p class="text-accent-amber text-sm font-bold leading-normal text-right">35€</p>
+</div>
+</div>
+</div>
+<!-- Buy Box Section -->
+<div class="px-4 mt-8">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3">Panneau d'Ordres</h2>
+<div class="flex flex-col gap-4">
+<!-- Purchase Option 1: Glassmorphism Card -->
+<div class="flex flex-col items-stretch justify-start rounded-xl p-4 glassmorphism">
+<div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-2">
+<p class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Pack Découverte : 10 Leads</p>
+<div class="flex items-center gap-3 justify-between">
+<p class="text-accent-amber text-base font-bold leading-normal">350€</p>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-6 bg-accent-green text-black text-sm font-bold leading-normal transition-colors hover:bg-opacity-80">
+<span class="truncate">Acheter</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Purchase Option 2: Glassmorphism Card -->
+<div class="flex flex-col items-stretch justify-start rounded-xl p-4 glassmorphism">
+<div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-2">
+<p class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Pack Croissance : 50 Leads</p>
+<div class="flex items-center gap-3 justify-between">
+<p class="text-accent-amber text-base font-bold leading-normal">1500€</p>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-6 bg-accent-green text-black text-sm font-bold leading-normal transition-colors hover:bg-opacity-80">
+<span class="truncate">Acheter</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="h-10"></div>
+</div>
+</body></html>

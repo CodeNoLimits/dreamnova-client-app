@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reverse Recruiting - DreamNova Global</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#00BFFF", // Electric Blue
+              "background-light": "#0A0F1E", // Dark for both modes as per Deep Space theme
+              "background-dark": "#0A0F1E",  // Deep Space Background
+              "accent-gold": "#E0C56E", // Pale Gold
+              "card-bg": "rgba(23, 29, 45, 0.5)", // Semi-transparent card background
+              "card-border": "rgba(45, 67, 101, 0.4)", // Subtle border
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem", 
+              "lg": "0.75rem",
+              "xl": "1rem",
+              "full": "9999px"
+            },
+            boxShadow: {
+              'glow-primary': '0 0 15px rgba(0, 191, 255, 0.2), 0 0 5px rgba(0, 191, 255, 0.1)',
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+       /* Simple radial progress bar style */
+      .progress-ring__circle {
+        transition: stroke-dashoffset 0.35s;
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-dark text-slate-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-dark overflow-x-hidden">
+<!-- Top App Bar -->
+<header class="flex items-center bg-transparent p-4 pb-2 justify-between sticky top-0 z-10 backdrop-blur-sm bg-background-dark/80 border-b border-card-border">
+<div class="flex size-10 shrink-0 items-center justify-center">
+<span class="material-symbols-outlined text-slate-300 text-2xl">arrow_back_ios_new</span>
+</div>
+<h1 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Reverse Recruiting</h1>
+<div class="flex size-10 shrink-0 items-center justify-center">
+<span class="material-symbols-outlined text-slate-300 text-2xl">menu</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="p-4 pt-6 flex flex-col gap-6">
+<!-- Search & Filter Bar -->
+<div class="flex items-center gap-2 rounded-lg border border-card-border bg-card-bg p-3 backdrop-blur-md shadow-lg cursor-pointer">
+<span class="material-symbols-outlined text-primary text-2xl">filter_alt</span>
+<p class="text-sm text-slate-300 flex-1 truncate">Cherche <span class="text-accent-gold font-medium">CTO</span> | DCS <span class="text-accent-gold font-medium">&gt; 90</span> | Alignement <span class="text-accent-gold font-medium">&gt; 85</span></p>
+<span class="material-symbols-outlined text-slate-400 text-xl">expand_more</span>
+</div>
+<!-- Anonymized Profile Grid -->
+<div class="grid grid-cols-2 gap-4">
+<!-- Profile Card 1 -->
+<div class="flex flex-col gap-4 rounded-xl border border-card-border bg-card-bg p-4 backdrop-blur-md shadow-lg">
+<div class="relative mx-auto size-20">
+<img class="size-full rounded-full object-cover blur-lg brightness-75" data-alt="Blurred and pixelated avatar of a candidate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3IL-h8D9Qcvwh6gWLx-7vCAlfcwIkC5jCP0oU76hYAVHmQTEX8CdlES_QQxOK9A-Mfez-EammuCFrFtSxDbgRPq3tQYmn5zybEma6I6tDC573SwA3h9ft4sqgiE5_ii-Ubf0p-feXaOjfVcyeYLblu6Va2ZL4I2LHWVsdwZrhjtjk6Qe-mr7pyfDpZpVx6UQMMZ4sKFuBx4e43oGNcXC8uJEICz9eaWXS4sU3XoySMqv7feiK3t-Nru9qTO-j8BS0vt_xyCt4an0"/>
+</div>
+<div class="text-center">
+<h3 class="text-lg font-bold text-white">CTO</h3>
+</div>
+<div class="flex justify-around items-center gap-2">
+<div class="flex flex-col items-center gap-1">
+<div class="relative size-12">
+<svg class="size-full" viewbox="0 0 36 36">
+<path class="stroke-slate-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3"></path>
+<path class="stroke-primary progress-ring__circle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="92, 100" stroke-dashoffset="0" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<span class="absolute inset-0 flex items-center justify-center text-xs font-semibold text-accent-gold">92</span>
+</div>
+<p class="text-xs text-slate-400">DCS</p>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="relative size-12">
+<svg class="size-full" viewbox="0 0 36 36">
+<path class="stroke-slate-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3"></path>
+<path class="stroke-accent-gold progress-ring__circle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="88, 100" stroke-dashoffset="0" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<span class="absolute inset-0 flex items-center justify-center text-xs font-semibold text-accent-gold">88</span>
+</div>
+<p class="text-xs text-slate-400">Alignement</p>
+</div>
+</div>
+<button class="w-full rounded-lg bg-primary/20 px-4 py-2 text-sm font-semibold text-primary border border-primary/50 hover:bg-primary/30 transition-colors">Unlock (500€)</button>
+</div>
+<!-- Profile Card 2 -->
+<div class="flex flex-col gap-4 rounded-xl border border-card-border bg-card-bg p-4 backdrop-blur-md shadow-lg">
+<div class="relative mx-auto size-20">
+<img class="size-full rounded-full object-cover blur-lg brightness-75" data-alt="Blurred and pixelated avatar of a candidate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB10uU_3jh8CCn8uHCU1K-ADmkIL4A5fRAQhEIFOIxHP-5BlAix3jYUNKFaxuT9tzxaxiC-1EN1l1Ho3HXMbSl9fhR4zXk9aBosmAT-YBoAFcEKrOx4lDAjeCDt8srOZbVuARK1FJONBKd4ggH5rWO0Y3EJd2vj3JPP1SI5rnjXWFHSaGrHyOgyyF0UNW4N8kodZolmBFdyZCboylsZizjvTX_sYPTnZ8Ccq_0_TiDQDibAcVM1EoqqqtFg_TyLDzinPVJogWwHi3s"/>
+</div>
+<div class="text-center">
+<h3 class="text-lg font-bold text-white">Sr. Product Mgr</h3>
+</div>
+<div class="flex justify-around items-center gap-2">
+<div class="flex flex-col items-center gap-1">
+<div class="relative size-12">
+<svg class="size-full" viewbox="0 0 36 36">
+<path class="stroke-slate-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3"></path>
+<path class="stroke-primary progress-ring__circle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="95, 100" stroke-dashoffset="0" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<span class="absolute inset-0 flex items-center justify-center text-xs font-semibold text-accent-gold">95</span>
+</div>
+<p class="text-xs text-slate-400">DCS</p>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="relative size-12">
+<svg class="size-full" viewbox="0 0 36 36">
+<path class="stroke-slate-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3"></path>
+<path class="stroke-accent-gold progress-ring__circle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="82, 100" stroke-dashoffset="0" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<span class="absolute inset-0 flex items-center justify-center text-xs font-semibold text-accent-gold">82</span>
+</div>
+<p class="text-xs text-slate-400">Alignement</p>
+</div>
+</div>
+<button class="w-full rounded-lg bg-primary/20 px-4 py-2 text-sm font-semibold text-primary border border-primary/50 hover:bg-primary/30 transition-colors">Unlock (500€)</button>
+</div>
+<!-- Profile Card 3 -->
+<div class="flex flex-col gap-4 rounded-xl border border-card-border bg-card-bg p-4 backdrop-blur-md shadow-lg">
+<div class="relative mx-auto size-20">
+<img class="size-full rounded-full object-cover blur-lg brightness-75" data-alt="Blurred and pixelated avatar of a candidate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9a-Xuc69oZFvgGebJTecmgemqKWnmP7gUjjDZsF8FWpcj4K0hWFcQRHoFKUocTyhOMaKgB9mSaAwRROQWsbW907rywy7QVPY31vPA4Aq0oUlKR01bS0jTElNhN_dsgY5nO7XU3yGCrHWovoCnaXERrNM58JlqNuDnVR_et2dP-4XxipX1G9FiGeOgq7chLViEXTrByViJGFln9DkgLTeGyuGtp6LszEQ7UlEppa4xcepMDeSk9PRzd9IswkkmRFcIkUvdfBDMGS0"/>
+</div>
+<div class="text-center">
+<h3 class="text-lg font-bold text-white">Data Scientist</h3>
+</div>
+<div class="flex justify-around items-center gap-2">
+<div class="flex flex-col items-center gap-1">
+<div class="relative size-12">
+<svg class="size-full" viewbox="0 0 36 36">
+<path class="stroke-slate-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3"></path>
+<path class="stroke-primary progress-ring__circle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="89, 100" stroke-dashoffset="0" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<span class="absolute inset-0 flex items-center justify-center text-xs font-semibold text-accent-gold">89</span>
+</div>
+<p class="text-xs text-slate-400">DCS</p>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="relative size-12">
+<svg class="size-full" viewbox="0 0 36 36">
+<path class="stroke-slate-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3"></path>
+<path class="stroke-accent-gold progress-ring__circle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="91, 100" stroke-dashoffset="0" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<span class="absolute inset-0 flex items-center justify-center text-xs font-semibold text-accent-gold">91</span>
+</div>
+<p class="text-xs text-slate-400">Alignement</p>
+</div>
+</div>
+<button class="w-full rounded-lg bg-primary/20 px-4 py-2 text-sm font-semibold text-primary border border-primary/50 hover:bg-primary/30 transition-colors">Unlock (500€)</button>
+</div>
+<!-- Profile Card 4 -->
+<div class="flex flex-col gap-4 rounded-xl border border-card-border bg-card-bg p-4 backdrop-blur-md shadow-lg">
+<div class="relative mx-auto size-20">
+<img class="size-full rounded-full object-cover blur-lg brightness-75" data-alt="Blurred and pixelated avatar of a candidate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTDLgEBSPyvw6aPcVKPLqyi792K_oXP3GBAzWtm6WMg-4szeTRVg80ziG-XziySxqvSI1vWy_GSq54_s2n_BuUKefNzP5oT9ZSki2j3H-p1fAyAINnd88rKUhIkbRFJPE3xf0ktWMLxc-svuvMf1Z-6GKq7E1J4r1BX0y0fpWTa4rbv-MRaenSNOVeqG6p9QFrnrEZNMmksCoL5KCO4JCOtGv6nJejpTWzS5FhuLmKvfF5rumpZ9obdThVxYAWFq7QaGumUdZGTbo"/>
+</div>
+<div class="text-center">
+<h3 class="text-lg font-bold text-white">Head of Growth</h3>
+</div>
+<div class="flex justify-around items-center gap-2">
+<div class="flex flex-col items-center gap-1">
+<div class="relative size-12">
+<svg class="size-full" viewbox="0 0 36 36">
+<path class="stroke-slate-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3"></path>
+<path class="stroke-primary progress-ring__circle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="96, 100" stroke-dashoffset="0" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<span class="absolute inset-0 flex items-center justify-center text-xs font-semibold text-accent-gold">96</span>
+</div>
+<p class="text-xs text-slate-400">DCS</p>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="relative size-12">
+<svg class="size-full" viewbox="0 0 36 36">
+<path class="stroke-slate-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3"></path>
+<path class="stroke-accent-gold progress-ring__circle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="94, 100" stroke-dashoffset="0" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<span class="absolute inset-0 flex items-center justify-center text-xs font-semibold text-accent-gold">94</span>
+</div>
+<p class="text-xs text-slate-400">Alignement</p>
+</div>
+</div>
+<button class="w-full rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-background-dark border border-primary hover:bg-primary/90 transition-colors shadow-glow-primary">Unlock (500€)</button>
+</div>
+</div>
+</main>
+</div>
+</body></html>

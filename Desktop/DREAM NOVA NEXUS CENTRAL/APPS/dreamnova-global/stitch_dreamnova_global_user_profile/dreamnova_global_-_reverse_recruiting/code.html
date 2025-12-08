@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DreamNova Global - Reverse Recruiting</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#2463eb",
+            "background-light": "#f6f6f8",
+            "background-dark": "#111622",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+    }
+  </style>
+</head>
+<body class="font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center p-4 sm:p-5">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between gap-3 p-4">
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-black dark:text-white tracking-light text-3xl font-bold leading-tight">Reverse Recruiting</p>
+<p class="text-slate-600 dark:text-[#92a4c8] text-sm font-normal leading-normal">Discover elite talent based on verified proof of execution.</p>
+</div>
+</div>
+<!-- SearchBar -->
+<div class="px-4 py-3">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-slate-500 dark:text-[#92a4c8] flex border-none bg-slate-100 dark:bg-[#242f47] items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-2xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-black dark:text-white focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-[#242f47] focus:border-none h-full placeholder:text-slate-500 dark:placeholder:text-[#92a4c8] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Cherche CTO | DCS &gt; 90 | Alignement &gt; 85" value=""/>
+</div>
+</label>
+</div>
+<!-- Chips -->
+<div class="flex gap-3 p-3 flex-wrap pr-4">
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-[#242f47] pl-4 pr-2 hover:bg-slate-200 dark:hover:bg-primary/30 transition-colors">
+<p class="text-black dark:text-white text-sm font-medium leading-normal">Sort by DCS</p>
+<span class="material-symbols-outlined text-black dark:text-white text-xl">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-[#242f47] pl-4 pr-2 hover:bg-slate-200 dark:hover:bg-primary/30 transition-colors">
+<p class="text-black dark:text-white text-sm font-medium leading-normal">Sort by Alignment</p>
+<span class="material-symbols-outlined text-black dark:text-white text-xl">expand_more</span>
+</button>
+</div>
+<!-- ImageGrid with integrated ButtonGroup logic -->
+<div class="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4 p-4">
+<div class="flex flex-col gap-4 text-center pb-3 bg-slate-100/50 dark:bg-[#1a2133] rounded-xl p-4 transition-all hover:bg-slate-200 dark:hover:bg-[#242f47] group">
+<div class="px-4">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-full backdrop-blur-xl" data-alt="Blurred profile avatar for an anonymous candidate" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCFqutSQjiRwFC-8DPpOpaggFifTONlV9YdyTG7nRYXJbUQ9bRjwJcEFOeO9lF3boC6T2QVWxCDe2W-PBN-FAEhZfGQZM6nMSyRmkkeDYeW6LH64yEmHU5rzzFxYRsX0S_le0PHTqMZt2Obv-suoUqQhZhf6yOdxsf51BQvKdBWAcOwaFlS6hJSMKDRti1GawkBCDfFC3Eze_cXM4Lsmxn_CIr_g67DvehykJkxIQt_OkgzHxdeQXkIS2aaUODgh9dbt3eUoj8DRVvl"); filter: blur(12px);'></div>
+</div>
+<div class="flex flex-col items-center justify-center gap-2">
+<p class="text-black dark:text-white text-base font-medium leading-normal">Lead Quantum Engineer</p>
+<p class="text-slate-600 dark:text-[#92a4c8] text-sm font-normal leading-normal">DCS: 98 | Alignment: 95</p>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] w-full mt-2 hover:bg-primary/90 transition-colors">
+<span class="truncate">Débloquer le contact (500€)</span>
+</button>
+</div>
+<div class="flex flex-col gap-4 text-center pb-3 bg-slate-100/50 dark:bg-[#1a2133] rounded-xl p-4 transition-all hover:bg-slate-200 dark:hover:bg-[#242f47] group">
+<div class="px-4">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-full backdrop-blur-xl" data-alt="Blurred profile avatar for an anonymous candidate" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCXknDLCW64Vn9GG1HYqDUaR-0W76xGj_reuffTlm9bq-2bC-mw4y6ygCJNO0w5S-kTltP-1OhhSf6vS8SKWLzHq4yRLOUD-u5WI2mnPMrGt9CJcpqSgfa1ysUeKwkzIbsPwXGgNJ-tjCyW4bKyyq4sUULuCkPrhScEuntmxleS2jDOY5SgOXuwfae6mAr6FdnNyztch_jPIuyvAZgdQ9P0ziBrYNB8uIVzPwI-gLmVLOhOPrbgDSyLRLu_JpKKIZWi2aKnJL01rzab"); filter: blur(12px);'></div>
+</div>
+<div class="flex flex-col items-center justify-center gap-2">
+<p class="text-black dark:text-white text-base font-medium leading-normal">CTO Candidate</p>
+<p class="text-slate-600 dark:text-[#92a4c8] text-sm font-normal leading-normal">DCS: 95 | Alignment: 92</p>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] w-full mt-2 hover:bg-primary/90 transition-colors">
+<span class="truncate">Débloquer le contact (500€)</span>
+</button>
+</div>
+<div class="flex flex-col gap-4 text-center pb-3 bg-slate-100/50 dark:bg-[#1a2133] rounded-xl p-4 transition-all hover:bg-slate-200 dark:hover:bg-[#242f47] group">
+<div class="px-4">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-full backdrop-blur-xl" data-alt="Blurred profile avatar for an anonymous candidate" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAJbf4iA_xO5vuBvDnS9qifkoe2BHDKhxzJpXbIucC6yCVs7bWjewF7rLERM_bFc0yov8Nzf5awEogR68bv7orzjfuCDNMWTcmcUFtR-EE3JaUaLVjreqlpFFNn-dFwidmjufrccXAAHw0myQUtkRhDQ0Y-EUQck5aAcGSzpamiQ88pVoJihTdJta9niT_4p_yclxxCcy0wSRfV7BgyLBeqUbTdMYZVyvwcIbUjKsiTfExsG4YsPJZguvUK46vY-gpLS-2F47-R2VXe"); filter: blur(12px);'></div>
+</div>
+<div class="flex flex-col items-center justify-center gap-2">
+<p class="text-black dark:text-white text-base font-medium leading-normal">AI Research Scientist</p>
+<p class="text-slate-600 dark:text-[#92a4c8] text-sm font-normal leading-normal">DCS: 94 | Alignment: 88</p>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] w-full mt-2 hover:bg-primary/90 transition-colors">
+<span class="truncate">Débloquer le contact (500€)</span>
+</button>
+</div>
+<div class="flex flex-col gap-4 text-center pb-3 bg-slate-100/50 dark:bg-[#1a2133] rounded-xl p-4 transition-all hover:bg-slate-200 dark:hover:bg-[#242f47] group">
+<div class="px-4">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-full backdrop-blur-xl" data-alt="Blurred profile avatar for an anonymous candidate" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDHce6pKhOdvDDo0KtdbC6HiwLitBNopzSdKWhZP_ql6lzBuptPNhmLlpUoTIHDguMy4WlJu6e721L8OQGf319JNcxhZrD2GJjj61kpD1A5JgcwVybflFgl37n6-wrGTlNwSFJDKGtZ_7dIqSyBJVvu39343_VPRwH5DVI3Tw7Zf8QcuKmEv0PmBfCt8woAu5w63GwyWmdfTXcW4z7l-05KwvNaMzZfJHb2Fjz2eA-E-jfiteqnvR57CSxmTEbRNpVelse-2EJR5Nr9"); filter: blur(12px);'></div>
+</div>
+<div class="flex flex-col items-center justify-center gap-2">
+<p class="text-black dark:text-white text-base font-medium leading-normal">Senior Systems Architect</p>
+<p class="text-slate-600 dark:text-[#92a4c8] text-sm font-normal leading-normal">DCS: 92 | Alignment: 89</p>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] w-full mt-2 hover:bg-primary/90 transition-colors">
+<span class="truncate">Débloquer le contact (500€)</span>
+</button>
+</div>
+<div class="flex flex-col gap-4 text-center pb-3 bg-slate-100/50 dark:bg-[#1a2133] rounded-xl p-4 transition-all hover:bg-slate-200 dark:hover:bg-[#242f47] group">
+<div class="px-4">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-full backdrop-blur-xl" data-alt="Blurred profile avatar for an anonymous candidate" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCfuiTBriZTs2vgOPqNy33VOVAar8pH8w-7-kJLaIQwCB_M7P4GqhqmN1q0ptTQWbRw7x8cB5n2w8yEXzIvCOdjYIEDaZMDIJZw-24eScAQVedYGS9geX5RMfdp4gAXDlSS_-sq-bJboRfLHE7Ugg5_Iu6BV350JoFaVAyYDRULle51wc98ClucuyNmA90YsHrsJOnJK9r8SUpF01_n6M9t0IrbkMjO9OzmbWzAOW0EqdhUj6faSeQ-98PSoe7Ya0niol_WspUODpSG"); filter: blur(12px);'></div>
+</div>
+<div class="flex flex-col items-center justify-center gap-2">
+<p class="text-black dark:text-white text-base font-medium leading-normal">Data Science Lead</p>
+<p class="text-slate-600 dark:text-[#92a4c8] text-sm font-normal leading-normal">DCS: 91 | Alignment: 91</p>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] w-full mt-2 hover:bg-primary/90 transition-colors">
+<span class="truncate">Débloquer le contact (500€)</span>
+</button>
+</div>
+<div class="flex flex-col gap-4 text-center pb-3 bg-slate-100/50 dark:bg-[#1a2133] rounded-xl p-4 transition-all hover:bg-slate-200 dark:hover:bg-[#242f47] group">
+<div class="px-4">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-full backdrop-blur-xl" data-alt="Blurred profile avatar for an anonymous candidate" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmW5MM1q5HCAcX2p0WWKn8mbHHZqKwLcwsoRxNuUiVZLrwx_IDZ-y7X0UhwxH0YbjeTeJqSNgqhT9EY5CYZSZe8f6zmqopjQc7ROhpCJYHXgSK04ZQk0E0nf-Wu2krHRfk6IMAh7MQTapGM7s4cfDeHWyu8VNVig77UBksRX54ICmycUEO-qGqd9pdL6BHTTu8asdanvvCMmu8UsKJx1ADg4HGKiPtuPNkreqXwuy_UXo-CYwxm6TuFcQthXCWddy1LbBiInzvcTkG"); filter: blur(12px);'></div>
+</div>
+<div class="flex flex-col items-center justify-center gap-2">
+<p class="text-black dark:text-white text-base font-medium leading-normal">Principal Blockchain Developer</p>
+<p class="text-slate-600 dark:text-[#92a4c8] text-sm font-normal leading-normal">DCS: 90 | Alignment: 86</p>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] w-full mt-2 hover:bg-primary/90 transition-colors">
+<span class="truncate">Débloquer le contact (500€)</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

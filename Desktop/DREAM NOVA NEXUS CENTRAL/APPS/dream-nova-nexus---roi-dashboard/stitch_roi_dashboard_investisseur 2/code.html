@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ROI Dashboard Investisseur</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#30e898",
+              "background-light": "#f6f8f7",
+              "background-dark": "#121212",
+              "card-dark": "#1e1e1e",
+              "border-dark": "#333333",
+              "gold": "#FFD700",
+              "growth-green": "#00FFA3",
+              "cost-red": "#FF455F",
+              "flame-orange": "#FF8C00",
+              "flame-purple": "#9400D3",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+      .icon-flame {
+        background: linear-gradient(45deg, #FF8C00, #9400D3);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark font-display text-[#EAEAEA]">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Top App Bar -->
+<header class="flex items-center p-4">
+<div class="flex size-10 items-center justify-start">
+<span class="material-symbols-outlined text-[#EAEAEA]">arrow_back_ios</span>
+</div>
+<div class="flex-1 text-center">
+<h1 class="text-lg font-bold uppercase tracking-wider">Dashboard Investisseur</h1>
+<p class="text-xs text-gray-400">Dream Nova Nexus</p>
+</div>
+<div class="w-10"></div>
+</header>
+<main class="flex-1 px-4 pb-8">
+<!-- Meta Text -->
+<p class="mb-4 text-center text-sm font-semibold uppercase tracking-widest text-growth-green">PERFORMANCE EN TEMPS RÉEL</p>
+<!-- Stats KPIs -->
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-2 rounded-xl bg-card-dark p-4 text-center">
+<span class="material-symbols-outlined mx-auto text-gold">payments</span>
+<p class="text-sm font-medium text-gray-300">Levée Totale</p>
+<p class="text-2xl font-bold tracking-tight text-gold">€1.2M</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl bg-card-dark p-4 text-center">
+<span class="material-symbols-outlined mx-auto text-growth-green">trending_down</span>
+<p class="text-sm font-medium text-gray-300">Coût par Livre</p>
+<p class="text-2xl font-bold tracking-tight text-growth-green">€2.50</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl bg-card-dark p-4 text-center">
+<span class="material-symbols-outlined mx-auto text-growth-green">trending_up</span>
+<p class="text-sm font-medium text-gray-300">Livres Distribués</p>
+<p class="text-2xl font-bold tracking-tight text-growth-green">500K</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl bg-card-dark p-4 text-center">
+<span class="material-symbols-outlined icon-flame mx-auto">local_fire_department</span>
+<p class="text-sm font-medium text-gray-300">ROI Spirituel</p>
+<p class="text-2xl font-bold tracking-tight icon-flame">Inestimable</p>
+</div>
+</div>
+<!-- Charts -->
+<div class="mt-6 flex flex-col gap-6">
+<div class="flex flex-col gap-2 rounded-xl bg-card-dark p-4 sm:p-6">
+<p class="text-base font-semibold leading-normal">Optimisation du Capital (YTD)</p>
+<div class="flex min-h-[180px] flex-1 flex-col gap-4 py-4">
+<svg fill="none" preserveaspectratio="none" viewbox="0 0 472 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25" stroke="#FFD700" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M0 140C19.6667 140 19.6667 110 39.3333 110C59 110 59 125 78.6667 125C98.3333 125 98.3333 105 118 105C137.667 105 137.667 135 157.333 135C177 135 177 95 196.667 95C216.333 95 216.333 115 236 115C255.667 115 255.667 145 275.333 145C295 145 295 85 314.667 85C334.333 85 334.333 100 354 100C373.667 100 373.667 130 393.333 130C413 130 413 70 432.667 70C452.333 70 452.333 90 472 90" stroke="#FF455F" stroke-dasharray="5 5" stroke-linecap="round" stroke-width="2.5"></path>
+</svg>
+<div class="flex items-center justify-center gap-6">
+<div class="flex items-center gap-2">
+<div class="h-2 w-2 rounded-full bg-gold"></div>
+<p class="text-xs text-gray-300">Dons reçus</p>
+</div>
+<div class="flex items-center gap-2">
+<div class="h-2 w-2 rounded-full bg-cost-red"></div>
+<p class="text-xs text-gray-300">Coûts opérationnels</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl bg-card-dark p-4 sm:p-6">
+<p class="text-base font-semibold leading-normal">Allocation des Fonds</p>
+<div class="flex flex-col items-center gap-4 py-4 sm:flex-row">
+<div class="relative flex h-40 w-40 items-center justify-center">
+<svg class="absolute inset-0" viewbox="0 0 36 36">
+<circle cx="18" cy="18" fill="none" r="15.9154943092" stroke="#2a2a2a" stroke-width="4"></circle>
+<circle cx="18" cy="18" fill="none" r="15.9154943092" stroke="#FFD700" stroke-dasharray="70, 30" stroke-dashoffset="0" stroke-width="4" transform="rotate(-90 18 18)"></circle>
+<circle cx="18" cy="18" fill="none" r="15.9154943092" stroke="#00FFA3" stroke-dasharray="20, 80" stroke-dashoffset="-70" stroke-width="4" transform="rotate(-90 18 18)"></circle>
+<circle cx="18" cy="18" fill="none" r="15.9154943092" stroke="#FF455F" stroke-dasharray="10, 90" stroke-dashoffset="-90" stroke-width="4" transform="rotate(-90 18 18)"></circle>
+</svg>
+<span class="text-2xl font-bold">100%</span>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="h-3 w-3 flex-shrink-0 rounded-full bg-gold"></div>
+<p class="text-sm">Impression &amp; Logistique <span class="font-semibold">70%</span></p>
+</div>
+<div class="flex items-center gap-3">
+<div class="h-3 w-3 flex-shrink-0 rounded-full bg-growth-green"></div>
+<p class="text-sm">Développement Tech <span class="font-semibold">20%</span></p>
+</div>
+<div class="flex items-center gap-3">
+<div class="h-3 w-3 flex-shrink-0 rounded-full bg-cost-red"></div>
+<p class="text-sm">Frais de structure <span class="font-semibold">10%</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Description List / Projections -->
+<div class="mt-6 flex flex-col gap-2 rounded-xl bg-card-dark p-4 sm:p-6">
+<p class="mb-2 text-base font-semibold leading-normal">Projections 2025-2030</p>
+<div class="grid grid-cols-1">
+<div class="grid grid-cols-3 gap-4 border-b border-border-dark py-3 text-sm text-gray-400">
+<span>Année</span>
+<span class="text-center">Objectif Levée</span>
+<span class="text-right">Impact Projeté</span>
+</div>
+<div class="grid grid-cols-3 gap-4 border-b border-border-dark py-3 font-medium">
+<span>2025</span>
+<span class="text-center">€2M</span>
+<span class="text-right">1M Livres</span>
+</div>
+<div class="grid grid-cols-3 gap-4 border-b border-border-dark py-3 font-medium">
+<span>2028</span>
+<span class="text-center">€8M</span>
+<span class="text-right">5M Livres</span>
+</div>
+<div class="grid grid-cols-3 gap-4 rounded-lg bg-white/5 py-3 font-bold text-gold ring-1 ring-gold/50">
+<span class="pl-2">2030</span>
+<span class="text-center">€15M</span>
+<span class="pr-2 text-right">10M Livres</span>
+</div>
+</div>
+</div>
+<!-- Bottom Line & CTAs -->
+<div class="mt-8 text-center">
+<h3 class="text-sm font-semibold uppercase tracking-widest text-gray-400">BOTTOM LINE</h3>
+<p class="mt-2 text-lg italic text-gray-200">"Les chiffres ne mentent pas. L'éternité est le meilleur investissement."</p>
+<div class="mt-6 flex flex-col gap-3">
+<button class="w-full rounded-lg bg-gold py-3 text-sm font-bold text-black shadow-lg shadow-gold/20">INVESTIR MAINTENANT</button>
+<button class="w-full rounded-lg border border-gray-500 bg-transparent py-3 text-sm font-bold text-gray-200">ACCÉDER AU DATA ROOM (SECURE)</button>
+</div>
+</div>
+</main>
+<footer class="p-4 text-center">
+<button class="text-sm font-semibold text-gray-400">Retour au Nexus</button>
+</footer>
+</div>
+</body></html>

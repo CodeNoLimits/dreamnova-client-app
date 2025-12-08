@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ha-Mazon - Micro-Hubs &amp; Workflow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f97415",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#181411",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 sm:px-8 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 dark:border-b-[#3a2f27] px-4 md:px-10 py-3">
+<div class="flex items-center gap-4 text-white">
+<div class="size-4 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Ha-Mazon</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-black dark:text-white text-sm font-medium leading-normal hover:text-primary" href="#">Dashboard</a>
+<a class="text-primary text-sm font-medium leading-normal" href="#">Micro-Hubs</a>
+<a class="text-black dark:text-white text-sm font-medium leading-normal hover:text-primary" href="#">Operations</a>
+<a class="text-black dark:text-white text-sm font-medium leading-normal hover:text-primary" href="#">Analytics</a>
+<a class="text-black dark:text-white text-sm font-medium leading-normal hover:text-primary" href="#">Support</a>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Request a Demo</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCiZp9qFiBQtwze9MHcBCY9eIpXuyf69z162gWuaj5sQbd4Ossxx4iwMGk1Cdn-UV6cOJxAsh6BxeNBij8aG3n_w7J6klZpD2Wg998F2qR9_7d9axGzLHWHhJYJ9g9odbclU5x6rT8N7QJXBL6M-mEvDQyb8asXX674wmXTWiMuy5CyD644b5wr1vDq5e9n2_7s3S6i2BenL3lsc4JcILXe83gDGVz4f098s-fxclyi4YhYf9uSI8LKu0qlTl2r2x2doEBgF-k11cE");'></div>
+</div>
+</header>
+<main class="flex flex-col gap-10 mt-8">
+<div class="flex flex-wrap justify-between gap-3 p-4">
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-black dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Micro-Hubs &amp; Workflow</p>
+<p class="text-gray-600 dark:text-[#bba89b] text-base font-normal leading-normal">Decentralized last-mile logistics for Parisian restaurateurs.</p>
+</div>
+</div>
+<section>
+<h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Infrastructure (Micro-Hubs)</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+<div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#55453a] bg-white dark:bg-[#27201b] p-4 flex-col">
+<div class="text-primary">
+<span class="material-symbols-outlined text-3xl">warehouse</span>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="text-black dark:text-white text-base font-bold leading-tight">Invisible Real Estate</h2>
+<p class="text-gray-600 dark:text-[#bba89b] text-sm font-normal leading-normal">Rehabilitated parking spaces (100-200m²) transformed into efficient, hyperlocal distribution points.</p>
+</div>
+</div>
+<div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#55453a] bg-white dark:bg-[#27201b] p-4 flex-col">
+<div class="text-primary">
+<span class="material-symbols-outlined text-3xl">ac_unit</span>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="text-black dark:text-white text-base font-bold leading-tight">Cold Technology</h2>
+<p class="text-gray-600 dark:text-[#bba89b] text-sm font-normal leading-normal">Modular, high-performance cold chambers ensuring optimal freshness and food safety.</p>
+</div>
+</div>
+<div class="flex flex-1 gap-3 rounded-lg border border-gray-200 dark:border-[#55453a] bg-white dark:bg-[#27201b] p-4 flex-col">
+<div class="text-primary">
+<span class="material-symbols-outlined text-3xl">inventory_2</span>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="text-black dark:text-white text-base font-bold leading-tight">Smart Storage</h2>
+<p class="text-gray-600 dark:text-[#bba89b] text-sm font-normal leading-normal">Pre-dosed kits and an intelligent inventory system for rapid, on-demand deployment.</p>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Workflow (Rupture de Charge)</h2>
+<div class="relative p-4">
+<div class="absolute left-8 sm:left-1/2 top-0 h-full w-0.5 bg-gray-200 dark:bg-gray-700"></div>
+<div class="flex flex-col gap-12">
+<!-- Timeline Item 1 -->
+<div class="relative flex items-start gap-6">
+<div class="absolute left-8 sm:left-1/2 top-0 -ml-[21px] flex size-10 items-center justify-center rounded-full bg-background-light dark:bg-background-dark border-2 border-primary">
+<span class="material-symbols-outlined text-primary text-xl">nightlight</span>
+</div>
+<div class="flex flex-col sm:flex-row items-start w-full gap-4">
+<div class="w-full sm:w-1/2 sm:text-right sm:pr-12">
+<p class="font-bold text-lg text-primary">04:00 AM</p>
+</div>
+<div class="w-full sm:w-1/2 sm:pl-12">
+<h3 class="text-black dark:text-white text-lg font-bold">Night Shift</h3>
+<p class="text-gray-600 dark:text-[#bba89b] text-sm mt-1">Silent, early-morning resupply of micro-hubs from central warehouses, avoiding urban congestion.</p>
+</div>
+</div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative flex items-start gap-6">
+<div class="absolute left-8 sm:left-1/2 top-0 -ml-[21px] flex size-10 items-center justify-center rounded-full bg-background-light dark:bg-background-dark border-2 border-primary">
+<span class="material-symbols-outlined text-primary text-xl">shelves</span>
+</div>
+<div class="flex flex-col sm:flex-row-reverse items-start w-full gap-4">
+<div class="w-full sm:w-1/2 sm:text-left sm:pl-12">
+<p class="font-bold text-lg text-primary">08:00 AM</p>
+</div>
+<div class="w-full sm:w-1/2 sm:pr-12 sm:text-right">
+<h3 class="text-black dark:text-white text-lg font-bold">Stocking</h3>
+<p class="text-gray-600 dark:text-[#bba89b] text-sm mt-1">Efficient shelving of new stock and preparation of pre-dosed delivery kits for the day.</p>
+</div>
+</div>
+</div>
+<!-- Timeline Item 3 -->
+<div class="relative flex items-start gap-6">
+<div class="absolute left-8 sm:left-1/2 top-0 -ml-[21px] flex size-10 items-center justify-center rounded-full bg-background-light dark:bg-background-dark border-2 border-primary">
+<span class="material-symbols-outlined text-primary text-xl">local_shipping</span>
+</div>
+<div class="flex flex-col sm:flex-row items-start w-full gap-4">
+<div class="w-full sm:w-1/2 sm:text-right sm:pr-12">
+<p class="font-bold text-lg text-primary">12:00 PM</p>
+</div>
+<div class="w-full sm:w-1/2 sm:pl-12">
+<h3 class="text-black dark:text-white text-lg font-bold">Day Shift</h3>
+<p class="text-gray-600 dark:text-[#bba89b] text-sm mt-1">On-demand "rescue service" delivery to restaurateurs during peak lunch and dinner hours.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+</div>
+</div>
+</div>
+</body></html>

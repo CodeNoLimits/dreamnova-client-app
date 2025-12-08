@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DreamNova Global - Dream Clarifier</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-10 px-4 sm:px-6 lg:px-8">
+<div class="layout-content-container flex flex-col w-full max-w-md">
+<!-- Dream Clarifier Component -->
+<div class="flex flex-col gap-6 rounded-xl bg-background-light dark:bg-[#1A2130] p-6 shadow-lg">
+<!-- Header -->
+<div class="text-center">
+<h2 class="text-zinc-900 dark:text-white text-[28px] font-bold leading-tight tracking-tight">Dream Clarifier</h2>
+<p class="text-zinc-600 dark:text-[#92a4c8] text-base font-normal leading-normal mt-1">Clarifiez Votre Objectif</p>
+</div>
+<!-- Input Section -->
+<div class="flex flex-col gap-2">
+<label class="text-zinc-900 dark:text-white text-base font-normal leading-normal" for="dream-input">Quel est votre rêve ?</label>
+<div class="flex w-full items-stretch rounded-lg bg-[#242f47]">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-transparent h-14 placeholder:text-[#92a4c8] p-4 text-base font-normal leading-normal" id="dream-input" placeholder="Je veux être riche" value=""/>
+<button aria-label="Submit Dream" class="text-white flex items-center justify-center px-4">
+<span class="material-symbols-outlined text-2xl">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Processing State Simulation -->
+<div class="flex flex-col items-center justify-center gap-3 py-4">
+<div class="relative flex h-8 w-8 items-center justify-center">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary/75 opacity-75"></span>
+<span class="material-symbols-outlined text-primary text-3xl">auto_awesome</span>
+</div>
+<p class="text-primary text-sm font-medium">Defining mission parameters...</p>
+</div>
+<!-- Result Card -->
+<div class="flex flex-col items-stretch justify-start rounded-lg bg-black/20 p-4">
+<div class="flex w-full grow flex-col items-stretch justify-center gap-4">
+<div>
+<p class="text-zinc-100 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Objectif : Lancer un Side-Business à 1k€/mois</p>
+</div>
+<div class="flex flex-col gap-1 border-t border-white/10 pt-4">
+<p class="text-[#92a4c8] text-base font-normal leading-normal">Étape 1 : Lister 3 compétences</p>
+<p class="text-[#92a4c8] text-base font-normal leading-normal">Deadline : 48h</p>
+</div>
+<div class="pt-2">
+<button class="flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Add to Profile</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- End Dream Clarifier Component -->
+</div>
+</div>
+</div>
+</div>
+</body></html>

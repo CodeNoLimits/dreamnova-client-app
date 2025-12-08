@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DreamNova Global</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#2463eb",
+              "background-light": "#f6f6f8",
+              "background-dark": "#05050A", /* Custom dark background from user request */
+              "accent-gold": "#fcd34d"
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {
+                "DEFAULT": "0.25rem", 
+                "lg": "0.5rem", 
+                "xl": "0.75rem", 
+                "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            position: relative;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display">
+<div class="relative flex h-screen min-h-[700px] w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark p-4 overflow-hidden">
+<!-- Placeholder for particle animation background -->
+<div class="absolute inset-0 z-0">
+<!-- This div would contain the canvas or elements for the particle animation -->
+</div>
+<div class="relative z-10 flex w-full max-w-md flex-col items-center">
+<h1 class="font-display text-white text-center text-3xl font-bold leading-tight tracking-tight px-4 pb-3 pt-6">Le CV est mort. Vive la <span class="text-accent-gold">Preuve d'Exécution.</span></h1>
+<p class="font-display text-white/80 text-center text-base font-normal leading-normal pb-6 pt-1 px-4">From traditional resumes to a merit-based, data-driven system.</p>
+<div class="w-full p-4">
+<div class="relative flex items-center justify-center aspect-video rounded-xl bg-cover bg-center border border-primary/50 shadow-[0_0_20px_0px_rgba(36,99,235,0.3)]" data-alt="Abstract deep space network visualization" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBTxg6WNCa7E1dTGMp389k5rexT7DkVWH6NxxMOeQwGNcUogMWPVoU8_JvwOeWoHEHcXzRe1vXvyZ7uAo05d6C5VtmHsBjBtaKvw46c3G8Jvh3068vSfRH-JwyuaRHohTQWnl-mHXptnkZhImNxWbid9_rIKCoFBBlV55za0yztMRhmElZ4_UyDFKSD4pyEwmpZ09oYtRaNquKUp4Va781-O9eUcinpWqaDbL7El2PyTFnxXYQQKf8swn5cVlKAAer9VRg-iNByK1A");'>
+<button class="flex shrink-0 items-center justify-center rounded-full size-16 bg-black/50 text-white backdrop-blur-sm border-2 border-white/50 hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-4xl">play_arrow</span>
+</button>
+</div>
+</div>
+<div class="flex w-full px-4 py-3">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Enter the Network</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DreamNova Leads Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+      @keyframes ticker-scroll {
+        0% {
+          transform: translateX(100%);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+      .ticker-wrap {
+        animation: ticker-scroll 30s linear infinite;
+      }
+    </style>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#10b77f",
+              "background-light": "#f6f8f7",
+              "background-dark": "#111816",
+              "accent-green": "#39FF14",
+              "accent-amber": "#FFBF00",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "monospace", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem", 
+              "lg": "0.75rem", 
+              "xl": "1rem", 
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col">
+<!-- Ticker Tape Header -->
+<div class="fixed top-0 left-0 right-0 z-50 flex h-10 w-full items-center border-b border-solid border-b-[#283933] bg-[#111816] overflow-hidden">
+<div class="flex-none whitespace-nowrap">
+<div class="ticker-wrap flex items-center">
+<div class="flex items-center gap-8 px-4">
+<span class="text-sm font-medium">INNOVATE INC.</span>
+<span class="text-accent-green">92</span>
+<span class="text-sm font-medium text-gray-400">ORGANIC</span>
+<span class="material-symbols-outlined text-accent-green text-lg">trending_up</span>
+</div>
+<div class="flex items-center gap-8 px-4">
+<span class="text-sm font-medium">QUANTUM SOLUTIONS</span>
+<span class="text-accent-green">88</span>
+<span class="text-sm font-medium text-gray-400">REFERRAL</span>
+<span class="material-symbols-outlined text-accent-green text-lg">trending_up</span>
+</div>
+<div class="flex items-center gap-8 px-4">
+<span class="text-sm font-medium">SYNERGY CORP</span>
+<span class="text-accent-amber">85</span>
+<span class="text-sm font-medium text-gray-400">PAID</span>
+<span class="material-symbols-outlined text-accent-amber text-lg">trending_down</span>
+</div>
+<div class="flex items-center gap-8 px-4">
+<span class="text-sm font-medium">APEX INNOVATIONS</span>
+<span class="text-accent-green">82</span>
+<span class="text-sm font-medium text-gray-400">ORGANIC</span>
+<span class="material-symbols-outlined text-accent-green text-lg">trending_up</span>
+</div>
+<!-- Duplicate for seamless scroll -->
+<div class="flex items-center gap-8 px-4">
+<span class="text-sm font-medium">INNOVATE INC.</span>
+<span class="text-accent-green">92</span>
+<span class="text-sm font-medium text-gray-400">ORGANIC</span>
+<span class="material-symbols-outlined text-accent-green text-lg">trending_up</span>
+</div>
+<div class="flex items-center gap-8 px-4">
+<span class="text-sm font-medium">QUANTUM SOLUTIONS</span>
+<span class="text-accent-green">88</span>
+<span class="text-sm font-medium text-gray-400">REFERRAL</span>
+<span class="material-symbols-outlined text-accent-green text-lg">trending_up</span>
+</div>
+<div class="flex items-center gap-8 px-4">
+<span class="text-sm font-medium">SYNERGY CORP</span>
+<span class="text-accent-amber">85</span>
+<span class="text-sm font-medium text-gray-400">PAID</span>
+<span class="material-symbols-outlined text-accent-amber text-lg">trending_down</span>
+</div>
+<div class="flex items-center gap-8 px-4">
+<span class="text-sm font-medium">APEX INNOVATIONS</span>
+<span class="text-accent-green">82</span>
+<span class="text-sm font-medium text-gray-400">ORGANIC</span>
+<span class="material-symbols-outlined text-accent-green text-lg">trending_up</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex h-full grow flex-col pt-10">
+<div class="flex flex-1 justify-center px-4 sm:px-6 lg:px-8 xl:px-10 py-5">
+<div class="flex w-full max-w-screen-2xl flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#283933] px-4 py-3">
+<div class="flex items-center gap-4 text-white">
+<div class="size-5">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">DreamNova Leads</h2>
+</div>
+<div class="flex flex-1 justify-end gap-2">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-[#111816] text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Acquire Leads</span>
+</button>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#283933] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">My Account</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#283933] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#283933] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDZbsU_UGPSnirZh26M0Q_HqOyExtWfUViyQtUBbK617RP4p5u3WYKYha7AL63-u2zeoxV4yzBgl0UvMf1MPa_OQSdWbhkR8pNxnYfK_xlinNxyGRx7oYLieVxJUhP-uAJdhizmZVVQTav0-00k1WaUU08tvflSclnELdLcCsPAYjZgSlU2MX0K1qHoTTp5Q3JdywK1dZFBdWQYvT172N-xYG2AanYW8VDpPIh9MhR6ZcYuCPUpmWWunoiNc9tyeH8_C4TnvtdihrlJ");'></div>
+</div>
+</header>
+<main class="mt-6 grid grid-cols-12 gap-6">
+<!-- Main Content -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-6">
+<p class="text-gray-400 text-xs font-normal leading-normal pb-3 pt-1 px-4 border border-solid border-[#283933] rounded-lg bg-[#1c2723]/50">This platform is for authorized users only. By accessing this dashboard, you agree to our Terms of Service and Privacy Policy. All lead data is proprietary and subject to non-disclosure agreements. <a class="font-bold text-primary underline" href="#">Learn More.</a></p>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between gap-4 px-4 py-3">
+<div class="flex-1">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-[#9db9b0] flex border-none bg-[#283933] items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-white focus:outline-0 focus:ring-0 border-none bg-[#283933] focus:border-none h-full placeholder:text-[#9db9b0] px-4 pl-2 text-base font-normal leading-normal" placeholder="Search leads by company, contact, or source..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex gap-3 overflow-x-auto">
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#283933] pl-4 pr-2">
+<p class="text-white text-sm font-medium leading-normal">Status: New</p>
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#283933] pl-4 pr-2">
+<p class="text-white text-sm font-medium leading-normal">Lead Score: &gt;80</p>
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#283933] pl-4 pr-2">
+<p class="text-white text-sm font-medium leading-normal">Industry: SaaS</p>
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+</div>
+</div>
+<div class="px-4 py-3 @container">
+<div class="flex overflow-hidden rounded-lg border border-[#3b544b] bg-[#111816]">
+<table class="w-full text-left">
+<thead class="sticky top-0 bg-[#1c2723] z-10">
+<tr>
+<th class="px-4 py-3 w-12"><input class="h-5 w-5 rounded border-[#3b544b] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0" type="checkbox"/></th>
+<th class="px-4 py-3 text-white text-sm font-medium">Company Name</th>
+<th class="px-4 py-3 text-white text-sm font-medium">Contact</th>
+<th class="px-4 py-3 text-white text-sm font-medium">Lead Score</th>
+<th class="px-4 py-3 text-white text-sm font-medium">Status</th>
+<th class="px-4 py-3 text-white text-sm font-medium">Source</th>
+<th class="px-4 py-3 text-white text-sm font-medium">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-t border-t-[#3b544b] hover:bg-[#1c2723]/60 transition-colors duration-150"><td class="px-4 py-2"><input class="h-5 w-5 rounded border-[#3b544b] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0" type="checkbox"/></td><td class="h-[72px] px-4 py-2 text-white text-sm">Innovate Inc.</td><td class="h-[72px] px-4 py-2 text-[#9db9b0] text-sm">Jane Doe</td><td class="h-[72px] px-4 py-2"><div class="flex items-center gap-3"><div class="w-20 overflow-hidden rounded-sm bg-[#3b544b] h-1"><div class="h-full rounded-full bg-accent-green" style="width: 92%;"></div></div><p class="text-white text-sm font-medium">92</p></div></td><td class="h-[72px] px-4 py-2"><span class="inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400 ring-1 ring-inset ring-green-500/20">New</span></td><td class="h-[72px] px-4 py-2 text-[#9db9b0] text-sm">Organic</td><td class="h-[72px] px-4 py-2 text-primary font-bold text-sm tracking-wider cursor-pointer">VIEW</td></tr>
+<tr class="border-t border-t-[#3b544b] hover:bg-[#1c2723]/60 transition-colors duration-150"><td class="px-4 py-2"><input class="h-5 w-5 rounded border-[#3b544b] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0" type="checkbox"/></td><td class="h-[72px] px-4 py-2 text-white text-sm">Quantum Solutions</td><td class="h-[72px] px-4 py-2 text-[#9db9b0] text-sm">John Smith</td><td class="h-[72px] px-4 py-2"><div class="flex items-center gap-3"><div class="w-20 overflow-hidden rounded-sm bg-[#3b544b] h-1"><div class="h-full rounded-full bg-accent-green" style="width: 88%;"></div></div><p class="text-white text-sm font-medium">88</p></div></td><td class="h-[72px] px-4 py-2"><span class="inline-flex items-center rounded-md bg-blue-500/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-500/20">Contacted</span></td><td class="h-[72px] px-4 py-2 text-[#9db9b0] text-sm">Referral</td><td class="h-[72px] px-4 py-2 text-primary font-bold text-sm tracking-wider cursor-pointer">VIEW</td></tr>
+<tr class="border-t border-t-[#3b544b] hover:bg-[#1c2723]/60 transition-colors duration-150"><td class="px-4 py-2"><input class="h-5 w-5 rounded border-[#3b544b] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0" type="checkbox"/></td><td class="h-[72px] px-4 py-2 text-white text-sm">Synergy Corp</td><td class="h-[72px] px-4 py-2 text-[#9db9b0] text-sm">Emily White</td><td class="h-[72px] px-4 py-2"><div class="flex items-center gap-3"><div class="w-20 overflow-hidden rounded-sm bg-[#3b544b] h-1"><div class="h-full rounded-full bg-accent-amber" style="width: 85%;"></div></div><p class="text-white text-sm font-medium">85</p></div></td><td class="h-[72px] px-4 py-2"><span class="inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400 ring-1 ring-inset ring-green-500/20">New</span></td><td class="h-[72px] px-4 py-2 text-[#9db9b0] text-sm">Paid</td><td class="h-[72px] px-4 py-2 text-primary font-bold text-sm tracking-wider cursor-pointer">VIEW</td></tr>
+<tr class="border-t border-t-[#3b544b] hover:bg-[#1c2723]/60 transition-colors duration-150"><td class="px-4 py-2"><input class="h-5 w-5 rounded border-[#3b544b] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0" type="checkbox"/></td><td class="h-[72px] px-4 py-2 text-white text-sm">Apex Innovations</td><td class="h-[72px] px-4 py-2 text-[#9db9b0] text-sm">Michael Brown</td><td class="h-[72px] px-4 py-2"><div class="flex items-center gap-3"><div class="w-20 overflow-hidden rounded-sm bg-[#3b544b] h-1"><div class="h-full rounded-full bg-accent-amber" style="width: 82%;"></div></div><p class="text-white text-sm font-medium">82</p></div></td><td class="h-[72px] px-4 py-2"><span class="inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 ring-1 ring-inset ring-gray-400/20">Closed</span></td><td class="h-[72px] px-4 py-2 text-[#9db9b0] text-sm">Organic</td><td class="h-[72px] px-4 py-2 text-primary font-bold text-sm tracking-wider cursor-pointer">VIEW</td></tr>
+<tr class="border-t border-t-[#3b544b] hover:bg-[#1c2723]/60 transition-colors duration-150"><td class="px-4 py-2"><input class="h-5 w-5 rounded border-[#3b544b] border-2 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0" type="checkbox"/></td><td class="h-[72px] px-4 py-2 text-white text-sm">Stellar Systems</td><td class="h-[72px] px-4 py-2 text-[#9db9b0] text-sm">Jessica Green</td><td class="h-[72px] px-4 py-2"><div class="flex items-center gap-3"><div class="w-20 overflow-hidden rounded-sm bg-[#3b544b] h-1"><div class="h-full rounded-full bg-yellow-400" style="width: 79%;"></div></div><p class="text-white text-sm font-medium">79</p></div></td><td class="h-[72px] px-4 py-2"><span class="inline-flex items-center rounded-md bg-blue-500/10 px-2 py-1 text-xs font-medium text-blue-400 ring-1 ring-inset ring-blue-500/20">Contacted</span></td><td class="h-[72px] px-4 py-2 text-[#9db9b0] text-sm">Web</td><td class="h-[72px] px-4 py-2 text-primary font-bold text-sm tracking-wider cursor-pointer">VIEW</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Panel -->
+<div class="col-span-12 lg:col-span-4">
+<div class="sticky top-28 flex flex-col gap-6">
+<!-- Buy Box -->
+<div class="relative overflow-hidden rounded-xl border border-white/10 bg-black/20 p-6 shadow-lg backdrop-blur-xl">
+<div class="absolute top-0 left-0 -z-10 h-32 w-32 bg-primary/20 blur-3xl"></div>
+<div class="absolute bottom-0 right-0 -z-10 h-32 w-32 bg-accent-amber/20 blur-3xl"></div>
+<h3 class="text-2xl font-bold text-white mb-4">Lead Acquisition</h3>
+<div class="mb-6">
+<div class="flex rounded-lg bg-[#283933] p-1">
+<button class="flex-1 rounded-md py-2 text-sm font-bold bg-primary text-[#111816]">Enterprise</button>
+<button class="flex-1 rounded-md py-2 text-sm font-medium text-gray-300 hover:bg-white/5">SMB</button>
+<button class="flex-1 rounded-md py-2 text-sm font-medium text-gray-300 hover:bg-white/5">Startup</button>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-300 mb-2" for="lead-quantity">Lead Quantity: <span class="font-bold text-white">250</span></label>
+<input class="w-full h-2 bg-[#283933] rounded-lg appearance-none cursor-pointer accent-primary" id="lead-quantity" max="1000" min="50" type="range" value="250"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-300 mb-2" for="industry-filter">Industry Filter</label>
+<select class="w-full rounded-lg border-none bg-[#283933] text-white focus:outline-0 focus:ring-2 focus:ring-primary" id="industry-filter">
+<option>All Industries</option>
+<option>SaaS</option>
+<option>FinTech</option>
+<option>Healthcare</option>
+</select>
+</div>
+<div class="flex justify-between items-center pt-4">
+<span class="text-lg font-medium text-gray-400">Total Price:</span>
+<span class="text-3xl font-bold text-accent-green">$1,250</span>
+</div>
+</div>
+<button class="mt-6 w-full flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-accent-green text-black text-base font-bold leading-normal tracking-wider hover:opacity-90 transition-opacity">
+<span class="truncate">ACQUIRE LEADS</span>
+</button>
+</div>
+<!-- Turing Test -->
+<div class="relative overflow-hidden rounded-xl border border-white/10 bg-black/20 p-6 shadow-lg backdrop-blur-xl">
+<h3 class="text-lg font-bold text-white">AI Quality Check: Turing Test Demo</h3>
+<p class="text-sm text-gray-400 mt-1 mb-4">Listen to an AI-vetted lead call to assess quality and human-like interaction.</p>
+<div class="flex items-center gap-4 rounded-lg bg-[#283933] p-3">
+<button class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-black">
+<span class="material-symbols-outlined text-2xl">play_arrow</span>
+</button>
+<div class="flex-1 flex items-center gap-2">
+<div class="w-full h-1 bg-gray-600 rounded-full relative">
+<div class="absolute top-0 left-0 h-full w-1/4 bg-primary rounded-full"></div>
+<img class="w-full h-8 object-cover opacity-30 mix-blend-lighten" data-alt="Audio waveform visualization" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT7XWifTimrbZzKvvHbPULdsFRaDgKVKM6UAZkL25HGiRHjxPFNAWOCSt9FYXk7m0wv2od9fbCBfaa18Nf3K6IfchtExoU69aBmDL7zhQevX85YYss5jlDsH6dH5JiHvBxkp3gtDAF9l6NvL9f_LvTfqI_AEDo0SLRJDqQbyttrUEepWosv8mjoWw23S81pFY3B7sjI-0AKIm4VxF6EPErGRbJoMz9x8nr74ml7SnhFOenc3_uhRHbQWtHhnXJnevNFUTEEk7A5KtZ"/>
+</div>
+<span class="text-xs text-gray-400">0:42</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</div>
+</div>
+</body></html>
