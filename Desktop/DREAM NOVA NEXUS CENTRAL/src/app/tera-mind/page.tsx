@@ -163,16 +163,15 @@ export default function TeraMindPage() {
                             {t.subtitle}
                         </p>
 
-                        <div className="flex flex-col sm:flex-row gap-4">
+                        <div className="flex flex-wrap justify-center gap-4">
                             <a href="https://tera-mind-sanctuaire-de-r-silience-640844031185.us-west1.run.app" target="_blank" rel="noopener noreferrer">
-                                <NeonButton variant="cyan" size="lg" className="w-full sm:w-auto">
-                                    <ExternalLink className="mr-2 w-5 h-5" /> {common.launchApp}
+                                <NeonButton size="lg">
+                                    <ExternalLink className="mr-2 w-6 h-6 inline-block" /> {t.buttons.launch}
                                 </NeonButton>
                             </a>
-                            <a href="https://devpost.com/software/dream-ai-rip6hw" target="_blank" rel="noopener noreferrer">
-                                <NeonButton variant="purple" size="lg" className="w-full sm:w-auto">
-                                    <ExternalLink className="mr-2 w-5 h-5" /> {t.buttons.reputation}
-                                </NeonButton>
+
+                            <a href="/documents/Sacred_Tech_Unicorn.pdf" target="_blank" className="px-8 py-4 bg-pink-500/10 border border-pink-500/30 text-pink-400 font-bold rounded-xl hover:bg-pink-500/20 transition-colors flex items-center">
+                                <Sparkles className="mr-2 w-5 h-5" /> Read Thesis (PDF)
                             </a>
                         </div>
                     </motion.div>

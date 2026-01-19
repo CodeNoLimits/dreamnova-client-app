@@ -249,20 +249,21 @@ export default function NovaFoundation() {
                             {t.heroSubtitle}
                         </p>
 
-                        {/* VIDEO EMBED */}
-                        <div className="relative max-w-5xl mx-auto rounded-xl overflow-hidden border border-yellow-500/20 shadow-[0_0_60px_-10px_rgba(234,179,8,0.2)] mb-12 group">
-                            <div className="aspect-video bg-black relative flex items-center justify-center">
-                                {/* Placeholder for video */}
-                                <video
-                                    src="/videos/foundation.mp4"
-                                    poster="/video-poster-placeholder.jpg"
-                                    controls
-                                    className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-                                >
-                                    Votre navigateur ne supporte pas la vidéo.
-                                </video>
-                            </div>
+                        {/* VIDEO PLAYER */}
+                        <div className="relative w-full max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl border border-yellow-500/20 mb-12 group">
+                            <div className="absolute inset-0 bg-yellow-500/10 group-hover:bg-transparent transition-colors pointer-events-none z-10"></div>
+                            <video
+                                src="/videos/foundation.mp4"
+                                className="w-full h-auto"
+                                controls
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                            />
                         </div>
+
+
                     </motion.div>
                 </div>
 

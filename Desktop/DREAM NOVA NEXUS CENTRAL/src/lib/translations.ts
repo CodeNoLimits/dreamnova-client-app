@@ -10,6 +10,9 @@ export const translations = {
             error: 'Error',
             send: 'Send',
             placeholder: 'Type a message...',
+            comingSoon: 'Coming Soon',
+            underDevelopment: 'This module is currently under development.',
+            understood: 'Understood',
         },
         hub: {
             navTitle: 'Infinite Canvas Navigation',
@@ -38,6 +41,74 @@ export const translations = {
                 kotel: { label: 'Kotel Connection', description: 'Daily Alignment' },
                 hok: { label: 'Hok Breslev', description: 'Spiritual R&D' },
                 sport: { label: 'Performance', description: 'Body Maintenance' },
+            }
+        },
+        pitchDeck: {
+            navTitle: 'DREAMNOVA IR',
+            quit: 'Exit',
+            slide1: {
+                tag: 'INVESTOR MEMO 2025',
+                title: 'DREAM',
+                titleSuffix: 'NOVA',
+                subtitle: 'The First "Spirit-Tech" Venture Studio.',
+                subtitle2: 'Merging AI, Logistics, and Wisdom.'
+            },
+            slide2: {
+                title: 'The Triple Breaking Point',
+                cards: {
+                    void: { title: 'Meaning Void', desc: 'The world is hyper-connected but depressed. The mental health market is exploding but lacks soul.' },
+                    logistics: { title: 'Blocked Logistics', desc: 'LEZs (Low Emission Zones) are killing classic wholesalers. Parisian restaurateurs are suffocating.' },
+                    b2b: { title: 'B2B Inefficiency', desc: 'Companies pay fortunes for slow developments. They need velocity, not consultants.' }
+                }
+            },
+            slide3: {
+                title: 'The Answer: An Integrated Ecosystem',
+                nodes: {
+                    consult: { role: 'ENGINE (Cash)', title: 'Consult', desc: 'SaaS Factory + AI Sales' },
+                    amazon: { role: 'BODY (Infra)', title: 'Ha-Mazon', desc: 'LEZ Logistics + Micro-Hubs' },
+                    tera: { role: 'SPIRIT (Mission)', title: 'Tera & Breslev', desc: 'Therapeutic AI + RAG' }
+                }
+            },
+            slide4: {
+                title: 'The "Dream Team"',
+                roles: {
+                    founder: 'Founder & Vision',
+                    ops: 'Co-Executor & Ops',
+                    logistics: 'Logistics (Ha-Mazon)',
+                    content: 'Content (Breslev)',
+                    backend: 'Backend Team (Houlon)',
+                    sales: 'Sales & Growth',
+                    ai: 'AI Persona Lead'
+                }
+            },
+            slide5: {
+                title: 'The Opportunity',
+                seed: 'SEED ROUND',
+                seeking: 'We are looking for strategic partners.',
+                why: {
+                    title: 'Why Venture Studio?',
+                    irr: 'IRR (Internal Rate of Return)',
+                    time: 'Time to Series A',
+                    traditional: 'vs Traditional Startups'
+                },
+                portfolio: {
+                    title: 'Portfolio ROI Highlights',
+                    headers: ['Venture', 'Market', 'Advantage'],
+                    rows: [
+                        { venture: 'Ha-Mazon', market: '€12B', advantage: 'ZFE Paris 2025 Compliant' },
+                        { venture: 'Tera Mind', market: '$8.5B', advantage: 'Spirit-Tech First Mover' },
+                        { venture: 'Consult', market: 'Service', advantage: 'Cash Engine (Self-Funding)' }
+                    ]
+                },
+                squad: {
+                    title: 'The Squad',
+                    core: { title: 'Core Pod (Equity)', names: 'David, Ariel, Dan, Moshé', desc: 'Vision, Strategy, Tech Lead' },
+                    flex: { title: 'Flex Pod (Cash)', names: 'Houlon Experts + Global Network', desc: 'Execution, Scale, Operations' }
+                },
+                buttons: {
+                    blueprint: 'Download Venture Blueprint',
+                    thesis: 'Read "Sacred Tech" Thesis'
+                }
             }
         },
         teraMind: {
@@ -70,6 +141,15 @@ export const translations = {
                 growth: { title: 'Growth Hacking', desc: 'Aggressive client acquisition via LinkedIn, Emailing, and Social Selling. Zero ad budget, 100% organic.' },
                 strategy: { title: 'Global Strategy', desc: 'Position your brand as the leader of your niche. Branding, Storytelling, and Authority.' }
             },
+            aiServices: {
+                title: 'AI-Powered Services',
+                video: { title: 'AI Video Production', desc: 'Professional videos with Google Flow, Vo3 & Gemini. 24-48h delivery.', tools: 'Google Flow, Vo3, Gemini' },
+                djSuno: { title: 'DJ Suno - Live AI Music', desc: 'Real-time song creation at weddings & events with Suno AI.', tools: 'Suno AI' },
+                social: { title: 'Social Automation', desc: 'Complete social media management with Metricool & SocialPulse.', tools: 'Metricool, SocialPulse' },
+                content: { title: 'AI Content Factory', desc: 'Unlimited content: blogs, ads, posts with Claude & GPT.', tools: 'Claude, GPT-4, Gemini' },
+                chatbot: { title: 'Custom AI Chatbots', desc: 'Chatbots trained on your business data.', tools: 'RAG, OpenAI, Claude' },
+                webDev: { title: 'AI Web Development', desc: 'Full-stack websites in days, not months.', tools: 'Claude Code, Next.js, Vercel' }
+            },
             metrics: {
                 revenue: 'Revenue Generated',
                 agents: 'AI Agents Deployed',
@@ -80,6 +160,23 @@ export const translations = {
                 title: 'Our "No-Brainer" Offers',
                 starter: { title: 'Audit & Roadmap', price: '€2,500', unit: '/ one-shot', features: ['Complete process analysis', 'Bottleneck identification', 'Tailored AI Action Plan'], button: 'Select' },
                 growth: { title: 'Full Automation', price: '€5,000', unit: '/ month', features: ['AI Agents Implementation', 'Growth Campaign Management', 'Priority Support & Maintenance'], button: 'Start' }
+            },
+            leadForm: {
+                title: 'Get Your Free AI Audit',
+                subtitle: 'Tell us about your business and we\'ll show you how to 10x your efficiency',
+                companyName: 'Company Name',
+                email: 'Email',
+                phone: 'Phone',
+                industry: 'Industry',
+                companySize: 'Company Size',
+                budget: 'Budget Range',
+                message: 'Tell us about your goals',
+                submit: 'Get My Free Audit',
+                success: 'Thank you! We\'ll contact you within 24 hours.',
+                error: 'Something went wrong. Please try again.',
+                industries: ['E-commerce', 'SaaS / Tech', 'Agency / Services', 'Retail', 'Manufacturing', 'Healthcare', 'Finance', 'Real Estate', 'Other'],
+                sizes: ['Solo entrepreneur', '2-10 employees', '11-50 employees', '51-200 employees', '200+ employees'],
+                budgets: ['< €2,500', '€2,500 - €5,000', '€5,000 - €10,000', '€10,000+', 'Not sure yet']
             }
         },
         global: {
@@ -91,7 +188,22 @@ export const translations = {
                 demo: 'View DCS Demo',
                 b2b: 'B2B Version',
                 b2c: 'Dream Nova Social - B2C Global Platform',
-                noTech: 'No Technologies, Proprietary'
+                noTech: 'No Technologies, Proprietary',
+                reputation: 'Our Reputation'
+            },
+            modals: {
+                reputation: {
+                    title: 'Our Reputation',
+                    message: 'Discover what our partners say about us.'
+                },
+                beta: {
+                    title: 'Closed Beta',
+                    message: 'Registration is on waitlist. Your request has been recorded.'
+                },
+                demo: {
+                    title: 'DCS Demo',
+                    message: 'Launching Dream Consistency Score simulation...'
+                }
             },
             problem: {
                 title: 'The Old World is Broken.',
@@ -183,6 +295,9 @@ export const translations = {
             error: 'Erreur',
             send: 'Envoyer',
             placeholder: 'Écrivez un message...',
+            comingSoon: 'Bientôt Disponible',
+            underDevelopment: 'Ce module est actuellement en développement.',
+            understood: 'Compris',
         },
         hub: {
             navTitle: 'Navigation Canvas Infini',
@@ -243,6 +358,15 @@ export const translations = {
                 growth: { title: 'Growth Hacking', desc: 'Acquisition client agressive via LinkedIn, Emailing et Social Selling. Zéro budget pub, 100% organique.' },
                 strategy: { title: 'Stratégie Globale', desc: 'Positionnez votre marque comme leader de votre niche. Branding, Storytelling et Autorité.' }
             },
+            aiServices: {
+                title: 'Services Propulsés par l\'IA',
+                video: { title: 'Production Vidéo IA', desc: 'Vidéos pro avec Google Flow, Vo3 & Gemini. Livraison 24-48h.', tools: 'Google Flow, Vo3, Gemini' },
+                djSuno: { title: 'DJ Suno - Musique IA Live', desc: 'Création de chansons en temps réel aux mariages & événements.', tools: 'Suno AI' },
+                social: { title: 'Automation Sociale', desc: 'Gestion complète réseaux sociaux avec Metricool & SocialPulse.', tools: 'Metricool, SocialPulse' },
+                content: { title: 'Usine à Contenu IA', desc: 'Contenu illimité: blogs, pubs, posts avec Claude & GPT.', tools: 'Claude, GPT-4, Gemini' },
+                chatbot: { title: 'Chatbots IA Personnalisés', desc: 'Chatbots entraînés sur vos données business.', tools: 'RAG, OpenAI, Claude' },
+                webDev: { title: 'Développement Web IA', desc: 'Sites full-stack en jours, pas en mois.', tools: 'Claude Code, Next.js, Vercel' }
+            },
             metrics: {
                 revenue: 'Revenus Générés',
                 agents: 'Agents IA Déployés',
@@ -253,6 +377,23 @@ export const translations = {
                 title: 'Nos Offres "No-Brainer"',
                 starter: { title: 'Audit & Roadmap', price: '€2,500', unit: '/ one-shot', features: ['Analyse complète des processus', 'Identification des goulots d\'étranglement', 'Plan d\'action IA sur mesure'], button: 'Sélectionner' },
                 growth: { title: 'Automatisation Totale', price: '€5,000', unit: '/ mois', features: ['Implémentation des Agents IA', 'Gestion des campagnes Growth', 'Support prioritaire & Maintenance'], button: 'Démarrer' }
+            },
+            leadForm: {
+                title: 'Obtenez Votre Audit IA Gratuit',
+                subtitle: 'Parlez-nous de votre entreprise et nous vous montrerons comment 10x votre efficacité',
+                companyName: 'Nom de l\'entreprise',
+                email: 'Email',
+                phone: 'Téléphone',
+                industry: 'Secteur d\'activité',
+                companySize: 'Taille de l\'entreprise',
+                budget: 'Fourchette de budget',
+                message: 'Parlez-nous de vos objectifs',
+                submit: 'Obtenir Mon Audit Gratuit',
+                success: 'Merci ! Nous vous contacterons sous 24 heures.',
+                error: 'Une erreur s\'est produite. Veuillez réessayer.',
+                industries: ['E-commerce', 'SaaS / Tech', 'Agence / Services', 'Retail', 'Industrie', 'Santé', 'Finance', 'Immobilier', 'Autre'],
+                sizes: ['Auto-entrepreneur', '2-10 employés', '11-50 employés', '51-200 employés', '200+ employés'],
+                budgets: ['< €2,500', '€2,500 - €5,000', '€5,000 - €10,000', '€10,000+', 'Pas encore sûr']
             }
         },
         global: {
@@ -264,7 +405,22 @@ export const translations = {
                 demo: 'Voir la Démo DCS',
                 b2b: 'Version B2B',
                 b2c: 'Dream Nova Social - Plateforme Globale B2C',
-                noTech: 'No Technologies, propriétaire'
+                noTech: 'No Technologies, propriétaire',
+                reputation: 'Notre Réputation'
+            },
+            modals: {
+                reputation: {
+                    title: 'Notre Réputation',
+                    message: 'Découvrez ce que nos partenaires disent de nous.'
+                },
+                beta: {
+                    title: 'Beta Fermée',
+                    message: 'Les inscriptions sont sur liste d\'attente. Votre demande a été enregistrée.'
+                },
+                demo: {
+                    title: 'Démo DCS',
+                    message: 'Lancement de la simulation du Dream Consistency Score...'
+                }
             },
             problem: {
                 title: 'L\'Ancien Monde est Cassé.',
@@ -343,6 +499,74 @@ export const translations = {
         },
         amazon: {
             testClientApp: 'Tu peux tester une application de nos clients, et voyez la démo.'
+        },
+        pitchDeck: {
+            navTitle: 'DREAMNOVA IR',
+            quit: 'Quitter',
+            slide1: {
+                tag: 'INVESTOR MEMO 2025',
+                title: 'DREAM',
+                titleSuffix: 'NOVA',
+                subtitle: 'Le Premier Venture Studio "Spirit-Tech".',
+                subtitle2: 'Fusionner l\'IA, la Logistique et la Sagesse.'
+            },
+            slide2: {
+                title: 'Le Triple Point de Rupture',
+                cards: {
+                    void: { title: 'Vide de Sens', desc: 'Le monde est hyper-connecté mais dépressif. Le marché de la santé mentale explose, mais manque d\'âme.' },
+                    logistics: { title: 'Logistique Bloquée', desc: 'Les ZFE (Zones Faibles Émissions) tuent les grossistes classiques (Metro). Les restaurateurs parisiens suffoquent.' },
+                    b2b: { title: 'Inefficacité B2B', desc: 'Les entreprises paient des fortunes pour des développements lents. Elles ont besoin de vélocité, pas de consultants.' }
+                }
+            },
+            slide3: {
+                title: 'La Réponse : Un Écosystème Intégré',
+                nodes: {
+                    consult: { role: 'MOTEUR (Cash)', title: 'Consult', desc: 'SaaS Factory + AI Sales' },
+                    amazon: { role: 'CORPS (Infra)', title: 'Ha-Mazon', desc: 'Logistique ZFE + Micro-Hubs' },
+                    tera: { role: 'ESPRIT (Mission)', title: 'Tera & Breslev', desc: 'IA Thérapeutique + RAG' }
+                }
+            },
+            slide4: {
+                title: 'L\'Équipe "Dream Team"',
+                roles: {
+                    founder: 'Founder & Vision',
+                    ops: 'Co-Executor & Ops',
+                    logistics: 'Logistics (Ha-Mazon)',
+                    content: 'Content (Breslev)',
+                    backend: 'Backend Team (Houlon)',
+                    sales: 'Sales & Growth',
+                    ai: 'AI Persona Lead'
+                }
+            },
+            slide5: {
+                title: 'L\'Opportunité',
+                seed: 'SEED ROUND',
+                seeking: 'Nous recherchons des partenaires stratégiques.',
+                why: {
+                    title: 'Why Venture Studio?',
+                    irr: 'IRR (Internal Rate of Return)',
+                    time: 'Time to Series A',
+                    traditional: 'vs Traditional Startups'
+                },
+                portfolio: {
+                    title: 'Portfolio ROI Highlights',
+                    headers: ['Venture', 'Marché', 'Avantage'],
+                    rows: [
+                        { venture: 'Ha-Mazon', market: '€12B', advantage: 'ZFE Paris 2025 Compliant' },
+                        { venture: 'Tera Mind', market: '$8.5B', advantage: 'Spirit-Tech First Mover' },
+                        { venture: 'Consult', market: 'Service', advantage: 'Cash Engine (Self-Funding)' }
+                    ]
+                },
+                squad: {
+                    title: 'The Squad',
+                    core: { title: 'Core Pod (Equity)', names: 'David, Ariel, Dan, Moshé', desc: 'Vision, Stratégie, Tech Lead' },
+                    flex: { title: 'Flex Pod (Cash)', names: 'Experts Houlon + Réseau Global', desc: 'Exécution, Scale, Opérations' }
+                },
+                buttons: {
+                    blueprint: 'Télécharger Venture Blueprint',
+                    thesis: 'Lire la Thèse "Sacred Tech"'
+                }
+            }
         }
     },
     he: {
@@ -356,6 +580,9 @@ export const translations = {
             error: 'שגיאה',
             send: 'שלח',
             placeholder: 'הקלד הודעה...',
+            comingSoon: 'בקרוב',
+            underDevelopment: 'מודול זה נמצא כעת בפיתוח.',
+            understood: 'הבנתי',
         },
         hub: {
             navTitle: 'ניווט קנבס אינסופי',
@@ -416,6 +643,15 @@ export const translations = {
                 growth: { title: 'פריצת צמיחה', desc: 'רכישת לקוחות אגרסיבית דרך לינקדאין, אימייל ומכירה חברתית. אפס תקציב פרסום, 100% אורגני.' },
                 strategy: { title: 'אסטרטגיה גלובלית', desc: 'מצב את המותג שלך כמוביל בנישה. מיתוג, סיפור וסמכות.' }
             },
+            aiServices: {
+                title: 'שירותים מונעי AI',
+                video: { title: 'הפקת וידאו AI', desc: 'סרטונים מקצועיים עם Google Flow, Vo3 & Gemini. משלוח 24-48 שעות.', tools: 'Google Flow, Vo3, Gemini' },
+                djSuno: { title: 'DJ Suno - מוזיקה חיה AI', desc: 'יצירת שירים בזמן אמת בחתונות ואירועים.', tools: 'Suno AI' },
+                social: { title: 'אוטומציה חברתית', desc: 'ניהול מלא של רשתות חברתיות עם Metricool & SocialPulse.', tools: 'Metricool, SocialPulse' },
+                content: { title: 'מפעל תוכן AI', desc: 'תוכן ללא הגבלה: בלוגים, פרסומות, פוסטים עם Claude & GPT.', tools: 'Claude, GPT-4, Gemini' },
+                chatbot: { title: 'צ\'אטבוטים AI מותאמים', desc: 'צ\'אטבוטים מאומנים על נתוני העסק שלך.', tools: 'RAG, OpenAI, Claude' },
+                webDev: { title: 'פיתוח אתרים AI', desc: 'אתרים מלאים בימים, לא חודשים.', tools: 'Claude Code, Next.js, Vercel' }
+            },
             metrics: {
                 revenue: 'הכנסות שנוצרו',
                 agents: 'סוכני AI נפרסו',
@@ -426,6 +662,23 @@ export const translations = {
                 title: 'הצעות "ללא מחשבה"',
                 starter: { title: 'ביקורת ומפת דרכים', price: '€2,500', unit: '/ חד פעמי', features: ['ניתוח תהליכים מלא', 'זיהוי צווארי בקבוק', 'תוכנית פעולה AI מותאמת אישית'], button: 'בחר' },
                 growth: { title: 'אוטומציה מלאה', price: '€5,000', unit: '/ חודש', features: ['הטמעת סוכני AI', 'ניהול קמפיינים לצמיחה', 'תמיכה בעדיפות ותחזוקה'], button: 'התחל' }
+            },
+            leadForm: {
+                title: 'קבל ביקורת AI חינם',
+                subtitle: 'ספר לנו על העסק שלך ונראה לך איך להכפיל פי 10 את היעילות',
+                companyName: 'שם החברה',
+                email: 'אימייל',
+                phone: 'טלפון',
+                industry: 'תעשייה',
+                companySize: 'גודל החברה',
+                budget: 'טווח תקציב',
+                message: 'ספר לנו על היעדים שלך',
+                submit: 'קבל ביקורת חינם',
+                success: 'תודה! ניצור איתך קשר תוך 24 שעות.',
+                error: 'משהו השתבש. נא לנסות שוב.',
+                industries: ['מסחר אלקטרוני', 'SaaS / טכנולוגיה', 'סוכנות / שירותים', 'קמעונאות', 'תעשייה', 'בריאות', 'פיננסים', 'נדל"ן', 'אחר'],
+                sizes: ['יזם עצמאי', '2-10 עובדים', '11-50 עובדים', '51-200 עובדים', '200+ עובדים'],
+                budgets: ['< €2,500', '€2,500 - €5,000', '€5,000 - €10,000', '€10,000+', 'עוד לא בטוח']
             }
         },
         global: {
@@ -437,7 +690,22 @@ export const translations = {
                 demo: 'צפה בדמו DCS',
                 b2b: 'גרסת B2B',
                 b2c: 'דרים-נובה סושיאל - פלטפורמת B2C גלובלית',
-                noTech: 'ללא טכנולוגיות, קנייני'
+                noTech: 'ללא טכנולוגיות, קנייני',
+                reputation: 'המוניטין שלנו'
+            },
+            modals: {
+                reputation: {
+                    title: 'המוניטין שלנו',
+                    message: 'גלה מה השותפים שלנו אומרים עלינו.'
+                },
+                beta: {
+                    title: 'בטא סגורה',
+                    message: 'ההרשמה ברשימת המתנה. בקשתך נרשמה.'
+                },
+                demo: {
+                    title: 'דמו DCS',
+                    message: 'מפעיל סימולציית ציון עקביות חלום...'
+                }
             },
             problem: {
                 title: 'העולם הישן שבור.',
@@ -516,6 +784,74 @@ export const translations = {
         },
         amazon: {
             testClientApp: 'תוכל לבדוק אפליקציה של לקוחותינו ולראות את הדמו.'
+        },
+        pitchDeck: {
+            navTitle: 'DREAMNOVA IR',
+            quit: 'יציאה',
+            slide1: {
+                tag: 'תזכיר משקיעים 2025',
+                title: 'DREAM',
+                titleSuffix: 'NOVA',
+                subtitle: 'סטודיו המיזמים "ספיריט-טק" הראשון.',
+                subtitle2: 'מיזוג AI, לוגיסטיקה וחוכמה.'
+            },
+            slide2: {
+                title: 'נקודת השבירה המשולשת',
+                cards: {
+                    void: { title: 'ריק משמעות', desc: 'העולם מחובר אך מדוכא. שוק בריאות הנפש מתפוצץ, אך חסר נשמה.' },
+                    logistics: { title: 'לוגיסטיקה תקועה', desc: 'אזורי פליטה נמוכה (ZFE) הורגים את הסיטונאים הקלאסיים. המסעדנים הפריזאים נחנקים.' },
+                    b2b: { title: 'חוסר יעילות B2B', desc: 'חברות משלמות הון על פיתוחים איטיים. הן צריכות מהירות, לא יועצים.' }
+                }
+            },
+            slide3: {
+                title: 'התשובה: מערכת אקולוגית משולבת',
+                nodes: {
+                    consult: { role: 'מנוע (מזומן)', title: 'ייעוץ', desc: 'מפעל SaaS + מכירות AI' },
+                    amazon: { role: 'גוף (תשתית)', title: 'ה-מזון', desc: 'לוגיסטיקה ZFE + מיקרו-האבים' },
+                    tera: { role: 'רוח (משימה)', title: 'תרה & ברסלב', desc: 'טיפול AI + RAG' }
+                }
+            },
+            slide4: {
+                title: '"נבחרת החלומות"',
+                roles: {
+                    founder: 'מייסד וחזון',
+                    ops: 'ביצוע ותפעול',
+                    logistics: 'לוגיסטיקה (ה-מזון)',
+                    content: 'תוכן (ברסלב)',
+                    backend: 'צוות צד שרת (חולון)',
+                    sales: 'מכירות וצמיחה',
+                    ai: 'מוביל פרסונה AI'
+                }
+            },
+            slide5: {
+                title: 'ההזדמנות',
+                seed: 'סבב סיד',
+                seeking: 'אנו מחפשים שותפים אסטרטגיים.',
+                why: {
+                    title: 'למה סטודיו מיזמים?',
+                    irr: 'IRR (שיעור תשואה פנימי)',
+                    time: 'זמן לסדרה A',
+                    traditional: 'לעומת סטארטאפים מסורתיים'
+                },
+                portfolio: {
+                    title: 'דגשי ROI של הפורטפוליו',
+                    headers: ['מיזם', 'שוק', 'יתרון'],
+                    rows: [
+                        { venture: 'ה-מזון', market: '€12B', advantage: 'תואם ZFE פריז 2025' },
+                        { venture: 'תרה מיינד', market: '$8.5B', advantage: 'חלוץ ספיריט-טק' },
+                        { venture: 'ייעוץ', market: 'שירות', advantage: 'מנוע מזומנים (מימון עצמי)' }
+                    ]
+                },
+                squad: {
+                    title: 'היחידה',
+                    core: { title: 'צוות ליבה (הון)', names: 'דוד, אריאל, דן, משה', desc: 'חזון, אסטרטגיה, מוביל טכנולוגי' },
+                    flex: { title: 'צוות גמיש (מזומן)', names: 'מומחי חולון + רשת גלובלית', desc: 'ביצוע, סקייל, תפעול' }
+                },
+                buttons: {
+                    blueprint: 'הורד תוכנית מיזם',
+                    thesis: 'קרא תזה "טכנולוגיה מקודשת"'
+                }
+            }
         }
     }
 };

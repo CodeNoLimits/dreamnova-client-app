@@ -12,7 +12,8 @@ export const useAdminStore = create<AdminState>()(
         (set) => ({
             isAdmin: false,
             login: (code: string) => {
-                if (code === '770') {
+                const adminCode = process.env.NEXT_PUBLIC_ADMIN_CODE || '770';
+                if (code === adminCode) {
                     set({ isAdmin: true });
                     return true;
                 }

@@ -19,6 +19,7 @@
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -30,8 +31,32 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# Environment variables - CRITICAL: Never commit these
+.env
+.env.*
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+!.env.example
+
+# Secrets and credentials
+*.key
+*.crt
+*.cert
+credentials.json
+secrets.json
+service-account*.json
+
+# IDE and editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
 
 # vercel
 .vercel
@@ -39,3 +64,22 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Logs
+logs
+*.log
+
+# Cache
+.cache
+.turbo
+.eslintcache
+.stylelintcache
+
+# OS files
+Thumbs.db
+ehthumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp

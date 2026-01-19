@@ -326,28 +326,30 @@ export default function VentureOS_Canvas({ forceList = false }: { forceList?: bo
     };
 
     return (
-        <div className={`w-full h-screen bg-[#05050A] relative overflow-hidden ${lang === 'he' ? 'font-sans' : ''}`}>
-            {/* Controls */}
-            <div className="absolute top-6 right-6 z-50 flex items-center space-x-3">
-                {/* Language Switcher */}
-                <LanguageSelector />
+        <div className={`w-full ${viewMode === 'list' ? 'min-h-screen' : 'h-screen overflow-hidden'} bg-[#05050A] relative ${lang === 'he' ? 'font-sans' : ''}`}>
+            {/* Controls - ONLY SHOW IN CANVAS MODE */}
+            {viewMode === 'canvas' && (
+                <div className="absolute top-6 right-6 z-50 flex items-center space-x-3">
+                    {/* Language Switcher */}
+                    <LanguageSelector />
 
-                <button
-                    onClick={() => setInvestorMode(!investorMode)}
-                    className={`p-3 rounded-full border transition-all ${investorMode ? 'bg-amber-500/20 border-amber-500 text-amber-400' : 'bg-white/5 border-white/10 text-gray-400'}`}
-                    title="Investor Mode"
-                >
-                    <TrendingUp className="w-5 h-5" />
-                </button>
-                {isMobile && (
                     <button
-                        onClick={() => setViewMode(viewMode === 'canvas' ? 'list' : 'canvas')}
-                        className="p-3 rounded-full bg-white/5 border border-white/10 text-white"
+                        onClick={() => setInvestorMode(!investorMode)}
+                        className={`p-3 rounded-full border transition-all ${investorMode ? 'bg-amber-500/20 border-amber-500 text-amber-400' : 'bg-white/5 border-white/10 text-gray-400'}`}
+                        title="Investor Mode"
                     >
-                        {viewMode === 'canvas' ? <List className="w-5 h-5" /> : <Grid className="w-5 h-5" />}
+                        <TrendingUp className="w-5 h-5" />
                     </button>
-                )}
-            </div>
+                    {isMobile && (
+                        <button
+                            onClick={() => setViewMode(viewMode === 'canvas' ? 'list' : 'canvas')}
+                            className="p-3 rounded-full bg-white/5 border border-white/10 text-white"
+                        >
+                            {viewMode === 'canvas' ? <List className="w-5 h-5" /> : <Grid className="w-5 h-5" />}
+                        </button>
+                    )}
+                </div>
+            )}
 
             {viewMode === 'canvas' ? (
                 <div
@@ -412,15 +414,17 @@ export default function VentureOS_Canvas({ forceList = false }: { forceList?: bo
                 <ListView lang={lang} handleNavigation={handleNavigation} setShowComingSoon={setShowComingSoon} />
             )}
 
-            {/* Overlay Text */}
-            <div className="absolute top-10 left-1/2 transform -translate-x-1/2 pointer-events-none z-10 text-center w-full px-4">
-                <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-2">
-                    Venture Studio <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">OS</span>
-                </h1>
-                <p className="text-gray-400 text-xs md:text-sm uppercase tracking-widest">
-                    {translations[lang].hub[investorMode ? 'investorMode' : 'navTitle']}
-                </p>
-            </div>
+            {/* Overlay Text - ONLY IN CANVAS MODE */}
+            {viewMode === 'canvas' && (
+                <div className="absolute top-10 left-1/2 transform -translate-x-1/2 pointer-events-none z-10 text-center w-full px-4">
+                    <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-2">
+                        Venture Studio <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">OS</span>
+                    </h1>
+                    <p className="text-gray-400 text-xs md:text-sm uppercase tracking-widest">
+                        {translations[lang].hub[investorMode ? 'investorMode' : 'navTitle']}
+                    </p>
+                </div>
+            )}
 
             {/* Coming Soon Modal */}
             {showComingSoon && (
@@ -432,10 +436,10 @@ export default function VentureOS_Canvas({ forceList = false }: { forceList?: bo
                         <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
                             <Lock className="w-8 h-8 text-gray-400" />
                         </div>
-                        <h3 className="text-2xl font-bold text-white mb-2">Coming Soon</h3>
-                        <p className="text-gray-400 mb-6">This module is currently under development.</p>
+                        <h3 className="text-2xl font-bold text-white mb-2">{translations[lang].common.comingSoon}</h3>
+                        <p className="text-gray-400 mb-6">{translations[lang].common.underDevelopment}</p>
                         <button onClick={() => setShowComingSoon(false)} className="w-full py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-colors">
-                            Understood
+                            {translations[lang].common.understood}
                         </button>
                     </div>
                 </div>
@@ -446,22 +450,21 @@ export default function VentureOS_Canvas({ forceList = false }: { forceList?: bo
 
 const ListView = ({ lang, handleNavigation, setShowComingSoon }: { lang: 'en' | 'fr' | 'he', handleNavigation: (href: string) => void, setShowComingSoon: (show: boolean) => void }) => (
     <div className={`min-h-screen bg-[#05050A] pb-40 ${lang === 'he' ? 'rtl' : 'ltr'}`}>
-        <div className="sticky top-0 z-20 bg-[#05050A]/90 backdrop-blur-xl p-6 border-b border-white/5 shadow-2xl">
+        <div className="sticky top-0 z-20 bg-[#05050A]/90 backdrop-blur-xl p-6 border-b border-white/5 shadow-2xl flex justify-between items-center">
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex justify-between items-center"
             >
-                <div>
-                    <h1 className="text-2xl font-black text-white tracking-tight">
-                        Venture Studio <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">OS</span>
-                    </h1>
-                    <p className="text-xs text-gray-400 uppercase tracking-widest mt-1">{translations[lang].hub.mobileTitle}</p>
-                </div>
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 animate-pulse">
-                    <Hexagon className="w-5 h-5 text-white" />
-                </div>
+                <h1 className="text-2xl font-black text-white tracking-tight">
+                    Venture Studio <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">OS</span>
+                </h1>
+                <p className="text-xs text-gray-400 uppercase tracking-widest mt-1">{translations[lang].hub.mobileTitle}</p>
             </motion.div>
+
+            {/* Language Selector in List View Header */}
+            <div className="flex items-center space-x-3">
+                <LanguageSelector />
+            </div>
         </div>
 
         <div className="px-4 py-6 space-y-4">

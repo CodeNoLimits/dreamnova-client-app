@@ -12,7 +12,8 @@ import {
     CheckCircle2,
     Play,
     X,
-    Info
+    Info,
+    MessageCircle
 } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 
@@ -122,29 +123,27 @@ export default function DreamNovaGlobalPage() {
                     <div className="mt-10 flex flex-col items-center gap-6 max-w-2xl mx-auto">
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
                             <button
-                                onClick={() => handleAction("Beta Fermée", "Les inscriptions sont sur liste d'attente. Votre demande a été enregistrée.")}
+                                onClick={() => handleAction(t.modals.beta.title, t.modals.beta.message)}
                                 className="w-full sm:w-auto flex-1 px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-xl transition-all shadow-[0_0_40px_-10px_rgba(6,182,212,0.5)] flex items-center justify-center"
                             >
                                 {t.buttons.beta} <ArrowRight className="ml-2 w-5 h-5" />
                             </button>
                             <button
-                                onClick={() => handleAction("Démo DCS", "Lancement de la simulation du Dream Consistency Score...")}
+                                onClick={() => handleAction(t.modals.demo.title, t.modals.demo.message)}
                                 className="w-full sm:w-auto flex-1 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium rounded-xl transition-all flex items-center justify-center backdrop-blur-md"
                             >
                                 <Play className="ml-2 w-5 h-5 mr-2 fill-current" /> {t.buttons.demo}
                             </button>
                         </div>
 
-                        <a
-                            href="https://katkzhby.gensparkspace.com/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full"
+                        <button
+                            onClick={() => handleAction(t.modals.reputation.title, t.modals.reputation.message)}
+                            className="w-full sm:w-auto px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition-all shadow-lg flex items-center justify-center mb-4"
                         >
-                            <button className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-bold rounded-xl transition-all shadow-lg flex items-center justify-center group">
-                                <Globe className="mr-2 w-5 h-5 group-hover:rotate-12 transition-transform" /> {t.buttons.b2b}
-                            </button>
-                        </a>
+                            <MessageCircle className="mr-2 w-5 h-5" /> {t.buttons.reputation}
+                        </button>
+
+
 
                         <a
                             href="https://keeunzii.gensparkspace.com/"
@@ -167,10 +166,34 @@ export default function DreamNovaGlobalPage() {
                                 <Lock className="mr-2 w-4 h-4" /> {t.buttons.noTech}
                             </button>
                         </a>
-                    </div>
-                </div>
 
-                {/* THE PROBLEM VS SOLUTION */}
+                        <a
+                            href="/documents/Dream_Nova_L_Écosystème_IA_Bâtisseur_de_Marché.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full"
+                        >
+                            <button className="w-full px-8 py-4 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 font-bold rounded-xl transition-all flex items-center justify-center">
+                                <Globe className="mr-2 w-5 h-5" /> Download Whitepaper (PDF)
+                            </button>
+                        </a>
+                    </div>
+                </div >
+
+                {/* VIDEO PLAYER */}
+                < div className="mt-16 relative w-full max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl border border-blue-500/20 mb-12 group" >
+                    <div className="absolute inset-0 bg-blue-500/10 group-hover:bg-transparent transition-colors pointer-events-none z-10"></div>
+                    <video
+                        src="/videos/The_DreamNova_OS.mp4"
+                        className="w-full h-auto"
+                        controls
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                    />
+                </div >
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-32 items-center">
                     <div className="space-y-8">
                         <h2 className="text-4xl font-bold text-white">{t.problem.title}</h2>
@@ -245,28 +268,30 @@ export default function DreamNovaGlobalPage() {
                 </section>
 
                 {/* MODAL (Placeholder pour interactivité) */}
-                {showModal && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-                        <div className="bg-[#0A0A12] border border-white/10 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
-                            <button
-                                onClick={() => setShowModal(false)}
-                                className="absolute top-4 right-4 text-gray-500 hover:text-white"
-                            >
-                                <X className="w-6 h-6" />
-                            </button>
-                            <h3 className="text-xl font-bold text-white mb-2">{modalContent.title}</h3>
-                            <p className="text-gray-400 mb-6">{modalContent.message}</p>
-                            <button
-                                onClick={() => setShowModal(false)}
-                                className="w-full py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-colors"
-                            >
-                                Compris
-                            </button>
+                {
+                    showModal && (
+                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                            <div className="bg-[#0A0A12] border border-white/10 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+                                <button
+                                    onClick={() => setShowModal(false)}
+                                    className="absolute top-4 right-4 text-gray-500 hover:text-white"
+                                >
+                                    <X className="w-6 h-6" />
+                                </button>
+                                <h3 className="text-xl font-bold text-white mb-2">{modalContent.title}</h3>
+                                <p className="text-gray-400 mb-6">{modalContent.message}</p>
+                                <button
+                                    onClick={() => setShowModal(false)}
+                                    className="w-full py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-colors"
+                                >
+                                    {common.understood}
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )
+                }
 
-            </main>
-        </div>
+            </main >
+        </div >
     );
 }

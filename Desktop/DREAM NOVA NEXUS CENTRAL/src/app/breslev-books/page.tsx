@@ -164,14 +164,15 @@ export default function BreslevBooksPage() {
                         </motion.div>
                     </div>
 
-                    {/* HERO IMAGE PLACEHOLDER */}
-                    <div className="relative w-full h-[400px] rounded-3xl overflow-hidden border border-white/10 group">
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#05050A] z-10"></div>
-                        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1507842217121-ad663db1a9a2?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-1000"></div>
-                        <div className="absolute bottom-10 left-10 z-20">
-                            <h3 className="text-2xl font-bold text-white mb-2">Likoutey Moharan 2.0</h3>
-                            <p className="text-gray-400">La technologie au service de la révélation.</p>
-                        </div>
+                    {/* VIDEO: Sagesse & Startup */}
+                    <div className="relative w-full max-w-5xl mx-auto rounded-3xl overflow-hidden border border-white/10 shadow-2xl group">
+                        <video
+                            src="/videos/DreamNova___Sagesse_&_Startup.mp4"
+                            controls
+                            className="w-full"
+                        >
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
                     </div>
                 </section>
 

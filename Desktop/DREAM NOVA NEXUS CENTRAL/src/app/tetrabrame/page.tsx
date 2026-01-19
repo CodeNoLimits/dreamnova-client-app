@@ -169,6 +169,9 @@ export default function TetraBramePage() {
                                     <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 cursor-pointer"><Play className="w-3 h-3 fill-white" /></div>
                                 </div>
                             </div>
+                            <a href="/documents/Content_Multiplication_Engine.pdf" target="_blank" className="block text-center text-xs text-cyan-500 hover:text-cyan-400 transition-colors border-t border-white/5 pt-4">
+                                Download Engine Architecture (PDF)
+                            </a>
                         </div>
                     </GlassCard>
 

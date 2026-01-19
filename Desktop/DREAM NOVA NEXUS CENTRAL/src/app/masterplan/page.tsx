@@ -88,10 +88,22 @@ export default function MasterplanPage() {
 
                 <div className="text-center mb-20">
                     <h1 className="text-5xl font-black text-white mb-6">L'ORDRE DE BATAILLE 2025-2026</h1>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+                    <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-12">
                         Feuille de route opérationnelle, stratégie de recrutement "Win-Win" et déploiement des 12 projets.
                         <br />Ce document est la boussole interne du Venture Studio.
                     </p>
+
+                    {/* VIDEO: Le Plan Directeur */}
+                    <div className="max-w-4xl mx-auto rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+                        <video
+                            src="/videos/Le_Plan_Directeur_du_Visionnaire.mp4"
+                            controls
+                            className="w-full"
+                            poster="/images/masterplan_poster.jpg" // Optional if we had one, but browser default is fine
+                        >
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                    </div>
                 </div>
 
                 {/* 1. STRATÉGIE RH & RECRUTEMENT */}

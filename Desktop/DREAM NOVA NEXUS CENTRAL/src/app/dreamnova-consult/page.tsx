@@ -40,8 +40,8 @@ const NeonButton = ({ children, onClick, variant = 'purple', className = "" }: {
 import { useLanguage } from '@/context/LanguageContext';
 import { translations } from '@/lib/translations';
 import { LanguageSelector } from '@/components/ui/LanguageSelector';
-
-// ... (keep existing components)
+import { LeadCaptureForm } from '@/components/forms/LeadCaptureForm';
+import { AIServicesGrid } from '@/components/services/AIServicesGrid';
 
 export default function DreamNovaConsultPage() {
     const [showAuditForm, setShowAuditForm] = useState(false);
@@ -116,6 +116,9 @@ export default function DreamNovaConsultPage() {
                             </a>
                             <a href="https://repair-portal-70044307.figma.site/" target="_blank" rel="noopener noreferrer" className="text-xs text-gray-400 hover:text-purple-400 transition-colors flex items-center gap-2 border border-white/10 px-4 py-2 rounded-full hover:bg-white/5">
                                 <Globe className="w-3 h-3" /> {t.buttons.france}
+                            </a>
+                            <a href="/documents/AI_PME_Growth_Acceleration.pdf" target="_blank" rel="noopener noreferrer" className="text-xs text-purple-400 hover:text-white transition-colors flex items-center gap-2 border border-purple-500/30 bg-purple-500/10 px-4 py-2 rounded-full hover:bg-purple-500/20">
+                                <Rocket className="w-3 h-3" /> Download Growth Strategy (PDF)
                             </a>
                         </div>
                     </div>
@@ -202,6 +205,20 @@ export default function DreamNovaConsultPage() {
                             </ul>
                             <NeonButton className="w-full">{t.offers.growth.button}</NeonButton>
                         </div>
+                    </div>
+                </div>
+
+                {/* AI SERVICES GRID */}
+                <div className="max-w-6xl mx-auto mt-24">
+                    <AIServicesGrid translations={t.aiServices} />
+                </div>
+
+                {/* LEAD CAPTURE FORM SECTION */}
+                <div className="max-w-3xl mx-auto mt-32 mb-16">
+                    <div className="p-8 rounded-3xl bg-gradient-to-b from-purple-900/20 to-black border border-purple-500/30">
+                        <LeadCaptureForm
+                            translations={t.leadForm}
+                        />
                     </div>
                 </div>
 
