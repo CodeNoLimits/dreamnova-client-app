@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DreamNova Global - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#00BFFF", // Electric Blue
+              "background-light": "#080A15", // Sidereal Black (forced dark for this design)
+              "background-dark": "#080A15", // Sidereal Black
+              "accent-gold": "#E8D5A2", // Pale Gold
+              "off-white": "#F0F0F0"
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        position: relative;
+      }
+      .particle-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background: #080A15;
+        overflow: hidden;
+      }
+      .particle {
+        position: absolute;
+        background-color: #00BFFF;
+        border-radius: 50%;
+        opacity: 0.5;
+        animation: move 25s linear infinite;
+      }
+      @keyframes move {
+        0% { transform: translateY(0) translateX(0); }
+        100% { transform: translateY(-100vh) translateX(calc(100vw * (var(--direction) * 0.5))); }
+      }
+      .particle:nth-child(1) { width: 2px; height: 2px; left: 10%; animation-duration: 22s; --direction: 1; }
+      .particle:nth-child(2) { width: 1px; height: 1px; left: 45%; animation-duration: 30s; --direction: -1; }
+      .particle:nth-child(3) { width: 3px; height: 3px; left: 80%; animation-duration: 18s; --direction: 1; }
+      .particle:nth-child(4) { width: 1px; height: 1px; left: 25%; animation-duration: 35s; --direction: -1; }
+      .particle:nth-child(5) { width: 2px; height: 2px; left: 60%; animation-duration: 20s; --direction: 1; }
+      .particle:nth-child(6) { width: 1px; height: 1px; left: 5%; animation-duration: 40s; --direction: -1; }
+      .particle:nth-child(7) { width: 2px; height: 2px; left: 90%; animation-duration: 25s; --direction: 1; }
+      .particle:nth-child(8) { width: 1px; height: 1px; left: 33%; animation-duration: 32s; --direction: -1; }
+      .particle:nth-child(9) { width: 3px; height: 3px; left: 70%; animation-duration: 15s; --direction: 1; }
+      .particle:nth-child(10) { width: 1px; height: 1px; left: 50%; animation-duration: 45s; --direction: -1; }
+
+    </style>
+</head>
+<body class="font-display">
+<div class="particle-bg">
+<div class="particle" style="top: 80%;"></div>
+<div class="particle" style="top: 20%;"></div>
+<div class="particle" style="top: 50%;"></div>
+<div class="particle" style="top: 95%;"></div>
+<div class="particle" style="top: 10%;"></div>
+<div class="particle" style="top: 60%;"></div>
+<div class="particle" style="top: 30%;"></div>
+<div class="particle" style="top: 75%;"></div>
+<div class="particle" style="top: 5%;"></div>
+<div class="particle" style="top: 40%;"></div>
+</div>
+<div class="relative flex min-h-screen w-full flex-col bg-background-dark dark group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center px-4 sm:px-8 md:px-20 lg:px-40 py-5">
+<div class="layout-content-container flex w-full flex-col max-w-[960px] flex-1">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/20 px-4 md:px-10 py-3 bg-background-dark/80 backdrop-blur-sm sticky top-5 z-10 rounded-lg">
+<div class="flex items-center gap-4 text-off-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 45.8096C19.6865 45.8096 15.4698 44.5305 11.8832 42.134C8.29667 39.7376 5.50128 36.3314 3.85056 32.3462C2.19985 28.361 1.76794 23.9758 2.60947 19.7452C3.451 15.5145 5.52816 11.6284 8.57829 8.5783C11.6284 5.52817 15.5145 3.45101 19.7452 2.60948C23.9758 1.76795 28.361 2.19986 32.3462 3.85057C36.3314 5.50129 39.7376 8.29668 42.134 11.8833C44.5305 15.4698 45.8096 19.6865 45.8096 24L24 24L24 45.8096Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-off-white text-lg font-bold leading-tight tracking-[-0.015em]">DreamNova Global</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-off-white hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Network</a>
+<a class="text-off-white hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Profiles</a>
+<a class="text-off-white hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Data Streams</a>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Sign In</span>
+</button>
+</div>
+<div class="md:hidden">
+<button class="text-off-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<main class="flex-grow pt-16 md:pt-24 pb-16">
+<!-- HeroSection -->
+<div class="@container">
+<div class="flex flex-col gap-6 items-center text-center px-4">
+<div class="flex flex-col gap-2">
+<h1 class="text-off-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">Le CV est mort. Vive la Preuve d'Exécution.</h1>
+<h2 class="text-accent-gold text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal max-w-2xl mx-auto">LinkedIn vend votre image. DreamNova vend votre réalité. Bienvenue dans la Méritocratie par la Data.</h2>
+</div>
+</div>
+</div>
+<!-- MediaPlayer -->
+<div class="px-0 py-10 md:px-4 md:py-12">
+<div class="relative flex items-center justify-center bg-black/30 bg-cover bg-center aspect-video rounded-xl p-0 shadow-2xl shadow-primary/20" data-alt="Stylized video player for L_OS_de_la_Dream_Economy.mp4" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDH_R_zNmS1lblOs-mlOPxiVguk-sfUmsvnOCPpPYRUK2bnbAWv27o647l-NILbjXrm4Z69SQ2hIVMcZRrjCjfNkp1IiVwnQpQED4dcbUYmGplQuWxu8xtbGIDxnh1EHk8T6gqESRKRcm84fROosLz0ZXRx0wHpQ2_UowjqGet7RvLAaIDzuiJvqGRF75mNvVdLdsGKVsbLJY6QpiGuV7OegSi6zfPHsh1dqmgblWHFlDfcEuuChsw0c_cbubMvZ9CncakGYuIB9DQT"); box-shadow: 0 0 15px 5px rgba(0, 191, 255, 0.2), 0 0 30px 10px rgba(0, 191, 255, 0.1); border: 1px solid rgba(0, 191, 255, 0.3);'>
+<button class="flex shrink-0 items-center justify-center rounded-full size-16 bg-black/50 text-off-white backdrop-blur-sm border border-primary/50 hover:bg-primary/50 transition-colors">
+<span class="material-symbols-outlined text-4xl" data-icon="Play" data-size="24px" data-weight="fill">play_arrow</span>
+</button>
+<div class="absolute inset-x-0 bottom-0 px-4 py-3 bg-gradient-to-t from-black/50 to-transparent">
+<div class="flex h-4 items-center justify-center">
+<div class="h-1 flex-1 rounded-full bg-off-white"></div>
+<div class="relative"><div class="absolute -left-2 -top-2 size-4 rounded-full bg-primary ring-2 ring-background-dark"></div></div>
+<div class="h-1 flex-1 rounded-full bg-off-white opacity-40"></div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<p class="text-off-white text-xs font-medium leading-normal tracking-[0.015em]">0:37</p>
+<div class="flex items-center gap-4 text-off-white">
+<span class="material-symbols-outlined text-xl cursor-pointer">volume_up</span>
+<span class="material-symbols-outlined text-xl cursor-pointer">fullscreen</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-center mt-4">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary text-background-dark text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Explore the Network</span>
+</button>
+</div>
+</main>
+</div>
+</div>
+</div>
+</div>
+</body></html>

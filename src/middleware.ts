@@ -1,66 +1,57 @@
-import { createServerClient } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-export async function middleware(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
-    request,
-  })
+// Protected routes that require authentication
+const PROTECTED_ROUTES = ['/admin', '/api/admin', '/dashboard']
+const PUBLIC_ROUTES = ['/', '/login', '/api/auth']
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
-          supabaseResponse = NextResponse.next({
-            request,
-          })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, {
-              ...options,
-              // CRITIQUE: Augmenter la durée de vie des cookies
-              maxAge: options?.maxAge || 60 * 60 * 24 * 30, // 30 jours au lieu de 7
-              sameSite: 'lax', // Toujours 'lax' pour la persistance
-              secure: process.env.NODE_ENV === 'production',
-              httpOnly: options?.httpOnly !== false,
-              path: '/', // CRITIQUE: Cookie accessible partout
-            })
-          )
-        },
-      },
+export function middleware(request: NextRequest) {
+    const { pathname } = request.nextUrl
+
+    // Check if route is protected
+    const isProtectedRoute = PROTECTED_ROUTES.some(route =>
+        pathname.startsWith(route)
+    )
+
+    if (isProtectedRoute) {
+        // Check for auth token (supports multiple auth methods)
+        const authToken = request.cookies.get('auth-token')?.value
+            || request.cookies.get('next-auth.session-token')?.value
+            || request.cookies.get('__Secure-next-auth.session-token')?.value
+
+        // Check Authorization header for API routes
+        const authHeader = request.headers.get('authorization')
+
+        if (!authToken && !authHeader) {
+            // Redirect to login for page routes
+            if (!pathname.startsWith('/api/')) {
+                const loginUrl = new URL('/login', request.url)
+                loginUrl.searchParams.set('callbackUrl', pathname)
+                return NextResponse.redirect(loginUrl)
+            }
+
+            // Return 401 for API routes
+            return NextResponse.json(
+                { error: 'Authentication required' },
+                { status: 401 }
+            )
+        }
     }
-  )
 
-  // CRITIQUE: Rafraîchir la session à chaque requête
-  const { data: { user } } = await supabase.auth.getUser()
+    // Security headers for all responses
+    const response = NextResponse.next()
 
-  // Si l'utilisateur est connecté, s'assurer que la session est valide
-  if (user) {
-    // Vérifier que les cookies de session sont bien présents
-    const sessionCookie = request.cookies.get('sb-access-token')
-    if (!sessionCookie) {
-      // Si pas de cookie, essayer de rafraîchir la session
-      await supabase.auth.refreshSession()
-    }
-  }
+    response.headers.set('X-Content-Type-Options', 'nosniff')
+    response.headers.set('X-Frame-Options', 'DENY')
+    response.headers.set('X-XSS-Protection', '1; mode=block')
+    response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
 
-  return supabaseResponse
+    return response
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
-     */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
-  ],
+    matcher: [
+        // Match all routes except static files and _next
+        '/((?!_next/static|_next/image|favicon.ico|public/).*)',
+    ],
 }
-

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Audit Mini-Application</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#7c3bed",
+            "background-light": "#f7f6f8",
+            "background-dark": "#171121",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .glass-card {
+      background: rgba(46, 40, 57, 0.5);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+    .text-glow {
+      text-shadow: 0 0 8px rgba(124, 59, 237, 0.5), 0 0 20px rgba(124, 59, 237, 0.3);
+    }
+    .gauge-circle-bg {
+      stroke: rgba(255, 255, 255, 0.1);
+    }
+    .gauge-circle-fg {
+      stroke: #dc2626;
+      stroke-dasharray: 283; /* (2 * pi * 45) */
+      stroke-dashoffset: 184; /* 283 - (283 * 0.35) */
+      transform-origin: 50% 50%;
+      transform: rotate(-90deg);
+      transition: stroke-dashoffset 1.5s ease-out;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col dark group/design-root overflow-x-hidden" style="background: radial-gradient(circle at top left, #291a45, #171121 40%), radial-gradient(circle at bottom right, #4a1d96, #171121 50%);">
+<div class="flex-grow flex flex-col p-4 pt-8">
+<!-- Top Bar -->
+<div class="flex items-center bg-transparent pb-2 justify-between w-full max-w-md mx-auto">
+<div class="text-white flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined text-zinc-400">close</span>
+</div>
+<h1 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">Audit IA Express</h1>
+</div>
+<!-- Page Indicators -->
+<div class="flex w-full flex-row items-center justify-center gap-3 py-5">
+<div class="h-2 w-10 rounded-full bg-primary"></div>
+<div class="h-2 w-10 rounded-full bg-[#443b54]"></div>
+<div class="h-2 w-10 rounded-full bg-[#443b54]"></div>
+</div>
+<main class="flex-grow flex flex-col justify-center gap-6">
+<!-- Step 1 Card -->
+<div class="glass-card rounded-xl p-6 flex flex-col">
+<h2 class="text-white tracking-light text-[28px] font-bold leading-tight text-center pb-5">Quelle est la taille de votre équipe?</h2>
+<div class="flex">
+<div class="flex h-12 flex-1 items-center justify-center rounded-lg bg-black/20 p-1.5">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-primary has-[:checked]:shadow-[0_0_10px_rgba(124,59,237,0.5)] has-[:checked]:text-white text-zinc-300 text-sm font-medium leading-normal transition-all">
+<span class="truncate">1-5</span>
+<input checked="" class="invisible w-0" name="team_size" type="radio" value="1-5"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-primary has-[:checked]:shadow-[0_0_10px_rgba(124,59,237,0.5)] has-[:checked]:text-white text-zinc-300 text-sm font-medium leading-normal transition-all">
+<span class="truncate">5-20</span>
+<input class="invisible w-0" name="team_size" type="radio" value="5-20"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-primary has-[:checked]:shadow-[0_0_10px_rgba(124,59,237,0.5)] has-[:checked]:text-white text-zinc-300 text-sm font-medium leading-normal transition-all">
+<span class="truncate">20+</span>
+<input class="invisible w-0" name="team_size" type="radio" value="20+"/>
+</label>
+</div>
+</div>
+</div>
+<!-- Results Section (Initially hidden, shown for demo) -->
+<div class="mt-8 flex flex-col items-center gap-8">
+<!-- Animated Gauge -->
+<div class="flex flex-col items-center gap-2">
+<p class="text-zinc-400 text-sm font-medium">Score de Vélocité</p>
+<div class="relative size-48">
+<svg class="size-full" viewbox="0 0 100 100">
+<circle class="gauge-circle-bg" cx="50" cy="50" fill="none" r="45" stroke-width="10"></circle>
+<circle class="gauge-circle-fg" cx="50" cy="50" fill="none" r="45" stroke-linecap="round" stroke-width="10"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="text-5xl font-bold text-red-500 text-glow" style="text-shadow: 0 0 8px rgba(220, 38, 38, 0.7), 0 0 20px rgba(220, 38, 38, 0.4);">35%</span>
+</div>
+</div>
+</div>
+<!-- Conditional Alert -->
+<div class="w-full max-w-sm rounded-xl p-5 text-center bg-red-900/40 backdrop-filter backdrop-blur-lg border border-red-500/50 shadow-lg shadow-red-900/50">
+<div class="flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-red-400">warning</span>
+<h3 class="text-xl font-bold text-red-300">Urgence Critique.</h3>
+</div>
+<p class="mt-2 text-zinc-200">Vos concurrents vont vous écraser.</p>
+<button class="mt-4 w-full rounded-lg bg-red-600 px-6 py-3 text-base font-bold text-white shadow-[0_4px_14px_0_rgb(220,38,38,39%)] hover:bg-red-700 transition-all">
+                    Prenez RDV
+                </button>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

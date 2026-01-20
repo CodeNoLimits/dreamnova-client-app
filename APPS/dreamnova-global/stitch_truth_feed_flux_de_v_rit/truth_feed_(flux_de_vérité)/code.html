@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Truth Feed</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#2463eb",
+            "background-light": "#f6f6f8",
+            "background-dark": "#0C0A14",
+            "electric-blue": "#00BFFF",
+            "pale-gold": "#FAFAD2",
+            "off-white": "#EAEAEA",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative mx-auto flex h-auto min-h-screen w-full max-w-md flex-col bg-background-light dark:bg-background-dark">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-20 flex items-center justify-between bg-background-light/80 p-4 pb-3 backdrop-blur-sm dark:bg-background-dark/80">
+<div class="flex size-10 shrink-0 items-center justify-center">
+<span class="material-symbols-outlined text-zinc-800 dark:text-off-white" style="font-size: 24px;">arrow_back_ios_new</span>
+</div>
+<h1 class="flex-1 text-center text-lg font-bold leading-tight tracking-tight text-zinc-900 dark:text-off-white">Prouver, ne pas paraître.</h1>
+<div class="flex size-10 shrink-0 items-center justify-center"></div>
+</header>
+<!-- Timeline -->
+<main class="flex-1 px-4 pt-4">
+<div class="grid grid-cols-[auto_1fr] gap-x-4">
+<!-- Timeline Item 1 -->
+<div class="flex flex-col items-center gap-1">
+<div class="flex size-10 items-center justify-center rounded-full bg-electric-blue/10">
+<span class="material-symbols-outlined text-electric-blue" style="font-size: 24px;">code</span>
+</div>
+<div class="w-px grow bg-gradient-to-b from-electric-blue to-pale-gold/50"></div>
+</div>
+<div class="flex flex-1 flex-col pb-6 pt-2">
+<p class="text-zinc-800 dark:text-off-white text-base font-medium leading-normal">David a codé 4h (Commit GitHub #9292) - <span class="text-pale-gold">✅ Validé.</span></p>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm font-normal leading-normal">Il y a 5 minutes</p>
+</div>
+<!-- Timeline Item 2 -->
+<div class="flex flex-col items-center gap-1">
+<div class="w-px h-2 bg-gradient-to-t from-electric-blue to-pale-gold/50"></div>
+<div class="flex size-10 items-center justify-center rounded-full bg-electric-blue/10">
+<span class="material-symbols-outlined text-electric-blue" style="font-size: 24px;">design_services</span>
+</div>
+<div class="w-px grow bg-gradient-to-b from-electric-blue to-pale-gold/50"></div>
+</div>
+<div class="flex flex-1 flex-col pb-6 pt-2">
+<p class="text-zinc-800 dark:text-off-white text-base font-medium leading-normal">Sarah a finalisé la maquette (Figma #345) - <span class="text-pale-gold">✅ Validé.</span></p>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm font-normal leading-normal">Il y a 12 minutes</p>
+</div>
+<!-- Timeline Item 3 -->
+<div class="flex flex-col items-center gap-1">
+<div class="w-px h-2 bg-gradient-to-t from-electric-blue to-pale-gold/50"></div>
+<div class="flex size-10 items-center justify-center rounded-full bg-electric-blue/10">
+<span class="material-symbols-outlined text-electric-blue" style="font-size: 24px;">checklist</span>
+</div>
+<div class="w-px grow bg-gradient-to-b from-electric-blue to-pale-gold/50"></div>
+</div>
+<div class="flex flex-1 flex-col pb-6 pt-2">
+<p class="text-zinc-800 dark:text-off-white text-base font-medium leading-normal">Omar a résolu 3 tickets (Jira #78) - <span class="text-pale-gold">✅ Validé.</span></p>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm font-normal leading-normal">Il y a 28 minutes</p>
+</div>
+<!-- Timeline Item 4 -->
+<div class="flex flex-col items-center gap-1">
+<div class="w-px h-2 bg-gradient-to-t from-electric-blue to-pale-gold/50"></div>
+<div class="flex size-10 items-center justify-center rounded-full bg-electric-blue/10">
+<span class="material-symbols-outlined text-electric-blue" style="font-size: 24px;">article</span>
+</div>
+<div class="w-px grow bg-gradient-to-b from-electric-blue to-pale-gold/50"></div>
+</div>
+<div class="flex flex-1 flex-col pb-6 pt-2">
+<p class="text-zinc-800 dark:text-off-white text-base font-medium leading-normal">Chloé a publié l'article (Blog #12) - <span class="text-pale-gold">✅ Validé.</span></p>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm font-normal leading-normal">Il y a 45 minutes</p>
+</div>
+<!-- Timeline Item 5 -->
+<div class="flex flex-col items-center gap-1">
+<div class="w-px h-2 bg-gradient-to-t from-electric-blue to-pale-gold/50"></div>
+<div class="flex size-10 items-center justify-center rounded-full bg-electric-blue/10">
+<span class="material-symbols-outlined text-electric-blue" style="font-size: 24px;">campaign</span>
+</div>
+<div class="w-px grow bg-gradient-to-b from-electric-blue to-pale-gold/50"></div>
+</div>
+<div class="flex flex-1 flex-col pb-6 pt-2">
+<p class="text-zinc-800 dark:text-off-white text-base font-medium leading-normal">Leo a lancé la campagne (Ads #A4) - <span class="text-pale-gold">✅ Validé.</span></p>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm font-normal leading-normal">Il y a 59 minutes</p>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<div class="sticky bottom-0 z-10 p-5 pt-0">
+<div class="flex justify-end">
+<button class="flex h-14 cursor-pointer items-center justify-center gap-3 overflow-hidden rounded-full bg-electric-blue pl-5 pr-6 text-base font-bold leading-normal tracking-wide text-background-dark shadow-lg shadow-electric-blue/20">
+<span class="material-symbols-outlined" style="font-size: 24px;">add</span>
+<span class="truncate">Prouver</span>
+</button>
+</div>
+</div>
+<!-- Anti-Addiction Overlay -->
+<div class="absolute inset-0 z-50 flex items-center justify-center p-8 backdrop-blur-md">
+<div class="flex flex-col items-center text-center">
+<p class="text-sm font-medium text-zinc-200/80">Scroll &gt; 10 min. L'écran se floute.</p>
+<p class="mt-2 text-xl font-bold text-off-white">Assez rêvé. Agissez.</p>
+</div>
+</div>
+</div>
+</body></html>

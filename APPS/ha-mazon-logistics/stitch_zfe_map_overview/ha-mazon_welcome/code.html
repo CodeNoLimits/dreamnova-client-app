@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ha-Mazon Welcome</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f97316", // Safety Orange
+              "background-light": "#f8f7f5", // Not used for this screen, but defined
+              "background-dark": "#05050A", // Deep Black
+              "asphalt-grey": "#334155"
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-dark">
+<div class="relative flex h-screen w-full flex-col p-6 dark group/design-root overflow-y-auto">
+<!-- Main Content Area -->
+<main class="flex flex-1 flex-col justify-center items-center text-center">
+<!-- Logo/Icon -->
+<div class="mb-8 flex h-16 w-16 items-center justify-center rounded-xl border border-asphalt-grey bg-asphalt-grey/20">
+<span class="material-symbols-outlined text-4xl text-white"> local_shipping </span>
+</div>
+<!-- HeadlineText -->
+<h1 class="text-white tracking-tight text-[32px] font-bold leading-tight px-4 pb-3">La Logistique du Dernier Mètre. Décentralisée.</h1>
+<!-- BodyText -->
+<p class="text-slate-400 text-base font-normal leading-normal pb-3 pt-1 px-4">Livraison H+2 pour les restaurateurs parisiens. Contournez la congestion. Zéro Friction.</p>
+</main>
+<!-- Footer with CTA -->
+<footer class="w-full pb-4 pt-6">
+<!-- SingleButton -->
+<div class="flex justify-center">
+<button class="flex w-full max-w-md cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-primary text-white text-lg font-bold leading-normal tracking-wide">
+<span class="truncate">Voir la Carte des Hubs</span>
+</button>
+</div>
+</footer>
+</div>
+</body></html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Logistics Workflow Timeline</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#f97415",
+            "background-light": "#f8f7f5",
+            "background-dark": "#23170f",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative mx-auto flex h-auto min-h-screen w-full max-w-md flex-col overflow-x-hidden">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-10 flex h-16 shrink-0 items-center justify-between bg-background-light/80 px-4 backdrop-blur-sm dark:bg-background-dark/80">
+<button class="flex h-10 w-10 items-center justify-center rounded-full text-neutral-900 dark:text-neutral-100">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</button>
+<h1 class="flex-1 text-center text-lg font-bold text-neutral-900 dark:text-neutral-100">Logistics Workflow Timeline</h1>
+<div class="h-10 w-10"></div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow px-6 pt-4 pb-8">
+<!-- Timeline -->
+<div class="relative grid grid-cols-[auto_1fr] gap-x-4">
+<!-- Timeline Track -->
+<div class="absolute left-5 top-0 h-full w-0.5 -translate-x-1/2 bg-neutral-300 dark:bg-neutral-700"></div>
+<!-- Stage 1 -->
+<div class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary ring-8 ring-background-light dark:ring-background-dark">
+<span class="material-symbols-outlined text-white">local_shipping</span>
+</div>
+<div class="flex flex-1 flex-col pb-12 pt-1.5">
+<p class="text-sm font-medium text-neutral-500 dark:text-neutral-400">04:00 AM (Night Shift)</p>
+<p class="text-lg font-bold text-neutral-900 dark:text-neutral-50">Approvisionnement Silencieux</p>
+<p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">Silent restocking and warehouse preparation activities.</p>
+</div>
+<!-- Stage 2 -->
+<div class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary ring-8 ring-background-light dark:ring-background-dark">
+<span class="material-symbols-outlined text-white">inventory_2</span>
+</div>
+<div class="flex flex-1 flex-col pb-12 pt-1.5">
+<p class="text-sm font-medium text-neutral-500 dark:text-neutral-400">08:00 AM (Stocking)</p>
+<p class="text-lg font-bold text-neutral-900 dark:text-neutral-50">Mise en rayon</p>
+<p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">In-store stocking and inventory management process.</p>
+</div>
+<!-- Stage 3 -->
+<div class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary ring-8 ring-background-light dark:ring-background-dark">
+<span class="material-symbols-outlined text-white">electric_moped</span>
+</div>
+<div class="flex flex-1 flex-col pb-12 pt-1.5">
+<p class="text-sm font-medium text-neutral-500 dark:text-neutral-400">12:00 PM (Day Shift)</p>
+<p class="text-lg font-bold text-neutral-900 dark:text-neutral-50">Service Rescue. Livraison Dépannage</p>
+<p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">On-demand, rapid delivery and emergency fulfillment service.</p>
+</div>
+<!-- Stage 4 -->
+<div class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-neutral-300 ring-8 ring-background-light dark:bg-neutral-700 dark:ring-background-dark">
+<span class="material-symbols-outlined text-neutral-500 dark:text-neutral-400">package_2</span>
+</div>
+<div class="flex flex-1 flex-col pb-12 pt-1.5">
+<p class="text-sm font-medium text-neutral-500 dark:text-neutral-400">03:00 PM (Afternoon)</p>
+<p class="text-lg font-bold text-neutral-900 dark:text-neutral-50">Parcel Consolidation</p>
+<p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">Grouping packages for evening delivery routes.</p>
+</div>
+<!-- Stage 5 -->
+<div class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-neutral-300 ring-8 ring-background-light dark:bg-neutral-700 dark:ring-background-dark">
+<span class="material-symbols-outlined text-neutral-500 dark:text-neutral-400">rocket_launch</span>
+</div>
+<div class="flex flex-1 flex-col pt-1.5">
+<p class="text-sm font-medium text-neutral-500 dark:text-neutral-400">06:00 PM (Evening Shift)</p>
+<p class="text-lg font-bold text-neutral-900 dark:text-neutral-50">Last-Mile Dispatch</p>
+<p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">Final delivery wave deployment for evening orders.</p>
+</div>
+</div>
+</main>
+</div>
+</body></html>

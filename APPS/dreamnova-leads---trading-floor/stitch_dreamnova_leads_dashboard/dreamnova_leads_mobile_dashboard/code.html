@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DreamNova Leads Mobile Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0df20d",
+              "background-light": "#f5f8f5",
+              "background-dark": "#102210",
+              "amber": "#FFBF00"
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glassmorphism {
+        background: rgba(27, 39, 27, 0.6); /* bg-[#1b271b]/60 */
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(59, 84, 59, 0.3); /* border-[#3b543b]/30 */
+      }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center">
+<div class="layout-content-container flex w-full max-w-[960px] flex-1 flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#3b543b]/50 px-4 py-3 sticky top-0 bg-background-dark/80 backdrop-blur-sm z-10">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">DreamNova Leads</h2>
+</div>
+<div class="flex flex-1 justify-end gap-2">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 w-10 glassmorphism text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined text-amber">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar with an abstract background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCrmCeCuhT7-jG_vaPRr_zo3vQxDrkjQEUjli8FrvCFP28MZ1-RrOEdE9d3OzIBfx4tfcHiRsPLazT1W7190TKgAlThUQ0pKHanvroJDpQ2JsUJZngo1g_IR12t3e4bhoRp1AkbzUer8v8hN2m06YQ6thFalMU_Z0IrXwN6rMPGx58nBggNC1Rkrky6G_VUn5XS3FfST06rzMOdj8DZasY-y00y1IeIIoEvkS7h9BpZLKnr2eNkTI71OgfQrzTGiDdPJand6a-7LGoY");'></div>
+</div>
+</header>
+<!-- Ticker Tape -->
+<div class="w-full bg-black/50 py-2 border-b border-[#3b543b]/50 overflow-hidden">
+<p class="text-white text-sm font-normal leading-normal whitespace-nowrap animate-[marquee_20s_linear_infinite] px-4">New Lead: Quantum Inc. | Deal Closed: Synergy Corp $50k | Market Alert: Tech Sector Up 2% | New Lead: Apex Solutions</p>
+<style>@keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }</style>
+</div>
+<main class="flex flex-col gap-6 p-4">
+<!-- KPI Stats -->
+<div class="flex flex-wrap gap-4">
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-4 glassmorphism">
+<p class="text-white text-base font-medium leading-normal">Leads Today</p>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">42</p>
+<p class="text-primary text-base font-medium leading-normal">+5.2%</p>
+</div>
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-4 glassmorphism">
+<p class="text-white text-base font-medium leading-normal">Conversion Rate</p>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">18.5%</p>
+<p class="text-red-500 text-base font-medium leading-normal">-0.8%</p>
+</div>
+<div class="flex w-full flex-col gap-2 rounded-lg p-4 glassmorphism">
+<p class="text-white text-base font-medium leading-normal">Revenue Pipeline</p>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">$1.2M</p>
+<p class="text-primary text-base font-medium leading-normal">+1.4%</p>
+</div>
+</div>
+<!-- Lead Tabs -->
+<div class="pb-3">
+<div class="flex border-b border-[#3b543b]">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-white pb-[13px] pt-4 flex-1" href="#">
+<p class="text-white text-sm font-bold leading-normal tracking-[0.015em]">New</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#9cba9c] pb-[13px] pt-4 flex-1" href="#">
+<p class="text-[#9cba9c] text-sm font-bold leading-normal tracking-[0.015em]">Contacted</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#9cba9c] pb-[13px] pt-4 flex-1" href="#">
+<p class="text-[#9cba9c] text-sm font-bold leading-normal tracking-[0.015em]">Qualified</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#9cba9c] pb-[13px] pt-4 flex-1" href="#">
+<p class="text-[#9cba9c] text-sm font-bold leading-normal tracking-[0.015em]">Closed</p>
+</a>
+</div>
+</div>
+<!-- Lead Cards -->
+<div class="flex flex-col gap-4">
+<div class="flex flex-col items-stretch justify-start rounded-lg glassmorphism">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-t-lg" data-alt="Abstract geometric pattern representing a company logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAAJXYEgc1LwRfeHAnEHHPACF5Qs-2BufZn7JTlYNfZrHP2gI55jSsvKm8Viv1qc7l56miYXhkHfh8wyJa2bS-0gYnvnCIWHHTXYRxWXsjhJQVSLPPjNispAsT_X4oCparseyXqURSm4tcySzwo4ysyHVPzVIv1MLcaSFIpIRXr-hk4f7TJvPefw7ZPnMhqqLizfAj13ZBxuabgf9mf8hEuNiJ3-7Hj_1atcUN378Ln1lbCZ_kjZ-Bhdw0SKx9NZA93JkO9N5xh6B_U");'></div>
+<div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-2 p-4">
+<p class="text-[#9cba9c] text-sm font-normal leading-normal">Last Activity: 2h ago</p>
+<p class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Quantum Systems</p>
+<div class="flex flex-col gap-1">
+<p class="text-[#9cba9c] text-base font-normal leading-normal">Contact: Jane Doe</p>
+<p class="text-amber text-base font-bold leading-normal">Deal Size: $75,000</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-stretch justify-start rounded-lg glassmorphism">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-t-lg" data-alt="Abstract gradient pattern for a company logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAG6gRyzpN36T7Ldu6icR2eVCF_EIsJ1vj4nDiZEbosmcT0BrOm2Gtcqur5UO26xqDtsDIt_oIGugYU-7fwvtPOUPgnfk6OBAXGxAYISfCejzsnnXRuMM_MgkRI5XTalMuQYFdxatphAKslm7f_7LhMt8ZCZNAaKaA6vb-_RrvIfRrH6Z9Srr6DgWTVlGo9R9NYnAmXq5Y8AQwURT-dhsSWe3qA8bIQ7drpkrGuqWe-gZKkyOn6bC0don1K_eQrrIX4oy6E1JAGQCNd");'></div>
+<div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-2 p-4">
+<p class="text-[#9cba9c] text-sm font-normal leading-normal">Last Activity: 1d ago</p>
+<p class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Cybernetic Solutions</p>
+<div class="flex flex-col gap-1">
+<p class="text-[#9cba9c] text-base font-normal leading-normal">Contact: John Smith</p>
+<p class="text-amber text-base font-bold leading-normal">Deal Size: $120,000</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Turing Test Audio Player -->
+<div class="flex flex-col gap-4 rounded-lg p-4 glassmorphism">
+<h3 class="text-white text-lg font-bold tracking-[-0.015em]">AI Call Verification</h3>
+<p class="text-sm text-[#9cba9c]">Listen to the following audio to confirm AI interaction quality and compliance.</p>
+<div class="flex items-center gap-4 bg-black/30 p-2 rounded-lg">
+<button class="flex items-center justify-center text-white h-10 w-10">
+<span class="material-symbols-outlined text-primary text-4xl">play_circle</span>
+</button>
+<div class="flex-1 h-1.5 bg-gray-600 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 30%;"></div>
+</div>
+<span class="text-sm text-[#9cba9c]">1:23 / 4:10</span>
+</div>
+<button class="w-full flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-primary text-black gap-2 text-sm font-bold leading-normal tracking-[0.015em] px-4">
+<span class="material-symbols-outlined text-sm">verified</span>
+                                Confirm Verification
+                            </button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="mt-8 px-4 py-6 border-t border-[#3b543b]/50">
+<div class="text-center text-[#9cba9c] text-xs">
+<p>© 2024 DreamNova Leads. All rights reserved.</p>
+<div class="flex justify-center gap-4 mt-2">
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+<a class="hover:text-primary" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</div>
+</div>
+</body></html>

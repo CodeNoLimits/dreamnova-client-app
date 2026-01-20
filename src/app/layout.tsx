@@ -1,51 +1,34 @@
-import type { Metadata } from 'next'
-import { Inter, Outfit } from 'next/font/google'
-import './globals.css'
-import InstallPWA from '@/components/features/InstallPWA'
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { LanguageProvider } from "@/context/LanguageContext";
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
-
-const outfit = Outfit({
-  subsets: ['latin'],
-  variable: '--font-cal',
-  display: 'swap',
-  weight: ['400', '500', '600', '700'],
-})
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'DreamNova - Facturation Électronique 2026',
-  description: 'Plateforme de conformité et facturation électronique pour les entreprises françaises. Préparez-vous aux obligations 2026.',
-  keywords: ['facturation électronique', 'conformité', 'e-invoicing', 'PPF', 'PDP', '2026'],
-  authors: [{ name: 'DreamNova' }],
-  icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon.svg', type: 'image/svg+xml' },
-    ],
-    apple: '/apple-touch-icon.png',
-  },
-  manifest: '/manifest.json',
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'default',
-    title: 'DreamNova',
-  },
+  title: "DreamNova Nexus | Spirit-Tech Venture Studio",
+  description: "The First Spirit-Tech Venture Studio. Merging AI, Logistics, and Wisdom. Build your dreams with DreamNova - AI Consulting, Therapeutic AI, Distributed Logistics, and Sacred Tech.",
+  keywords: ["DreamNova", "Venture Studio", "Spirit-Tech", "AI Consulting", "Therapeutic AI", "Ha-Mazon", "Breslev", "Startup"],
+  authors: [{ name: "DreamNova Team" }],
   openGraph: {
-    title: 'DreamNova - Facturation Électronique 2026',
-    description: 'Plateforme de conformité et facturation électronique pour les entreprises françaises.',
-    type: 'website',
+    title: "DreamNova Nexus | Spirit-Tech Venture Studio",
+    description: "The First Spirit-Tech Venture Studio. Merging AI, Logistics, and Wisdom.",
+    type: "website",
+    siteName: "DreamNova Nexus",
+    locale: "en_US",
   },
-}
+  twitter: {
+    card: "summary_large_image",
+    title: "DreamNova Nexus | Spirit-Tech Venture Studio",
+    description: "The First Spirit-Tech Venture Studio. Merging AI, Logistics, and Wisdom.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-}
+
 
 export default function RootLayout({
   children,
@@ -53,35 +36,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${outfit.variable}`}>
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-          rel="stylesheet"
-        />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#6366f1" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="DreamNova" />
-      </head>
-      <body className="antialiased">
-        {children}
-        <InstallPWA />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-                    window.addEventListener('load', () => {
-                      navigator.serviceWorker.register('/sw.js')
-                        .then((reg) => console.log('Service Worker registered:', reg))
-                        .catch((err) => console.log('Service Worker registration failed:', err))
-                    })
-                  }
-                `,
-              }}
-            />
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className} bg-[#05050A] text-white`} suppressHydrationWarning>
+
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
-    </html>
+    </html >
   )
 }

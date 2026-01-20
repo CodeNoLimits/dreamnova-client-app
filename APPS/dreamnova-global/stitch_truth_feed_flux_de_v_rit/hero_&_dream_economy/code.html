@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DreamNova Global</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#2563eb",
+            "secondary": "#fcd34d",
+            "background-dark": "#05050A",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      opacity: 0;
+      animation: particle-animation 20s infinite;
+    }
+    @keyframes particle-animation {
+      0% { transform: translate(0, 0); opacity: 0; }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.7; }
+      100% { transform: translate(var(--x), var(--y)); opacity: 0; }
+    }
+    .particle:nth-child(1) { --x: 15vw; --y: -20vh; animation-delay: 0s; width: 2px; height: 2px; }
+    .particle:nth-child(2) { --x: -10vw; --y: 30vh; animation-delay: -1.2s; width: 1px; height: 1px; }
+    .particle:nth-child(3) { --x: 25vw; --y: 10vh; animation-delay: -2.4s; width: 2px; height: 2px; }
+    .particle:nth-child(4) { --x: -20vw; --y: -15vh; animation-delay: -3.6s; width: 1px; height: 1px; }
+    .particle:nth-child(5) { --x: 5vw; --y: 25vh; animation-delay: -4.8s; width: 3px; height: 3px; }
+    .particle:nth-child(6) { --x: -15vw; --y: -5vh; animation-delay: -6s; width: 1px; height: 1px; }
+    .particle:nth-child(7) { --x: 20vw; --y: -25vh; animation-delay: -7.2s; width: 2px; height: 2px; }
+    .particle:nth-child(8) { --x: -5vw; --y: 15vh; animation-delay: -8.4s; width: 1px; height: 1px; }
+    .particle:nth-child(9) { --x: 30vw; --y: 5vh; animation-delay: -9.6s; width: 2px; height: 2px; }
+    .particle:nth-child(10) { --x: -25vw; --y: -30vh; animation-delay: -10.8s; width: 1px; height: 1px; }
+    .particle:nth-child(11) { --x: 10vw; --y: 20vh; animation-delay: -12s; width: 3px; height: 3px; }
+    .particle:nth-child(12) { --x: -30vw; --y: -10vh; animation-delay: -13.2s; width: 1px; height: 1px; }
+    .particle:nth-child(13) { --x: 18vw; --y: -18vh; animation-delay: -14.4s; width: 2px; height: 2px; }
+    .particle:nth-child(14) { --x: -12vw; --y: 28vh; animation-delay: -15.6s; width: 1px; height: 1px; }
+    .particle:nth-child(15) { --x: 22vw; --y: 12vh; animation-delay: -16.8s; width: 3px; height: 3px; }
+    .particle:nth-child(16) { --x: -18vw; --y: -22vh; animation-delay: -18s; width: 1px; height: 1px; }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark font-display">
+<div class="relative w-full h-screen overflow-hidden">
+<!-- Animated particle background -->
+<div class="absolute inset-0 z-0">
+<div class="particle"></div><div class="particle"></div><div class="particle"></div>
+<div class="particle"></div><div class="particle"></div><div class="particle"></div>
+<div class="particle"></div><div class="particle"></div><div class="particle"></div>
+<div class="particle"></div><div class="particle"></div><div class="particle"></div>
+<div class="particle"></div><div class="particle"></div><div class="particle"></div>
+<div class="particle"></div>
+</div>
+<!-- Gradient Overlay -->
+<div class="absolute inset-0 z-10 bg-gradient-to-b from-background-dark/80 via-transparent to-background-dark/80"></div>
+<main class="relative z-20 flex flex-col h-full max-w-md mx-auto p-4 pt-16 text-white">
+<!-- Header Section -->
+<div class="flex flex-col items-center justify-center text-center">
+<h1 class="text-white tracking-tight text-3xl font-bold leading-tight px-4 pb-3">Le CV est mort. Vive la Preuve d'Exécution.</h1>
+<p class="text-secondary text-base font-normal leading-normal pb-3 pt-1 px-4 text-center">
+          LinkedIn vend votre image. DreamNova vend votre réalité. Bienvenue dans la Méritocratie par la Data.
+        </p>
+</div>
+<!-- Spacer -->
+<div class="flex-grow"></div>
+<!-- Media Player -->
+<div class="px-4 pb-8">
+<div class="relative flex items-center justify-center bg-black bg-cover bg-center aspect-video rounded-xl p-4 shadow-2xl shadow-primary/20 border border-white/10" data-alt="Video thumbnail for 'L'OS de la Dream Economy'" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBSL7MNN0ZSO7gu-k_9forprAfjlWOlVdIOFFAQl9nJwbK1icBOMDfBesyEK9FD35Ltiz1OMq5iL-56uE79ZYQRDoCwmwvrg-kOCagdF98VSDgnuuFSKom2qYYhj9vILeouqTlQbyxVgCzz5uSoFsfdMjdpGcPxK6TKTorr_f0KXZtV2Eh1vmZ410IT36Ns4jHVJ2V565iR9CP5eMyw5dBA83D1ivrHhxB45oxI_C2mLR-tTC7IaJPcP6RNgZ-K6_CLFMcfRQJTxuY");'>
+<button class="flex shrink-0 items-center justify-center rounded-full size-14 bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-colors">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+<div class="absolute inset-x-0 bottom-0 px-4 py-3">
+<div class="flex h-4 items-center justify-center space-x-1">
+<div class="h-1 flex-1 rounded-full bg-primary"></div>
+<div class="relative">
+<div class="size-3 rounded-full bg-white shadow-lg"></div>
+</div>
+<div class="h-1 flex-1 rounded-full bg-white/30"></div>
+</div>
+<div class="flex items-center justify-between mt-1">
+<p class="text-white text-xs font-medium leading-normal tracking-[0.015em]">0:42</p>
+<p class="text-white/70 text-xs font-medium leading-normal tracking-[0.015em]">2:31</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ha-Mazon - La Logistique du Dernier Mètre. Décentralisée.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f97415",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#0A0A0A",
+                        "card-dark": "#333333",
+                        "accent-red": "#D90429",
+                        "accent-green": "#2ECC71"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-neutral-300">
+<div class="flex flex-col min-h-screen" id="root">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 w-full backdrop-blur-md bg-background-dark/80">
+<div class="container mx-auto px-4">
+<div class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 py-3">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Ha-Mazon</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-white hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Solution</a>
+<a class="text-white hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Hubs</a>
+<a class="text-white hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Contact</a>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-all">
+<span class="truncate">Se Connecter</span>
+</button>
+</div>
+<div class="md:hidden">
+<button class="text-white">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<!-- HeroSection -->
+<section class="container mx-auto px-4 py-16 md:py-24">
+<div class="@container">
+<div class="flex flex-col gap-10 @[864px]:flex-row @[864px]:items-center">
+<div class="flex flex-col gap-6 text-left flex-1">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-6xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
+                                La Logistique du Dernier Mètre. Décentralisée.
+                            </h1>
+<h2 class="text-neutral-400 text-base font-normal leading-normal @[480px]:text-lg @[480px]:font-normal @[480px]:leading-normal">
+                                Contournez la congestion urbaine et les zones ZFE. Notre réseau logistique décentralisé du dernier kilomètre est la solution pour les restaurateurs parisiens.
+                            </h2>
+<div class="pt-2">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-all">
+<span class="truncate">Voir la Carte des Hubs</span>
+</button>
+</div>
+</div>
+<div class="flex-1">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl" data-alt="An electric cargo-bike with storage compartments parked on a modern, clean city street with blurred background." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD91i9D_y_jpNM5_62DwYn1UPMnQmq9MspWCWfTx_vIxZBEmwL7slUSlwX6EXLi6bkBQU4fataZQOBXvyooTguaCCAUhzXCYIw4_13yavk6iicVrcQnOTXWCqwoWNim0e59qXEtJFPJFYmvYz-Op3oxiOHCqatfGLDZWoU91zQza_gaRODIHrxUzlvLzaBrOsQ2JoCf7UMWS-g2Q07FdqpbztI3FdHGuglc-eOkxbzagLrp2ziQE2gktTMni45Q7yt4I-dwCYyu_VA");'></div>
+</div>
+</div>
+</div>
+</section>
+<!-- ZFE Problem Section -->
+<section class="container mx-auto px-4 py-16 md:py-24">
+<div class="w-full">
+<h2 class="text-white text-3xl md:text-4xl font-bold leading-tight tracking-[-0.015em] mb-12 text-center md:text-left">Le Problème ZFE &amp; La Solution Ha-Mazon</h2>
+<div class="flex flex-col md:flex-row gap-12 lg:gap-16">
+<!-- Left: Content Cards -->
+<div class="w-full md:w-1/2 space-y-8">
+<!-- Card 1 -->
+<div class="bg-card-dark p-6 rounded-xl border border-white/10">
+<div class="flex items-center gap-4 mb-4">
+<span class="material-symbols-outlined text-accent-red text-3xl">error</span>
+<h3 class="text-white text-xl font-bold">La Contrainte des Zones à Faibles Émissions</h3>
+</div>
+<p class="text-neutral-400 leading-relaxed">
+                                    Les réglementations ZFE restreignent l'accès des véhicules polluants au cœur de Paris, créant un casse-tête logistique majeur pour les livraisons traditionnelles et augmentant les coûts et les délais pour les restaurateurs.
+                                </p>
+</div>
+<!-- Card 2 -->
+<div class="bg-card-dark p-6 rounded-xl border border-white/10">
+<div class="flex items-center gap-4 mb-4">
+<span class="material-symbols-outlined text-accent-green text-3xl">electric_moped</span>
+<h3 class="text-white text-xl font-bold">Une Flotte Agile et Écologique</h3>
+</div>
+<p class="text-neutral-400 leading-relaxed">
+                                    Ha-Mazon répond avec une flotte de vélos-cargos électriques. Rapides, non-polluants et autorisés dans toutes les zones, ils garantissent des livraisons rapides et fiables, peu importe les restrictions de circulation.
+                                </p>
+</div>
+<!-- Card 3 -->
+<div class="bg-card-dark p-6 rounded-xl border border-white/10">
+<div class="flex items-center gap-4 mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">hub</span>
+<h3 class="text-white text-xl font-bold">Micro-Hubs Stratégiques</h3>
+</div>
+<p class="text-neutral-400 leading-relaxed">
+                                    Notre réseau de micro-hubs urbains est positionné stratégiquement pour optimiser les itinéraires. Les marchandises sont acheminées en gros en périphérie, puis distribuées finement par nos vélos-cargos pour une efficacité maximale.
+                                </p>
+</div>
+</div>
+<!-- Right: Sticky Map -->
+<div class="w-full md:w-1/2">
+<div class="sticky top-28">
+<div class="w-full h-[400px] bg-center bg-no-repeat bg-cover rounded-xl border border-white/10" data-alt="A stylized, dark-themed interactive map of Paris showing red exclusion zones and green access zones with location pins for hubs." data-location="Paris" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDKt1IngVMXgaWsokkOGPY-gXnBabfRThwpQyNdWA8OoSkdZG4S6DUdCn5Oy5b_ZgrpBSCkSULl5hE1YkjVlwiLL4E9kqB37wLZCaTxjFrKOakCZ_H5lacRteIqip-SEvXRHrhcYyIjJ86SqavFwcE-WuywINJh92dFVdyzgBe57aRM_Yc1QQ-eBB7y52JVmCNjF0OsRdP1VQjZYW03uZ_Wuu80RaVhFEp_9YV5h6ovtSI-sBl9T2MquLuVFbq3J6LFfOih5g5aiSA");'>
+<!-- This div would contain the actual map component -->
+</div>
+<!-- Map Legend -->
+<div class="mt-4 p-4 bg-card-dark rounded-lg border border-white/10">
+<h4 class="text-white font-bold mb-3">Légende de la carte</h4>
+<div class="space-y-2">
+<div class="flex items-center gap-3">
+<div class="w-4 h-4 rounded-full bg-accent-red"></div>
+<span class="text-sm text-neutral-300">Zone ZFE (Crit'Air 3+ restriction)</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-4 h-4 rounded-full bg-accent-green"></div>
+<span class="text-sm text-neutral-300">Zone d'accès Ha-Mazon</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl">location_on</span>
+<span class="text-sm text-neutral-300">Micro-Hub Ha-Mazon</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-background-dark border-t border-white/10">
+<div class="container mx-auto">
+<div class="flex flex-col gap-6 px-5 py-10 text-center @container">
+<div class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
+<a class="text-[#bba89b] hover:text-primary text-base font-normal leading-normal min-w-40 transition-colors" href="#">Privacy Policy</a>
+<a class="text-[#bba89b] hover:text-primary text-base font-normal leading-normal min-w-40 transition-colors" href="#">Terms of Service</a>
+<a class="text-[#bba89b] hover:text-primary text-base font-normal leading-normal min-w-40 transition-colors" href="#">Contact Us</a>
+</div>
+<div class="flex justify-center gap-6 mt-4">
+<a class="text-[#bba89b] hover:text-primary transition-colors" href="#">
+<svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg>
+</a>
+<a class="text-[#bba89b] hover:text-primary transition-colors" href="#">
+<svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.206v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.225-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.48 9.763H6.485v-8.59H3.525v8.59zM17.625 2H6.375A4.375 4.375 0 002 6.375v11.25A4.375 4.375 0 006.375 22h11.25A4.375 4.375 0 0022 17.625V6.375A4.375 4.375 0 0017.625 2z" fill-rule="evenodd"></path></svg>
+</a>
+<a class="text-[#bba89b] hover:text-primary transition-colors" href="#">
+<svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path></svg>
+</a>
+</div>
+<p class="text-[#bba89b] text-sm font-normal leading-normal mt-4">© 2024 Ha-Mazon. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

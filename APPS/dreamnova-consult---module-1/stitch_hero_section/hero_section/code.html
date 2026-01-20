@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DreamNova Consult - Hero Section</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .gradient-text {
+            background: linear-gradient(90deg, #7c3bed, #00FFFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#7c3bed",
+              "background-light": "#f7f6f8",
+              "background-dark": "#171121",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-black">
+<div class="relative flex h-auto min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-black text-[#EAEAEA]">
+<!-- Background Gradients -->
+<div class="absolute -top-1/4 -left-1/4 h-1/2 w-1/2 rounded-full bg-primary/30 blur-3xl" data-alt="Abstract violet gradient blur"></div>
+<div class="absolute -bottom-1/4 -right-1/4 h-1/2 w-1/2 rounded-full bg-cyan-500/20 blur-3xl" data-alt="Abstract cyan gradient blur"></div>
+<div class="relative z-10 flex h-full w-full flex-col items-center justify-center px-4 py-8">
+<div class="flex flex-grow flex-col items-center justify-center text-center">
+<!-- HeadlineText -->
+<h1 class="text-[#EAEAEA] tracking-tight text-[32px] font-bold leading-tight px-4 text-center pb-3 pt-6">N'achetez plus du Temps. Achetez de la <span class="gradient-text">Vélocité.</span></h1>
+<!-- BodyText -->
+<p class="text-[#EAEAEA] text-base font-normal leading-normal pb-8 pt-1 px-4 text-center max-w-sm">L'Agence IA qui transforme vos 6 mois de développement en 7 jours de déploiement.</p>
+</div>
+<div class="w-full max-w-md px-4 pt-8 pb-4">
+<!-- SingleButton -->
+<div class="flex">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-5 flex-1 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] shadow-[0_0_15px_rgba(124,59,237,0.5),0_0_25px_rgba(124,59,237,0.3)] transition-shadow duration-300 hover:shadow-[0_0_25px_rgba(124,59,237,0.7),0_0_40px_rgba(124,59,237,0.4)]">
+<span class="truncate">Démarrer l'Audit (Gratuit)</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

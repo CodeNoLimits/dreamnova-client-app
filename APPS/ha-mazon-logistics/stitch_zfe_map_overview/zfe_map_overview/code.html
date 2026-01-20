@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ZFE Map Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#f97415",
+            "background-light": "#f8f7f5",
+            "background-dark": "#23170f",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .map-overlay-group {
+      position: relative;
+    }
+
+    .map-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    .map-marker {
+      position: absolute;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
+<!-- Top App Bar -->
+<header class="flex h-14 shrink-0 items-center justify-between px-4">
+<div class="flex size-12 items-center justify-start text-white">
+<span class="material-symbols-outlined text-2xl">arrow_back_ios_new</span>
+</div>
+<h1 class="flex-1 text-center text-lg font-bold leading-tight tracking-[-0.015em] text-gray-200 dark:text-white">ZFE Map Overview</h1>
+<div class="size-12"></div>
+</header>
+<main class="flex flex-1 flex-col px-4 pb-4">
+<!-- Map Component -->
+<div class="mb-6 h-[400px] w-full overflow-hidden rounded-lg bg-[#333333]">
+<div class="map-overlay-group h-full w-full">
+<!-- Base Map -->
+<img class="h-full w-full object-cover opacity-30" data-alt="Dark, desaturated aerial map of Paris streets" data-location="Paris, France" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIfIi6bshXldm9bacIcOFsU98O0kQtbX6QgJ_-keHolKAEUWHuiR7wMkZX8HG7dywAXJg4LpA0osKbIdCImHoW8eimlRC2HzIGFpYUNXKCHO-gP__zN21NM-6AbhYNKiAzRuLz28KaP_ZeelNfve8srNenKixvD9U6lBs1-zFLaS54ykOtnrxLh3srMcavjIrXwV9u6hgB5yWAtQ_G1cf2Qu9aDk3DtVE5oe2H8xKosydV9JcFXyoUVYQGLNDq7Tifmx4wqra8i90E"/>
+<!-- Green Zone Overlay (Ha-Mazon) -->
+<div class="map-overlay">
+<svg class="h-full w-full" preserveaspectratio="none" viewbox="0 0 400 400">
+<polygon points="100,50 300,50 350,200 250,350 50,300" style="fill:#22c55e;stroke:none;opacity:0.4"></polygon>
+</svg>
+</div>
+<!-- Red Zone Overlay (ZFE) -->
+<div class="map-overlay">
+<svg class="h-full w-full" preserveaspectratio="none" viewbox="0 0 400 400">
+<polygon points="20,20 380,20 380,380 20,380" style="fill:none;stroke:red;stroke-width:20;opacity:0.3; stroke-linejoin:round"></polygon>
+</svg>
+</div>
+<!-- Micro-hub Markers -->
+<div class="map-overlay">
+<div class="map-marker top-[40%] left-[55%] flex size-6 items-center justify-center rounded-full bg-primary ring-2 ring-white/50">
+<span class="material-symbols-outlined text-sm text-black">local_shipping</span>
+</div>
+<div class="map-marker top-[50%] left-[45%] flex size-6 items-center justify-center rounded-full bg-primary ring-2 ring-white/50">
+<span class="material-symbols-outlined text-sm text-black">local_shipping</span>
+</div>
+<div class="map-marker top-[65%] left-[60%] flex size-6 items-center justify-center rounded-full bg-primary ring-2 ring-white/50">
+<span class="material-symbols-outlined text-sm text-black">local_shipping</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Legend Card -->
+<div class="flex flex-col rounded-lg bg-[#333333]/50 p-4">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="h-4 w-4 shrink-0 rounded-sm bg-[#e11d48]/70"></div>
+<p class="text-sm font-medium text-gray-300 dark:text-gray-200">Zone d'Exclusion Crit'Air 3 (2025)</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="h-4 w-4 shrink-0 rounded-sm bg-[#22c55e]/70"></div>
+<p class="text-sm font-medium text-gray-300 dark:text-gray-200">Zone d'Accès Ha-Mazon (Vélo-Cargo)</p>
+</div>
+</div>
+<hr class="my-4 border-t border-white/10"/>
+<p class="text-base font-normal leading-normal text-[#cca88e]">"Les camions diesel s'arrêtent au périph. Nous allons jusqu'en cuisine."</p>
+</div>
+<div class="flex-grow"></div> <!-- Spacer to push button to the bottom -->
+<!-- CTA Button -->
+<div class="py-3">
+<button class="flex h-12 w-full min-w-[84px] max-w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary px-5 text-base font-bold leading-normal tracking-[0.015em] text-white">
+<span class="truncate">Explore Solutions</span>
+</button>
+</div>
+</main>
+</div>
+</body></html>
